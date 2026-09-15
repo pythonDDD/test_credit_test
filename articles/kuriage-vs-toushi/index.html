@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script>if(location.protocol==='http:'){location.replace('https://'+location.host+location.pathname+location.search+location.hash);}</script>
+
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>繰上返済と投資、どちらが効率的か｜比べる前に揃える5つ</title>
+<meta name="description" content="「ローン金利より投資利回りが高いなら投資」という説明は、比べているものが揃っていません。確定と期待値、非課税と課税、住宅ローン控除の減少、団信の保障、手元資金の価値。分岐条件を数値例つきで整理します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="繰上返済と投資、どちらが効率的か｜比べる前に揃える5つ">
+<meta property="og:description" content="「ローン金利より投資利回りが高いなら投資」という説明は、比べているものが揃っていません。確定と期待値、非課税と課税、住宅ローン控除の減少、団信の保障、手元資金の価値。分岐条件を数値例つきで整理します。">
+<meta property="og:url" content="https://kazumono.com/articles/kuriage-vs-toushi/">
+<meta property="og:image" content="https://kazumono.com/assets/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="数字のものさし">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/test_credit_test/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/test_credit_test/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/test_credit_test/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#33526C">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146116373822311" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":"繰上返済と投資、どちらが効率的か｜比べる前に揃えるべき5つのこと",
+  "datePublished":"2026-08-17",
+  "dateModified":"2026-08-17",
+  "author":{"@type":"Person","name":"エリエール"},
+  "publisher":{"@type":"Organization","name":"数字のものさし"},
+  "mainEntityOfPage":"https://kazumono.com/articles/kuriage-vs-toushi/"
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BETYS4R53Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BETYS4R53Y');
+</script>
+
+<style>
+:root{
+  --paper:#FAF9F6; --card:#FFFFFF;
+  --ink:#18262F; --ink-soft:#33495B; --ink-faint:#5B7085;
+  --sea-deep:#33526C; --sea:#527695; --sky:#84D2F5; --aqua:#B0F1F0; --mist:#DFF6F1;
+  --dawn:#FEEEDF; --rose:#F4C3D3; --bloom:#F8A3BF; --plum:#B67AB4;
+  --peridot:#82B33A; --lime:#D4E157; --mint:#E8F5E9;
+  --line:rgba(24,38,47,.18);
+  --shadow:0 1px 2px rgba(35,53,67,.05), 0 10px 26px rgba(35,53,67,.07);
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Times New Roman",serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",sans-serif;
+  --num:"Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16.5px;line-height:1.98;letter-spacing:.015em;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.26;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='0.22'/></svg>");
+}
+.page{position:relative;z-index:1;}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px;}
+.column{width:100%;max-width:720px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+:focus-visible{outline:2.5px solid var(--sea);outline-offset:3px;border-radius:4px;}
+.skip{position:absolute;left:-9999px;background:var(--sea);color:#fff;padding:12px 20px;z-index:99;}
+.skip:focus{left:0;}
+
+/* ヘッダー */
+.masthead{position:sticky;top:0;z-index:20;background:rgba(250,249,246,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.masthead__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px;}
+.brand{font-family:var(--serif);font-size:19px;letter-spacing:.22em;text-decoration:none;white-space:nowrap;}
+.brand span{color:var(--sea);}
+.nav{display:flex;gap:26px;}
+.nav a{font-size:14px;font-weight:500;letter-spacing:.1em;text-decoration:none;color:var(--ink-soft);border-bottom:1.5px solid transparent;padding:6px 0;transition:color .2s,border-color .2s;}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--bloom);}
+
+/* 記事ヘッダー */
+.crumbs{font-size:13px;color:var(--ink-soft);letter-spacing:.08em;margin:34px 0 0;}
+.crumbs a{text-decoration:none;}
+.crumbs a:hover{color:var(--ink);}
+
+.head{padding:26px 0 44px;position:relative;}
+.head__mark{
+  position:absolute;top:-10px;right:-20px;width:150px;height:150px;border-radius:50%;
+  background:var(--mist);opacity:.7;pointer-events:none;
+}
+.tag{display:inline-block;font-size:11.5px;letter-spacing:.14em;padding:5px 14px;border-radius:999px;background:var(--mist);position:relative;}
+.head h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(25px,4.2vw,37px);line-height:1.68;letter-spacing:.04em;
+  margin:20px 0 18px;position:relative;
+}
+.head__meta{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.1em;margin:0;position:relative;}
+.head__lead{
+  margin:26px 0 0;font-size:16.5px;line-height:2;color:var(--ink);
+  border-left:3px solid var(--rose);padding-left:20px;position:relative;
+}
+
+/* 目次 */
+.toc{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:26px 30px;margin:0 0 52px;box-shadow:var(--shadow);
+}
+.toc h2{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.18em;margin:0 0 14px;}
+.toc ol{margin:0;padding-left:1.3em;}
+.toc li{margin:8px 0;font-size:15px;}
+.toc a{text-decoration:none;color:var(--ink);}
+.toc a:hover{color:var(--ink);text-decoration:underline;text-decoration-color:var(--sky);text-underline-offset:4px;}
+
+/* 本文 */
+.body h2{
+  font-family:var(--serif);font-weight:600;font-size:clamp(21px,3vw,26px);
+  letter-spacing:.06em;line-height:1.66;
+  margin:64px 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.body h3{
+  font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.08em;
+  margin:44px 0 14px;
+}
+.body h3::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bloom);margin-right:11px;vertical-align:middle;}
+.body p{margin:0 0 24px;}
+.body ul,.body ol{margin:0 0 24px;padding-left:1.4em;}
+.body li{margin:9px 0;}
+.body strong{background:linear-gradient(transparent 64%,var(--rose) 64%);font-weight:600;}
+.body a{color:var(--sea-deep);font-weight:600;text-underline-offset:4px;text-decoration-color:var(--sky);}
+
+table{width:100%;border-collapse:collapse;margin:0 0 28px;font-size:14.5px;background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
+th{background:var(--mist);font-weight:600;letter-spacing:.06em;}
+td{font-variant-numeric:tabular-nums;}
+tr:last-child td{border-bottom:none;}
+
+/* 補足ボックス */
+.callout{
+  background:rgba(232,245,233,.6);border-left:3px solid var(--peridot);
+  border-radius:0 16px 16px 0;padding:22px 26px;margin:0 0 30px;
+}
+.callout p:last-child{margin-bottom:0;}
+.callout strong{background:none;}
+
+/* 関連ツール */
+.toolcta{
+  position:relative;overflow:hidden;
+  display:block;text-decoration:none;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:32px 30px;margin:56px 0;box-shadow:var(--shadow);
+  transition:transform .26s,box-shadow .26s;
+}
+.toolcta::after{
+  content:"";position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;
+  background:var(--sky);opacity:.85;transition:transform .38s;
+}
+.toolcta:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(47,66,87,.12);}
+.toolcta:hover::after{transform:scale(1.4);}
+.toolcta__label{position:relative;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 12px;}
+.toolcta__name{position:relative;font-family:var(--serif);font-size:21px;letter-spacing:.08em;margin:0 0 10px;}
+.toolcta__desc{position:relative;font-size:14.5px;color:var(--ink-soft);margin:0 0 16px;max-width:26em;}
+.toolcta__go{position:relative;font-size:14.5px;font-weight:600;letter-spacing:.08em;color:var(--sea-deep);}
+
+/* 出典・免責 */
+.sources{margin:60px 0 0;border-top:1px solid var(--line);padding-top:30px;}
+.sources h2{font-family:var(--serif);font-weight:600;font-size:16px;letter-spacing:.16em;margin:0 0 14px;}
+.sources ul{list-style:none;margin:0;padding:0;}
+.sources li{font-size:14px;line-height:1.9;color:var(--ink-soft);margin:0 0 8px;padding-left:18px;position:relative;}
+.sources li::before{content:"";position:absolute;left:0;top:.85em;width:6px;height:6px;border-radius:50%;background:var(--peridot);}
+
+.disclaimer{
+  margin:30px 0 0;border-left:4px solid var(--peridot);background:rgba(232,245,233,.55);
+  border-radius:0 16px 16px 0;padding:22px 26px;
+}
+.disclaimer p{margin:0;font-size:14px;line-height:1.92;color:var(--ink-soft);}
+
+/* 執筆者 */
+.byline{
+  display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:28px;margin:44px 0 0;box-shadow:var(--shadow);
+}
+.byline__mark{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--bloom),var(--plum));display:grid;place-items:center;font-family:var(--serif);font-weight:600;font-size:22px;color:#fff;}
+.byline h3{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.1em;margin:0 0 6px;}
+.byline p{margin:0;font-size:14.5px;line-height:1.88;color:var(--ink-soft);}
+
+/* 前後の記事 */
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0 0;}
+.pager a{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;
+  text-decoration:none;transition:transform .22s,border-color .22s;
+}
+.pager a:hover{transform:translateY(-3px);border-color:var(--sky);}
+.pager span{display:block;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+.pager strong{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1.7;letter-spacing:.05em;}
+
+/* 広告枠 */
+/* フッター */
+.foot{margin-top:90px;border-top:1px solid var(--line);padding:44px 0 56px;}
+.foot__inner{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:center;}
+.foot__links{display:flex;flex-wrap:wrap;gap:26px;}
+.foot__links a{font-size:14px;font-weight:500;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;}
+.foot__links a:hover{color:var(--ink);}
+.copy{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.08em;margin:0;}
+
+@media (max-width:820px){
+  .nav a:nth-child(n+3){display:none;}
+  .head__mark{display:none;}
+  .byline{grid-template-columns:1fr;text-align:left;}
+  .pager{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+/* ===== 表の横スクロール ===== */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 28px;}
+.tw table{margin-bottom:0;min-width:420px;}
+
+/* ===== アバター ===== */
+.pic{display:block;border-radius:50%;background:linear-gradient(135deg,var(--dawn),var(--rose));object-fit:cover;}
+.pic--l{width:96px;height:96px;}
+.pic--s{width:66px;height:66px;}
+
+/* ===== モバイル最適化 ===== */
+@media (max-width:820px){
+  body::before{display:none;}
+  .masthead{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;}
+  .masthead__inner{height:auto;min-height:58px;padding:10px 0;flex-wrap:wrap;gap:6px 16px;}
+  .brand{font-size:17px;letter-spacing:.1em;}
+  .nav{gap:16px;flex-wrap:wrap;}
+  .nav a{font-size:12.5px;letter-spacing:.02em;padding:2px 0;border-bottom-width:2px;}
+  .nav a:nth-child(n+3){display:inline-block;}
+  .wrap,.column{padding-left:18px;padding-right:18px;}
+  h1,h2,h3,p,li,td,th,.post__title,.tool__name,.shop__name{overflow-wrap:anywhere;}
+  .tools,.shop,.channels{grid-template-columns:1fr;}
+  .toc{padding:22px 20px;}
+  .btn{padding:14px 22px;font-size:14px;}
+  .grid{grid-template-columns:1fr;}
+  .actions{gap:10px;}
+  .btn-run,.btn-sample{width:100%;justify-content:center;}
+}
+@media (max-width:400px){
+  .brand{font-size:16px;letter-spacing:.06em;}
+  .nav{gap:12px;}
+  .nav a{font-size:11.5px;}
+}
+
+/* ===== 装飾円を文字の背面へ ===== */
+.hero{isolation:isolate;}
+.hero__blob{z-index:-1;}
+.hero .wrap{position:relative;z-index:1;}
+.head__mark{z-index:-1;}
+.head{isolation:isolate;}
+
+/* ===== モバイルの装飾円 ===== */
+@media (max-width:820px){
+  .hero__blob--a{width:190px;height:190px;top:-70px;right:-70px;opacity:.55;}
+  .hero__blob--b{display:none;}
+  .hero__blob--c{width:80px;height:80px;bottom:-24px;left:-30px;opacity:.6;}
+  .hero{padding:52px 0 46px;}
+  .hero h1{font-size:clamp(25px,7.2vw,34px);line-height:1.5;max-width:none;}
+  .hero p{font-size:15px;}
+  .eyebrow{font-size:10.5px;letter-spacing:.22em;word-break:break-word;}
+}
+@media (max-width:400px){
+  .hero__blob--a{width:150px;height:150px;top:-60px;right:-60px;}
+  .hero h1{font-size:24px;letter-spacing:.02em;}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">本文へ移動</a>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <a class="brand" href="/test_credit_test/">数字の<span>ものさし</span></a>
+      <nav class="nav" aria-label="サイト内">
+        <a href="/test_credit_test/#tools">ツール</a>
+        <a href="/test_credit_test/articles/">読みもの</a>
+        <a href="/test_credit_test/#excel">Excel版</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+<div class="column">
+<p class="crumbs"><a href="/test_credit_test/">ホーム</a> ／ <a href="/test_credit_test/articles/">読みもの</a> ／ 金利</p>
+<header class="head">
+<span class="head__mark" aria-hidden="true"></span>
+<span class="tag">金利</span>
+<h1>繰上返済と投資、どちらが効率的か｜比べる前に揃えるべき5つのこと</h1>
+<p class="head__meta">2026.08.17 公開 ／ 2026.08.17 更新</p>
+<p class="head__lead">ローン金利0.7%、投資の期待リターン4%。だから投資が得——この比較は、片方が確定で片方が期待値、片方が非課税で片方が課税、という違いを飛ばしています。揃えるべきものを揃えたうえで、どの条件でどちらに傾くかを整理します。</p>
+</header>
+<nav class="toc" aria-label="目次">
+<h2>目次</h2>
+<ol>
+<li><a href="#s1">「金利より利回りが高ければ投資」という説明の雑さ</a></li>
+<li><a href="#s2">繰上返済の利回りは、確定していて課税されない</a></li>
+<li><a href="#s3">投資のリターンは、税引後で比べる</a></li>
+<li><a href="#s4">住宅ローン控除がある期間は、結論が逆転する</a></li>
+<li><a href="#s5">繰上返済すると、団信の保障がその分消える</a></li>
+<li><a href="#s6">手元の現金には、利回りに表れない価値がある</a></li>
+<li><a href="#s7">期間短縮型と返済額軽減型で、効果がまるで違う</a></li>
+<li><a href="#s8">数値で追ってみる</a></li>
+<li><a href="#s9">判断の順番</a></li>
+</ol>
+</nav>
+<div class="body">
+<h2 id="s1">「金利より利回りが高ければ投資」という説明の雑さ</h2>
+<p>手元に200万円ある。住宅ローンの金利は0.7%。投資の期待リターンは年4%。だから繰上返済せずに投資したほうが得だ——この説明を一度は見たことがあると思います。</p>
+<p>結論として間違っているとは限りません。<strong>ただ、比べているものが揃っていません。</strong>片方は確定した数字で、もう片方は期待値です。片方は非課税で、もう片方は課税されます。片方には保険が付いていて、繰上返済するとその保険が減ります。</p>
+<p>この記事では、その揃っていない部分を1つずつ揃えます。<strong>「どちらが得か」を断定するのではなく、どの条件でどちらに傾くかという分岐条件を出す</strong>のが目的です。金額も条件も人によって違うので、最後に判断するのはご自身になります。</p>
+
+<div class="callout">
+<p><strong>実務メモ</strong>：金融機関にいた頃、繰上返済の相談で最も多かったのは「余裕資金ができたから全部入れたい」という申し出でした。そのとき必ず確認していたのは利回りの話ではなく、<strong>「入れたあと、手元にいくら残りますか」</strong>でした。返した資金は、原則として引き出せません。</p>
+</div>
+
+<h2 id="s2">繰上返済の利回りは、確定していて課税されない</h2>
+<p>繰上返済の効果は「将来払うはずだった利息を払わなくて済む」ことです。この効果には、投資にはない性質が2つあります。</p>
+<p>ひとつは<strong>確定していること</strong>。金利0.7%のローンを繰上返済すれば、削減される利息は計算で一意に決まります。市況によって変わりません。変動金利なら将来の金利次第で削減額はむしろ増えます。</p>
+<p>もうひとつは<strong>課税されないこと</strong>。利息を払わずに済んだ分は所得ではないので、税金がかかりません。</p>
+<p>つまり繰上返済は、<strong>「ローン金利と同率の、確定した、非課税の運用」</strong>と同じ性質を持ちます。金利0.7%なら、税引後で確実に0.7%の利回りが立つ商品を買ったのと同じです。</p>
+<p>この視点に立つと、「たった0.7%」という感覚が変わります。<strong>元本保証で税引後0.7%が確定している運用先は、現実にはほとんどありません。</strong></p>
+
+<h2 id="s3">投資のリターンは、税引後で比べる</h2>
+<p>一方、投資の側は2つの調整が要ります。</p>
+<p>ひとつは<strong>課税</strong>です。利益には20.315%が課税されます。年4%で運用できたとして、税引後は約3.2%です。ただし新NISAの非課税枠の中で運用しているなら、この調整は不要になります。<strong>枠の中か外かで、比較の前提が変わります。</strong></p>
+<p>もうひとつは<strong>確定していないこと</strong>です。年4%は期待値であって、約束された数字ではありません。10年で見れば平均に近づく可能性が高いとしても、<strong>返済が終わるまでの特定の期間に、その平均が実現する保証はありません。</strong></p>
+<p>ここで、「期待値が上回っているなら投資が合理的」という考え方も、「確定を優先すべき」という考え方も、どちらも成り立ちます。<strong>これはリスクをどう扱うかという価値観の問題で、計算では決まりません。</strong>この記事で決められるのは、計算で決まる部分だけです。</p>
+
+<h2 id="s4">住宅ローン控除がある期間は、結論が逆転する</h2>
+<p>ここが最も見落とされる論点です。<strong>住宅ローン控除は、年末時点の借入残高に応じて決まります。</strong>控除率は0.7%です。</p>
+<p>つまり控除を受けている期間に繰上返済をすると、<strong>残高が減った分だけ控除額も減ります。</strong>利息は減りますが、戻ってくる税金も減る。</p>
+<p>単純化すると、こうなります。</p>
+<ul>
+<li>ローン金利が控除率0.7%より<strong>低い</strong>場合 → 繰上返済すると、減る利息より減る控除のほうが大きい。<strong>控除期間中の繰上返済は損になり得ます</strong></li>
+<li>ローン金利が0.7%より<strong>高い</strong>場合 → 繰上返済のほうが有利に働きます</li>
+</ul>
+<p>ただし控除額は「年末残高×0.7%」と「その年の所得税・住民税の額」のいずれか小さいほうが上限です。<strong>納めている税額が少ない人は、そもそも控除を使い切れていない</strong>ことがあります。その場合は繰上返済で控除が減っても、実際の影響は小さくなります。</p>
+<p>自分が控除を使い切れているかどうかは、源泉徴収票と住宅ローン控除の計算明細で確認できます。<strong>使い切れているかどうかで判断が変わるので、ここは実際の書類を見てください。</strong></p>
+
+<h2 id="s5">繰上返済すると、団信の保障がその分消える</h2>
+<p>住宅ローンには団体信用生命保険が付いているのが一般的です。契約者が亡くなった場合、残債が保険で返済されます。</p>
+<p>言い換えると、<strong>ローン残高そのものが生命保険の保障額</strong>です。残高3,000万円なら、3,000万円の死亡保障を持っているのと同じ状態にあります。</p>
+<p>繰上返済で残高を500万円減らすと、<strong>この保障も500万円分消えます。</strong>手元の現金は減り、保障も減る。かわりに利息が減る、という取引です。</p>
+<p>この点は、家族構成によって重みが変わります。扶養する家族がいて、他に十分な死亡保障を持っていない場合、繰上返済は保障を削る行為でもあります。逆に、他で保障を確保している人や単身の人にとっては、あまり重みのない論点です。</p>
+<p>住居費と保障をあわせて長期で見たい場合は、<a href="/test_credit_test/rented_house/">賃貸／持ち家 生涯コスト比較</a>で、遺族に残る金額まで含めた形で比べられます。</p>
+
+<h2 id="s6">手元の現金には、利回りに表れない価値がある</h2>
+<p>繰上返済した資金は、原則として引き出せません。<strong>返した瞬間に、流動性を失います。</strong></p>
+<p>失業、病気、転勤、家族の事情。予定していなかった支出が必要になったとき、手元に現金があるかどうかで取れる選択肢が変わります。現金がなければ、より高い金利で借り直すことになります。カードローンやフリーローンの金利は、住宅ローンとは桁が違います。</p>
+<p>したがって、<strong>生活費の6か月分から1年分程度を手元に残すことは、利回りの計算より優先される</strong>と考えるのが実務的です。この部分は「損得」ではなく「守り」の話で、利回りでは測れません。</p>
+
+<h2 id="s7">期間短縮型と返済額軽減型で、効果がまるで違う</h2>
+<p>繰上返済には2つの方式があります。同じ金額を入れても、結果が変わります。</p>
+
+<div class="tw"><table>
+<thead><tr><th></th><th>期間短縮型</th><th>返済額軽減型</th></tr></thead>
+<tbody>
+<tr><td>毎月の返済額</td><td>変わらない</td><td>下がる</td></tr>
+<tr><td>返済期間</td><td>短くなる</td><td>変わらない</td></tr>
+<tr><td>利息の削減額</td><td><strong>大きい</strong></td><td>小さい</td></tr>
+<tr><td>家計の余裕</td><td>変わらない</td><td>増える</td></tr>
+<tr><td>住宅ローン控除</td><td>期間が10年未満になると対象外になる場合がある</td><td>期間は変わらない</td></tr>
+</tbody>
+</table></div>
+
+<p><strong>利息の削減額だけを見れば、ほぼ必ず期間短縮型が有利です。</strong>残高が減っている期間が長くなるためです。</p>
+<p>それでも返済額軽減型を選ぶ理由はあります。<strong>毎月の負担が下がるので、収入が不安定な時期の備えになる</strong>からです。教育費のピークが近い、転職を考えている、といった局面では、こちらが合理的なこともあります。</p>
+<p>なお期間短縮型には注意点があります。<strong>返済期間が10年未満になると、住宅ローン控除の対象外になる場合があります。</strong>控除期間が残っている人が期間短縮型を使うときは、短縮後の残期間を必ず確認してください。</p>
+
+<h2 id="s8">数値で追ってみる</h2>
+<p>単純化した例で、金額の規模を見ます。借入3,000万円・残25年・元利均等返済、繰上返済額200万円、期間短縮型という前提です。</p>
+
+<div class="tw"><table>
+<thead><tr><th>ローン金利</th><th>繰上返済による利息削減（目安）</th><th>同額を年4%（税引後3.2%）で25年運用した場合の増加分（目安）</th></tr></thead>
+<tbody>
+<tr><td>0.7%</td><td>約20万円</td><td rowspan="3">約240万円</td></tr>
+<tr><td>1.5%</td><td>約45万円</td></tr>
+<tr><td>2.5%</td><td>約80万円</td></tr>
+</tbody>
+</table></div>
+
+<p>数字だけを並べると投資が大きく見えます。ただし、<strong>右側は実現するかどうか分からない期待値、左側は確定した削減額</strong>です。同じ土俵の数字ではありません。</p>
+<p>そして、この表には住宅ローン控除の減少分も、団信の保障減も、手元資金を失うことの影響も入っていません。<strong>数字で比べられる部分だけを比べると、比べられない部分が見えなくなります。</strong>それがこの判断の難しさです。</p>
+<p>なお200万円という金額が自分にとってどれくらいの重みかは、収入からの見え方でも変わります。手取りベースで何時間分の労働にあたるかは、<a href="/test_credit_test/jikyu/">実質時給 計算ツール</a>の換算欄で出せます。</p>
+
+<h2 id="s9">判断の順番</h2>
+<p>「繰上返済か投資か」を最初の問いにすると、答えが出ません。順番があります。</p>
+<ol>
+<li><strong>生活防衛資金を確保する。</strong>生活費の6か月から1年分。ここは繰上返済にも投資にも回さない</li>
+<li><strong>住宅ローン控除の残期間と、控除を使い切れているかを確認する。</strong>使い切れていて金利が0.7%を下回るなら、控除期間中の繰上返済は見送る合理性がある</li>
+<li><strong>金利のタイプを確認する。</strong>変動金利で今後の上昇が気になるなら、繰上返済の効果は将来大きくなる方向に働く</li>
+<li><strong>死亡保障の状況を確認する。</strong>団信以外に十分な保障があるか</li>
+<li><strong>そのうえで、残った資金の配分を考える。</strong>全額をどちらかに寄せる必要はない</li>
+</ol>
+<p>最後の点は強調しておきたいところです。<strong>繰上返済と投資は、どちらかを選ぶ二択ではありません。</strong>半分ずつでも構いませんし、控除期間が終わってから繰上返済に回す、という時間の配分もあります。</p>
+<p>ローン金利を動かしたときに利息の総額がどう変わるかは、<a href="/test_credit_test/kinri/">住宅ローン返済シミュレーター</a>で確認できます。金利と期間を変えて、削減額の規模感を掴んだうえで判断してください。</p>
+<p>なお本記事は一般的な考え方の整理であり、特定の金融商品を勧めるものではありません。投資判断はご自身の責任で行ってください。個別の税務の取扱いについては、税理士または所轄の税務署にご確認ください。</p>
+<a class="toolcta" href="/test_credit_test/jikyu/">
+<p class="toolcta__label">try the tool</p>
+<h2 class="toolcta__name" style="border:none;padding:0;margin:0 0 10px;">実質時給 計算ツール</h2>
+<p class="toolcta__desc">年収から社会保険料と税を引いた手取りを、残業と通勤を含めた拘束時間で割ります。繰上返済に回す200万円が、自分にとって何時間分の労働にあたるかを換算できます。金額で見るのと時間で見るのとでは、判断の重みが変わります。入力はブラウザ内で完結し、送信されません。</p>
+<span class="toolcta__go">自分の実質時給を出す →</span>
+</a>
+</div>
+<section class="sources">
+<h2>参照した資料</h2>
+<ul>
+<li>国税庁「住宅借入金等特別控除」（タックスアンサー No.1211-1、参照日：2026年8月17日）</li>
+<li>国税庁「株式・配当・利子と税」（上場株式等の譲渡益・配当等に対する課税、参照日：2026年8月17日）</li>
+<li>金融庁「NISAを知る」（非課税投資枠の取扱い、参照日：2026年8月17日）</li>
+<li>数値例は元利均等返済・金利一定・繰上返済は期間短縮型という前提で試算した概算です</li>
+</ul>
+<div class="disclaimer">
+<p>本記事は一般的な情報提供を目的としたものであり、特定の金融商品の取得を勧誘するものではありません。将来の運用成果を保証または示唆するものでもありません。住宅ローン控除の適用要件、繰上返済の取扱い、団体信用生命保険の内容は、契約時期・金融機関・商品によって異なります。掲載した数値はすべて説明のための概算であり、実際の削減額や運用結果とは一致しません。控除の可否や税額への影響など個別の税務の取扱いについては、税理士または所轄の税務署にご確認ください。投資判断はご自身の責任で行ってください。</p>
+</div>
+</section>
+<div class="byline">
+<img class="pic pic--s" src="/test_credit_test/assets/eryael.png" width="480" height="480" alt="エリエール" loading="lazy">
+<div>
+<h3>エリエール</h3>
+<p>財務経理、金融機関での法人営業・制度対応、企業信用調査を経て独立。会社の数字を作る側、貸す側、調べる側の三方向から決算書を見てきました。</p>
+</div>
+</div>
+<nav class="pager" aria-label="前後の記事">
+<a href="/test_credit_test/articles/hendo-kinri-shikumi/"><span>前の記事</span><strong>日銀が動いてから返済額が変わるまで｜変動金利の4つの段</strong></a>
+<a href="/test_credit_test/articles/funshoku/"><span>次の記事</span><strong>粉飾の兆候は数字のどこに出るか</strong></a>
+</nav>
+</div>
+</main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <nav class="foot__links" aria-label="フッター">
+        <a href="/test_credit_test/about/">運営者情報</a>
+        <a href="/test_credit_test/privacy/">プライバシーポリシー</a>
+        <a href="/test_credit_test/tokusho/">特定商取引法に基づく表記</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+        <a href="/test_credit_test/sitemap.xml">サイトマップ</a>
+      </nav>
+      <p class="copy">© 2026 数字のものさし</p>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

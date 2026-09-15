@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script>if(location.protocol==='http:'){location.replace('https://'+location.host+location.pathname+location.search+location.hash);}</script>
+
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日銀が動いてから返済額が変わるまで｜変動金利の4つの段</title>
+<meta name="description" content="2026年6月の利上げで政策金利は1.0%へ。それでも返済額がまだ変わらないのはなぜか。政策金利から短期プライムレート、基準金利、適用金利までの4つの段と、見直し基準日のズレ、5年ルール・125%ルールが負担を後ろに送る仕組みを、数値例つきで整理します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="日銀が動いてから返済額が変わるまで｜変動金利の4つの段">
+<meta property="og:description" content="2026年6月の利上げで政策金利は1.0%へ。それでも返済額がまだ変わらないのはなぜか。政策金利から短期プライムレート、基準金利、適用金利までの4つの段と、見直し基準日のズレ、5年ルール・125%ルールが負担を後ろに送る仕組みを、数値例つきで整理します。">
+<meta property="og:url" content="https://kazumono.com/articles/hendo-kinri-shikumi/">
+<meta property="og:image" content="https://kazumono.com/assets/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="数字のものさし">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/test_credit_test/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/test_credit_test/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/test_credit_test/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#33526C">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146116373822311" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":"日銀が動いてから返済額が変わるまで｜変動金利の4つの段",
+  "datePublished":"2026-08-17",
+  "dateModified":"2026-08-17",
+  "author":{"@type":"Person","name":"エリエール"},
+  "publisher":{"@type":"Organization","name":"数字のものさし"},
+  "mainEntityOfPage":"https://kazumono.com/articles/hendo-kinri-shikumi/"
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BETYS4R53Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BETYS4R53Y');
+</script>
+
+<style>
+:root{
+  --paper:#FAF9F6; --card:#FFFFFF;
+  --ink:#18262F; --ink-soft:#33495B; --ink-faint:#5B7085;
+  --sea-deep:#33526C; --sea:#527695; --sky:#84D2F5; --aqua:#B0F1F0; --mist:#DFF6F1;
+  --dawn:#FEEEDF; --rose:#F4C3D3; --bloom:#F8A3BF; --plum:#B67AB4;
+  --peridot:#82B33A; --lime:#D4E157; --mint:#E8F5E9;
+  --line:rgba(24,38,47,.18);
+  --shadow:0 1px 2px rgba(35,53,67,.05), 0 10px 26px rgba(35,53,67,.07);
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Times New Roman",serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",sans-serif;
+  --num:"Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16.5px;line-height:1.98;letter-spacing:.015em;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.26;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='0.22'/></svg>");
+}
+.page{position:relative;z-index:1;}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px;}
+.column{width:100%;max-width:720px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+:focus-visible{outline:2.5px solid var(--sea);outline-offset:3px;border-radius:4px;}
+.skip{position:absolute;left:-9999px;background:var(--sea);color:#fff;padding:12px 20px;z-index:99;}
+.skip:focus{left:0;}
+
+/* ヘッダー */
+.masthead{position:sticky;top:0;z-index:20;background:rgba(250,249,246,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.masthead__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px;}
+.brand{font-family:var(--serif);font-size:19px;letter-spacing:.22em;text-decoration:none;white-space:nowrap;}
+.brand span{color:var(--sea);}
+.nav{display:flex;gap:26px;}
+.nav a{font-size:14px;font-weight:500;letter-spacing:.1em;text-decoration:none;color:var(--ink-soft);border-bottom:1.5px solid transparent;padding:6px 0;transition:color .2s,border-color .2s;}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--bloom);}
+
+/* 記事ヘッダー */
+.crumbs{font-size:13px;color:var(--ink-soft);letter-spacing:.08em;margin:34px 0 0;}
+.crumbs a{text-decoration:none;}
+.crumbs a:hover{color:var(--ink);}
+
+.head{padding:26px 0 44px;position:relative;}
+.head__mark{
+  position:absolute;top:-10px;right:-20px;width:150px;height:150px;border-radius:50%;
+  background:var(--mist);opacity:.7;pointer-events:none;
+}
+.tag{display:inline-block;font-size:11.5px;letter-spacing:.14em;padding:5px 14px;border-radius:999px;background:var(--mist);position:relative;}
+.head h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(25px,4.2vw,37px);line-height:1.68;letter-spacing:.04em;
+  margin:20px 0 18px;position:relative;
+}
+.head__meta{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.1em;margin:0;position:relative;}
+.head__lead{
+  margin:26px 0 0;font-size:16.5px;line-height:2;color:var(--ink);
+  border-left:3px solid var(--rose);padding-left:20px;position:relative;
+}
+
+/* 目次 */
+.toc{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:26px 30px;margin:0 0 52px;box-shadow:var(--shadow);
+}
+.toc h2{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.18em;margin:0 0 14px;}
+.toc ol{margin:0;padding-left:1.3em;}
+.toc li{margin:8px 0;font-size:15px;}
+.toc a{text-decoration:none;color:var(--ink);}
+.toc a:hover{color:var(--ink);text-decoration:underline;text-decoration-color:var(--sky);text-underline-offset:4px;}
+
+/* 本文 */
+.body h2{
+  font-family:var(--serif);font-weight:600;font-size:clamp(21px,3vw,26px);
+  letter-spacing:.06em;line-height:1.66;
+  margin:64px 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.body h3{
+  font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.08em;
+  margin:44px 0 14px;
+}
+.body h3::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bloom);margin-right:11px;vertical-align:middle;}
+.body p{margin:0 0 24px;}
+.body ul,.body ol{margin:0 0 24px;padding-left:1.4em;}
+.body li{margin:9px 0;}
+.body strong{background:linear-gradient(transparent 64%,var(--rose) 64%);font-weight:600;}
+.body a{color:var(--sea-deep);font-weight:600;text-underline-offset:4px;text-decoration-color:var(--sky);}
+
+table{width:100%;border-collapse:collapse;margin:0 0 28px;font-size:14.5px;background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
+th{background:var(--mist);font-weight:600;letter-spacing:.06em;}
+td{font-variant-numeric:tabular-nums;}
+tr:last-child td{border-bottom:none;}
+
+/* 補足ボックス */
+.callout{
+  background:rgba(232,245,233,.6);border-left:3px solid var(--peridot);
+  border-radius:0 16px 16px 0;padding:22px 26px;margin:0 0 30px;
+}
+.callout p:last-child{margin-bottom:0;}
+.callout strong{background:none;}
+
+/* 関連ツール */
+.toolcta{
+  position:relative;overflow:hidden;
+  display:block;text-decoration:none;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:32px 30px;margin:56px 0;box-shadow:var(--shadow);
+  transition:transform .26s,box-shadow .26s;
+}
+.toolcta::after{
+  content:"";position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;
+  background:var(--sky);opacity:.85;transition:transform .38s;
+}
+.toolcta:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(47,66,87,.12);}
+.toolcta:hover::after{transform:scale(1.4);}
+.toolcta__label{position:relative;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 12px;}
+.toolcta__name{position:relative;font-family:var(--serif);font-size:21px;letter-spacing:.08em;margin:0 0 10px;}
+.toolcta__desc{position:relative;font-size:14.5px;color:var(--ink-soft);margin:0 0 16px;max-width:26em;}
+.toolcta__go{position:relative;font-size:14.5px;font-weight:600;letter-spacing:.08em;color:var(--sea-deep);}
+
+/* 出典・免責 */
+.sources{margin:60px 0 0;border-top:1px solid var(--line);padding-top:30px;}
+.sources h2{font-family:var(--serif);font-weight:600;font-size:16px;letter-spacing:.16em;margin:0 0 14px;}
+.sources ul{list-style:none;margin:0;padding:0;}
+.sources li{font-size:14px;line-height:1.9;color:var(--ink-soft);margin:0 0 8px;padding-left:18px;position:relative;}
+.sources li::before{content:"";position:absolute;left:0;top:.85em;width:6px;height:6px;border-radius:50%;background:var(--peridot);}
+
+.disclaimer{
+  margin:30px 0 0;border-left:4px solid var(--peridot);background:rgba(232,245,233,.55);
+  border-radius:0 16px 16px 0;padding:22px 26px;
+}
+.disclaimer p{margin:0;font-size:14px;line-height:1.92;color:var(--ink-soft);}
+
+/* 執筆者 */
+.byline{
+  display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:28px;margin:44px 0 0;box-shadow:var(--shadow);
+}
+.byline__mark{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--bloom),var(--plum));display:grid;place-items:center;font-family:var(--serif);font-weight:600;font-size:22px;color:#fff;}
+.byline h3{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.1em;margin:0 0 6px;}
+.byline p{margin:0;font-size:14.5px;line-height:1.88;color:var(--ink-soft);}
+
+/* 前後の記事 */
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0 0;}
+.pager a{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;
+  text-decoration:none;transition:transform .22s,border-color .22s;
+}
+.pager a:hover{transform:translateY(-3px);border-color:var(--sky);}
+.pager span{display:block;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+.pager strong{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1.7;letter-spacing:.05em;}
+
+/* 広告枠 */
+/* フッター */
+.foot{margin-top:90px;border-top:1px solid var(--line);padding:44px 0 56px;}
+.foot__inner{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:center;}
+.foot__links{display:flex;flex-wrap:wrap;gap:26px;}
+.foot__links a{font-size:14px;font-weight:500;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;}
+.foot__links a:hover{color:var(--ink);}
+.copy{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.08em;margin:0;}
+
+@media (max-width:820px){
+  .nav a:nth-child(n+3){display:none;}
+  .head__mark{display:none;}
+  .byline{grid-template-columns:1fr;text-align:left;}
+  .pager{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+/* ===== 表の横スクロール ===== */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 28px;}
+.tw table{margin-bottom:0;min-width:420px;}
+
+/* ===== アバター ===== */
+.pic{display:block;border-radius:50%;background:linear-gradient(135deg,var(--dawn),var(--rose));object-fit:cover;}
+.pic--l{width:96px;height:96px;}
+.pic--s{width:66px;height:66px;}
+
+/* ===== モバイル最適化 ===== */
+@media (max-width:820px){
+  body::before{display:none;}
+  .masthead{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;}
+  .masthead__inner{height:auto;min-height:58px;padding:10px 0;flex-wrap:wrap;gap:6px 16px;}
+  .brand{font-size:17px;letter-spacing:.1em;}
+  .nav{gap:16px;flex-wrap:wrap;}
+  .nav a{font-size:12.5px;letter-spacing:.02em;padding:2px 0;border-bottom-width:2px;}
+  .nav a:nth-child(n+3){display:inline-block;}
+  .wrap,.column{padding-left:18px;padding-right:18px;}
+  h1,h2,h3,p,li,td,th,.post__title,.tool__name,.shop__name{overflow-wrap:anywhere;}
+  .tools,.shop,.channels{grid-template-columns:1fr;}
+  .toc{padding:22px 20px;}
+  .btn{padding:14px 22px;font-size:14px;}
+  .grid{grid-template-columns:1fr;}
+  .actions{gap:10px;}
+  .btn-run,.btn-sample{width:100%;justify-content:center;}
+}
+@media (max-width:400px){
+  .brand{font-size:16px;letter-spacing:.06em;}
+  .nav{gap:12px;}
+  .nav a{font-size:11.5px;}
+}
+
+/* ===== 装飾円を文字の背面へ ===== */
+.hero{isolation:isolate;}
+.hero__blob{z-index:-1;}
+.hero .wrap{position:relative;z-index:1;}
+.head__mark{z-index:-1;}
+.head{isolation:isolate;}
+
+/* ===== モバイルの装飾円 ===== */
+@media (max-width:820px){
+  .hero__blob--a{width:190px;height:190px;top:-70px;right:-70px;opacity:.55;}
+  .hero__blob--b{display:none;}
+  .hero__blob--c{width:80px;height:80px;bottom:-24px;left:-30px;opacity:.6;}
+  .hero{padding:52px 0 46px;}
+  .hero h1{font-size:clamp(25px,7.2vw,34px);line-height:1.5;max-width:none;}
+  .hero p{font-size:15px;}
+  .eyebrow{font-size:10.5px;letter-spacing:.22em;word-break:break-word;}
+}
+@media (max-width:400px){
+  .hero__blob--a{width:150px;height:150px;top:-60px;right:-60px;}
+  .hero h1{font-size:24px;letter-spacing:.02em;}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">本文へ移動</a>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <a class="brand" href="/test_credit_test/">数字の<span>ものさし</span></a>
+      <nav class="nav" aria-label="サイト内">
+        <a href="/test_credit_test/#tools">ツール</a>
+        <a href="/test_credit_test/articles/">読みもの</a>
+        <a href="/test_credit_test/#excel">Excel版</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+<div class="column">
+<p class="crumbs"><a href="/test_credit_test/">ホーム</a> ／ <a href="/test_credit_test/articles/">読みもの</a> ／ 金利</p>
+<header class="head">
+<span class="head__mark" aria-hidden="true"></span>
+<span class="tag">金利</span>
+<h1>日銀が動いてから返済額が変わるまで｜変動金利の4つの段</h1>
+<p class="head__meta">2026.08.17 公開 ／ 2026.08.17 更新</p>
+<p class="head__lead">2026年6月、政策金利が1.0%程度へ引き上げられました。約31年ぶりの水準です。それでも、変動金利で借りている人の毎月の返済額は、まだほとんど動いていません。日銀の決定があなたの引き落とし額に届くまでには、いくつもの段があります。</p>
+</header>
+<nav class="toc" aria-label="目次">
+<h2>目次</h2>
+<ol>
+<li><a href="#s1">6月に利上げがあったのに、返済額がまだ変わらない</a></li>
+<li><a href="#s2">政策金利から適用金利まで、4つの段がある</a></li>
+<li><a href="#s3">短期プライムレートはどう動いてきたか</a></li>
+<li><a href="#s4">見直しの基準日と、返済額に反映される時期</a></li>
+<li><a href="#s5">5年ルールと125%ルールは、負担を消していない</a></li>
+<li><a href="#s6">未払利息という、あまり説明されない論点</a></li>
+<li><a href="#s7">0.25%は、自分のローンでいくらになるか</a></li>
+<li><a href="#s8">元金均等返済を選んでいる場合</a></li>
+<li><a href="#s9">いま確認しておくこと</a></li>
+</ol>
+</nav>
+<div class="body">
+<h2 id="s1">6月に利上げがあったのに、返済額がまだ変わらない</h2>
+<p>2026年6月、日本銀行が政策金利を1.0%程度へ引き上げました。1%台の政策金利は約31年ぶりです。ニュースを見て、変動金利で住宅ローンを借りている人の多くが身構えたはずです。</p>
+<p>ところが、8月時点で毎月の返済額が変わった人はほとんどいません。「まだ何も起きていないが、本当に大丈夫なのか」という状態の人が多いと思います。</p>
+<p>これは何かの手違いではありません。<strong>日銀が動いてから、あなたの口座から引き落とされる金額が変わるまでには、いくつもの段があります。</strong>その段の数と長さを知らないまま構えていると、来るはずのものが来ないことに不安になり、逆に来たときには準備ができていない、ということになります。</p>
+<p>この記事は、その伝達経路を分解します。数字を予想する話ではなく、<strong>仕組みの話</strong>です。仕組みが分かれば、次に日銀が動いたとき、自分の返済額がいつ、どれだけ動くかを自分で読めるようになります。</p>
+
+<div class="callout">
+<p><strong>実務メモ</strong>：金融機関にいた頃、利上げのニュースが出た翌日には必ず問い合わせが増えました。「来月から返済額が上がるのか」という電話です。実際に返済額が変わるのはずっと先なのですが、<strong>その説明を電話口で最後まで聞いてもらえることは、あまりありませんでした。</strong>段が多すぎて、口頭では伝わらないのです。</p>
+</div>
+
+<h2 id="s2">政策金利から適用金利まで、4つの段がある</h2>
+<p>変動金利が上がるまでの経路は、おおむね次の4段です。</p>
+
+<div class="tw"><table>
+<thead><tr><th>段</th><th>何が動くか</th><th>誰が決めるか</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>政策金利（無担保コールレート翌日物の誘導目標）</td><td>日本銀行</td></tr>
+<tr><td>2</td><td>短期プライムレート（短プラ）</td><td>各金融機関</td></tr>
+<tr><td>3</td><td>変動金利の基準金利（店頭金利）</td><td>各金融機関</td></tr>
+<tr><td>4</td><td>適用金利（基準金利 − 引下げ幅）</td><td>契約時に決まった引下げ幅による</td></tr>
+</tbody>
+</table></div>
+
+<p>ここで見落とされやすいのが、<strong>2段目から先は日銀ではなく各銀行が決めている</strong>という点です。日銀が政策金利を上げても、銀行が短プラを据え置けば、あなたの金利は動きません。実際、2026年6月の利上げのあと、大手銀行が短プラを引き上げた一方で、方針の異なる金融機関もありました。</p>
+<p>4段目の「引下げ幅」も重要です。変動金利は基準金利からの引下げで決まりますが、<strong>この引下げ幅は借入時に固定され、返済が終わるまで変わらないのが一般的</strong>です。つまり上がるのは基準金利のほうで、引下げ幅は動きません。「金利優遇を受けているから上がらない」ということはありません。</p>
+
+<h2 id="s3">短期プライムレートはどう動いてきたか</h2>
+<p>2段目の短プラは、この数年で段階的に上がってきました。おおまかな流れはこうです。</p>
+<ul>
+<li>2024年9月　1.475% → 1.625%</li>
+<li>2025年3月　1.875%へ</li>
+<li>2026年2月　2.125%へ</li>
+<li>2026年8月　2026年6月の利上げを受け、大手行が0.25%の引き上げを実施</li>
+</ul>
+<p>2024年9月からの累計では、1%近い上昇です。<strong>「まだ上がっていない」のではなく、すでに2年かけて上がってきた</strong>というのが実際のところです。</p>
+<p>ご自身の借入先の短プラが今いくらかは、各金融機関のサイトに掲載されています。上の数字は大手行の代表的な水準であり、金融機関によって異なります。ネット銀行のなかには、短プラではなく独自の指標で決めているところもあります。</p>
+
+<h2 id="s4">見直しの基準日と、返済額に反映される時期</h2>
+<p>3段目と4段目の間に、もうひとつ時間差があります。<strong>金利の見直し日と、返済額の見直し日は別</strong>だからです。</p>
+<p>多くの金融機関は、<strong>4月1日と10月1日を基準日として年2回、適用金利を見直します。</strong>4月の見直しが7月から12月の返済に、10月の見直しが翌年1月から6月の返済に反映されるのが一般的な形です。</p>
+<p>さらに、すでに返済中の人については、返済額そのものの見直しがもっと後になります。2026年6月の利上げについて言えば、<strong>新規の借入は8月ごろから、返済中の人は11月分あたりから順次</strong>、という案内をしている金融機関があります。</p>
+<p>整理すると、日銀が動いてから返済額に届くまでに、次の3つの待ち時間が積み重なります。</p>
+<ol>
+<li>銀行が短プラを見直すまで（数週間から数か月）</li>
+<li>次の金利見直し基準日が来るまで（最長で半年）</li>
+<li>基準日から返済額に反映されるまで（数か月）</li>
+</ol>
+<p><strong>合計すると、半年から1年近くかかることも珍しくありません。</strong>「まだ変わらない」のは正常な動きです。</p>
+
+<div class="callout">
+<p><strong>実務メモ</strong>：この時間差は、借り手にとって考える時間が与えられているとも言えます。<strong>利上げのニュースを見てから、返済額が実際に増えるまでに半年ある。</strong>その間に家計を見直すのか、繰上返済を検討するのか、固定への借換えを調べるのか。慌てて動く必要はありませんが、放置していると準備の時間をそのまま捨てることになります。</p>
+</div>
+
+<h2 id="s5">5年ルールと125%ルールは、負担を消していない</h2>
+<p>ここが最も誤解されている部分です。多くの金融機関の変動金利には、次の2つの緩和措置があります。</p>
+<ul>
+<li><strong>5年ルール</strong>：金利が上がっても、毎月の返済額は5年間据え置く</li>
+<li><strong>125%ルール</strong>：見直し時に返済額が増える場合でも、従来の1.25倍が上限</li>
+</ul>
+<p>この2つがあるため、金利が上がっても毎月の引き落とし額はすぐには増えません。安心材料のように語られることが多いのですが、<strong>これは負担を消す仕組みではありません。</strong></p>
+<p>金利が上がれば、返済額に占める利息の割合が増えます。返済額が据え置かれるということは、<strong>その分だけ元金の返済が進まなくなる</strong>ということです。減らなかった元金は消えるのではなく、後ろに送られます。</p>
+<p>結果として起きるのは次のどちらかです。</p>
+<ul>
+<li>5年後の見直しで、返済額が大きく増える（125%の上限まで）</li>
+<li>それでも足りず、<strong>最終回にまとまった残高が残る</strong></li>
+</ul>
+<p>とくに後者は見落とされがちです。5年ルールと125%ルールは、<strong>返済期間の終わりに負担を集める仕組み</strong>だと理解しておくのが正確です。毎月の引き落とし額が変わらないことは、金利上昇の影響を受けていないことを意味しません。</p>
+
+<h2 id="s6">未払利息という、あまり説明されない論点</h2>
+<p>金利の上がり方が急な場合、さらに踏み込んだ状態が起こります。<strong>その月に発生した利息が、返済額を上回る</strong>状態です。</p>
+<p>毎月の返済額は据え置かれているのに、利息だけで返済額を超えてしまう。この場合、元金がまったく減らないどころか、払いきれなかった利息が「未払利息」として積み上がっていきます。</p>
+<p>未払利息は元金には組み入れられないのが一般的ですが、<strong>返済が終わるまでのどこかで清算しなければなりません。</strong>最終回に一括で請求される、あるいは返済額の見直し時に上乗せされる、といった扱いになります。</p>
+<p>どの水準の金利で未払利息が発生するかは、借入残高・残期間・借入時の金利によって変わります。自分の条件でどうなるかは、<a href="/test_credit_test/kinri/">住宅ローン返済シミュレーター</a>で金利を動かしてみると、利息と元金の内訳の変化として見ることができます。</p>
+
+<h2 id="s7">0.25%は、自分のローンでいくらになるか</h2>
+<p>感覚をつかむために、単純化した数値例で見ます。元利均等返済、繰上返済なし、金利は当初から一定という前提です。実際の借入では期中に何度も金利が変わるため、あくまで規模感を掴むための数字として見てください。</p>
+
+<div class="tw"><table>
+<thead><tr><th>借入額・残期間</th><th>金利0.25%上昇による総返済額の増加（目安）</th></tr></thead>
+<tbody>
+<tr><td>3,000万円・残30年</td><td>約120万円</td></tr>
+<tr><td>4,000万円・残30年</td><td>約160万円</td></tr>
+<tr><td>5,000万円・残35年</td><td>約240万円</td></tr>
+<tr><td>3,000万円・残10年</td><td>約40万円</td></tr>
+</tbody>
+</table></div>
+
+<p>ここから読み取れることは2つあります。</p>
+<p>ひとつは、<strong>0.25%という数字の小ささと、総額の大きさが釣り合わない</strong>ということ。率で聞くと小さく感じますが、30年という期間を掛けると100万円単位になります。</p>
+<p>もうひとつは、<strong>残期間が短いほど影響が小さい</strong>ということです。同じ3,000万円でも、残30年と残10年では3倍の開きがあります。返済が進んでいる人ほど、金利上昇の影響は限定的です。逆に、借りたばかりの人ほど効きます。</p>
+<p>なお、この金額はあくまで総返済額の増加です。毎月の返済額の増加は、5年ルールにより当面は現れません。<strong>効いているのに見えない、というのが変動金利の性質</strong>です。</p>
+
+<h2 id="s8">元金均等返済を選んでいる場合</h2>
+<p>ここまでは元利均等返済を前提にしてきました。<strong>元金均等返済を選んでいる場合、5年ルールと125%ルールは適用されないのが一般的です。</strong></p>
+<p>元金均等返済では、毎回の返済額は「元金を回数で割った額」に「その時点の利息」を足したものになります。利息の変動に上限がないため、<strong>金利が上がれば、その分がそのまま次の返済額に乗ります。</strong></p>
+<p>緩和措置がないぶん、負担が後ろに送られることもありません。総返済額は元利均等より少なく済みますが、金利上昇の影響は毎月の引き落としに直接出ます。<strong>どちらが有利かではなく、影響の出方が違う</strong>という理解が正確です。</p>
+
+<h2 id="s9">いま確認しておくこと</h2>
+<p>予想を立てる前に、事実を確認するほうが先です。次の5つは、契約書と返済予定表とネットバンキングで分かります。</p>
+<ul>
+<li><strong>自分の適用金利と、基準金利からの引下げ幅</strong>。引下げ幅は契約時に固定されているか</li>
+<li><strong>金利の見直し基準日</strong>。4月・10月か、それ以外か</li>
+<li><strong>5年ルール・125%ルールの適用があるか</strong>。ない商品もあります</li>
+<li><strong>返済方式</strong>。元利均等か元金均等か</li>
+<li><strong>残高と残期間</strong>。上の表のとおり、影響の大きさはここで決まります</li>
+</ul>
+<p>そのうえで、金利が0.5%、1.0%上がったときの総返済額を試算しておくと、次に日銀が動いたときに慌てずに済みます。<strong>判断材料を先に揃えておくことと、相場を予想することは別の作業</strong>です。前者だけが自分でできます。</p>
+<p>返済額の増加分は、生活のどこかから出てきます。それが自分にとって何時間分の労働にあたるかは、<a href="/test_credit_test/jikyu/">実質時給 計算ツール</a>で換算できます。金額としては小さく見えても、時間に直すと印象が変わることがあります。</p>
+<p>なお日銀は、経済・物価の情勢に応じて段階的な利上げを続ける方針を示しています。次回の金融政策決定会合は2026年9月17日から18日です。<strong>上がる前提でも、上がらない前提でも計画を立てられるようにしておく</strong>のが、変動金利を選んだ人の備え方だと思います。</p>
+<a class="toolcta" href="/test_credit_test/kinri/">
+<p class="toolcta__label">try the tool</p>
+<h2 class="toolcta__name" style="border:none;padding:0;margin:0 0 10px;">住宅ローン返済シミュレーター</h2>
+<p class="toolcta__desc">借入額・金利・期間を入れると、毎月の返済額、総支払利息、返済負担率が出ます。元利均等と元金均等を切り替えて総利息を比べられます。金利を0.25%ずつ動かして、総返済額がどれだけ変わるかを確かめてください。入力はブラウザ内で完結し、送信されません。</p>
+<span class="toolcta__go">金利を動かして試算する →</span>
+</a>
+</div>
+<section class="sources">
+<h2>参照した資料</h2>
+<ul>
+<li>日本銀行「金融政策決定会合の結果」（2026年6月・7月、参照日：2026年8月17日）</li>
+<li>日本銀行「金融政策決定会合の開催予定」（2026年、参照日：2026年8月17日）</li>
+<li>短期プライムレートの推移および各金融機関の金利改定に関する公表（2024年9月〜2026年8月、参照日：2026年8月17日）</li>
+<li>数値例は元利均等返済・金利一定・繰上返済なしの前提で試算した概算です</li>
+</ul>
+<div class="disclaimer">
+<p>本記事は一般的な情報提供を目的としたものであり、特定の金融機関や金融商品を推奨するものではありません。また、将来の金利水準を予想するものでもありません。金利の決定方法、見直しの基準日、5年ルール・125%ルールの適用有無、引下げ幅の取扱いは金融機関および商品によって異なります。掲載した数値はすべて説明のための概算です。ご自身の条件については、契約書・返済予定表および借入先の金融機関でご確認ください。</p>
+</div>
+</section>
+<div class="byline">
+<img class="pic pic--s" src="/test_credit_test/assets/eryael.png" width="480" height="480" alt="エリエール" loading="lazy">
+<div>
+<h3>エリエール</h3>
+<p>財務経理、金融機関での法人営業・制度対応、企業信用調査を経て独立。会社の数字を作る側、貸す側、調べる側の三方向から決算書を見てきました。</p>
+</div>
+</div>
+<nav class="pager" aria-label="前後の記事">
+<a href="/test_credit_test/articles/jishakabu-takai/"><span>前の記事</span><strong>自社株の評価額が思ったより高くなる理由</strong></a>
+<a href="/test_credit_test/articles/kuriage-vs-toushi/"><span>次の記事</span><strong>繰上返済と投資、どちらが効率的か</strong></a>
+</nav>
+</div>
+</main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <nav class="foot__links" aria-label="フッター">
+        <a href="/test_credit_test/about/">運営者情報</a>
+        <a href="/test_credit_test/privacy/">プライバシーポリシー</a>
+        <a href="/test_credit_test/tokusho/">特定商取引法に基づく表記</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+        <a href="/test_credit_test/sitemap.xml">サイトマップ</a>
+      </nav>
+      <p class="copy">© 2026 数字のものさし</p>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

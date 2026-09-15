@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script>if(location.protocol==='http:'){location.replace('https://'+location.host+location.pathname+location.search+location.hash);}</script>
+
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>与信判定シミュレーター｜決算1期で取引先の安全性・Excel版あり</title>
+<meta name="description" content="直近1期の決算数値を入力するだけで、取引先の安全性を業歴・資本構成・損益・償還余力の4軸で判定します。自己資本比率や債務償還年数の計算も自動。無料・登録不要・入力内容は送信されません。稟議に添付できるExcel（エクセル）版もあります。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="与信判定シミュレーター｜決算1期で取引先の安全性・Excel版あり">
+<meta property="og:description" content="直近1期の決算数値を入力するだけで、取引先の安全性を業歴・資本構成・損益・償還余力の4軸で判定します。自己資本比率や債務償還年数の計算も自動。無料・登録不要・入力内容は送信されません。稟議に添付できるExcel（エクセル）版もあります。">
+<meta property="og:url" content="https://kazumono.com/credit/">
+<meta property="og:image" content="https://kazumono.com/assets/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="数字のものさし">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/test_credit_test/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/test_credit_test/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/test_credit_test/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#33526C">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146116373822311" crossorigin="anonymous"></script>
+
+<style>
+:root{
+  --paper:#FAF9F6; --card:#FFFFFF;
+  --ink:#0F1A22; --ink-soft:#202F3B; --ink-faint:#242F38;
+  --sea-deep:#33526C; --sea:#527695; --sky:#84D2F5; --aqua:#B0F1F0; --mist:#DFF6F1;
+  --dawn:#FEEEDF; --rose:#F4C3D3; --bloom:#F8A3BF; --plum:#B67AB4;
+  --peridot:#82B33A; --lime:#D4E157; --mint:#E8F5E9;
+  --warn:#B5623F;
+  --line:rgba(24,38,47,.18);
+  --shadow:0 1px 2px rgba(24,38,47,.05), 0 10px 26px rgba(24,38,47,.07);
+  --shadow-lift:0 3px 6px rgba(24,38,47,.07), 0 20px 44px rgba(24,38,47,.14);
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Times New Roman",serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",sans-serif;
+  --num:"Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16.5px;line-height:1.92;letter-spacing:.015em;}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.26;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='0.22'/></svg>");}
+.page{position:relative;z-index:1;}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px;}
+.column{width:100%;max-width:820px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+:focus-visible{outline:2.5px solid var(--sea-deep);outline-offset:3px;border-radius:4px;}
+.skip{position:absolute;left:-9999px;background:var(--sea-deep);color:#fff;padding:12px 20px;z-index:99;}
+.skip:focus{left:0;}
+
+.masthead{position:sticky;top:0;z-index:20;background:rgba(250,249,246,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.masthead__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:70px;}
+.brand{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:.16em;text-decoration:none;color:var(--ink);white-space:nowrap;}
+.brand span{color:var(--sea-deep);}
+.nav{display:flex;gap:26px;}
+.nav a{font-size:14px;font-weight:500;letter-spacing:.1em;text-decoration:none;color:var(--ink-soft);border-bottom:2px solid transparent;padding:6px 0;transition:color .2s,border-color .2s;}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--bloom);}
+
+.crumbs{font-size:13px;color:var(--ink-soft);letter-spacing:.06em;margin:34px 0 0;}
+.crumbs a{text-decoration:none;}
+.head{padding:22px 0 38px;position:relative;}
+.head__mark{position:absolute;top:-14px;right:-24px;width:156px;height:156px;border-radius:50%;background:var(--mint);pointer-events:none;}
+.badge{position:relative;display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;padding:5px 14px;border-radius:999px;background:var(--lime);margin:0 0 16px;}
+.head h1{font-family:var(--serif);font-weight:600;font-size:clamp(27px,4.4vw,40px);line-height:1.55;letter-spacing:.04em;margin:0 0 18px;position:relative;}
+.head p{margin:0;font-size:16.5px;line-height:2;position:relative;max-width:34em;}
+.head__safe{display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:9px 18px;border-radius:999px;background:var(--mint);font-size:13.5px;font-weight:600;position:relative;}
+.head__safe::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--peridot);}
+
+/* 入力 */
+.calc{background:var(--card);border:1.5px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin:0 0 20px;}
+.calc h2{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:.08em;margin:0 0 8px;}
+.calc__hint{margin:0 0 26px;font-size:14px;color:var(--ink-soft);}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+.field label{display:block;font-size:14px;font-weight:600;margin:0 0 7px;}
+.field small{display:block;font-size:12.5px;font-weight:400;color:var(--ink-faint);line-height:1.6;margin-top:2px;}
+.field input{width:100%;padding:13px 15px;font-size:16px;font-family:var(--num);border:1.5px solid var(--line);border-radius:12px;background:var(--paper);color:var(--ink);text-align:right;}
+.field input:focus{border-color:var(--sea-deep);outline:none;background:#fff;}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;align-items:center;}
+.btn-run{display:inline-flex;align-items:center;gap:10px;padding:16px 34px;border:none;border-radius:999px;background:var(--sea-deep);color:#fff;font-family:var(--sans);font-size:16px;font-weight:600;letter-spacing:.08em;cursor:pointer;box-shadow:0 10px 24px rgba(51,82,108,.34);transition:transform .2s,box-shadow .2s;}
+.btn-run:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(51,82,108,.42);}
+.btn-sample{background:none;border:1.5px solid var(--line);border-radius:999px;padding:13px 22px;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink-soft);cursor:pointer;transition:border-color .2s,color .2s;}
+.btn-sample:hover{border-color:var(--sea-deep);color:var(--ink);}
+.err{margin:16px 0 0;font-size:14px;color:var(--warn);font-weight:600;display:none;}
+
+/* 結果 */
+.result{display:none;background:linear-gradient(150deg,var(--mint),rgba(255,255,255,.92));border:1.5px solid var(--line);border-left:6px solid var(--peridot);border-radius:22px;padding:34px 32px;margin:0;}
+.result.is-mid{border-left-color:var(--lime);}
+.result.is-low{border-left-color:var(--warn);}
+.result__label{font-family:var(--num);font-size:11.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;}
+.result__grade{font-family:var(--serif);font-weight:600;font-size:clamp(30px,5.4vw,44px);letter-spacing:.06em;margin:0 0 4px;line-height:1.35;}
+.result__score{font-family:var(--num);font-size:16px;font-weight:600;color:var(--ink-soft);margin:0 0 26px;font-variant-numeric:tabular-nums;}
+.result__score b{font-size:26px;color:var(--ink);}
+
+.axes{margin:0 0 26px;}
+.axis{margin:0 0 15px;}
+.axis__top{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;margin-bottom:6px;}
+.axis__name{font-weight:600;}
+.axis__val{font-family:var(--num);font-variant-numeric:tabular-nums;color:var(--ink-soft);font-size:13.5px;}
+.bar{height:9px;border-radius:999px;background:rgba(24,38,47,.1);overflow:hidden;}
+.bar i{display:block;height:100%;border-radius:999px;background:var(--c,var(--sea));transition:width .5s cubic-bezier(.2,.7,.3,1);}
+
+.figs{width:100%;border-collapse:collapse;font-size:14.5px;background:rgba(255,255,255,.75);border-radius:14px;overflow:hidden;margin:0 0 24px;}
+.figs th,.figs td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);}
+.figs th{font-weight:600;width:56%;}
+.figs td{font-family:var(--num);font-variant-numeric:tabular-nums;text-align:right;}
+.figs tr:last-child th,.figs tr:last-child td{border-bottom:none;}
+
+.remarks{list-style:none;margin:0;padding:0;}
+.remarks li{position:relative;padding-left:22px;margin:9px 0;font-size:15px;line-height:1.85;}
+.remarks li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:8px;border-radius:50%;background:var(--c,var(--peridot));}
+
+/*
+  ここに広告を置かないこと。
+  判定結果の直後は反応が最も強く、誤クリックが起きやすい位置です。
+  AdSense は意図しないクリックを誘発する配置をポリシー違反として扱います。
+*/
+
+/* note 導線 */
+.upsell{position:relative;overflow:hidden;display:block;text-decoration:none;background:var(--card);
+  border:1.5px solid var(--line);border-left:5px solid var(--peridot);border-radius:22px;
+  padding:34px 32px;margin:26px 0 0;box-shadow:var(--shadow);transition:transform .26s,box-shadow .26s;}
+.upsell::after{content:"";position:absolute;top:-46px;right:-46px;width:150px;height:150px;border-radius:50%;
+  background:linear-gradient(135deg,var(--lime),var(--peridot));opacity:.9;transition:transform .38s;}
+.upsell:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift);}
+.upsell:hover::after{transform:scale(1.35);}
+.upsell__badge{position:relative;display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;padding:5px 14px;border-radius:999px;background:var(--peridot);color:#fff;margin:0 0 16px;}
+.upsell__name{position:relative;font-family:var(--serif);font-weight:600;font-size:22px;letter-spacing:.04em;line-height:1.6;margin:0 0 12px;}
+.upsell__desc{position:relative;font-size:15px;line-height:1.9;margin:0 0 20px;max-width:33em;}
+.upsell__go{position:relative;font-size:15px;font-weight:600;letter-spacing:.06em;color:var(--sea-deep);}
+
+.cmp{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--card);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin:0 0 26px;position:relative;}
+.cmp th,.cmp td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
+.cmp thead th{background:var(--mist);font-weight:700;letter-spacing:.04em;}
+.cmp tbody th{font-weight:500;color:var(--ink-soft);}
+.cmp td{text-align:center;font-weight:600;}
+.cmp .no{color:var(--ink-faint);font-weight:400;}
+.cmp tr:last-child th,.cmp tr:last-child td{border-bottom:none;}
+
+/* 解説 */
+.about{margin:64px 0 0;}
+.about h2{font-family:var(--serif);font-weight:600;font-size:clamp(21px,3vw,26px);letter-spacing:.08em;margin:0 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line);}
+.about h3{font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.05em;margin:38px 0 12px;}
+.about h3::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bloom);margin-right:11px;vertical-align:middle;}
+.about p{margin:0 0 22px;}
+.about ul{margin:0 0 22px;padding-left:1.4em;}
+.about li{margin:8px 0;}
+.about code{font-family:var(--num);background:var(--mist);padding:2px 8px;border-radius:6px;font-size:14.5px;}
+
+.disclaimer{margin:44px 0 0;border-left:4px solid var(--peridot);background:rgba(232,245,233,.7);border-radius:0 16px 16px 0;padding:24px 28px;}
+.disclaimer h3{font-family:var(--serif);font-weight:600;font-size:16.5px;letter-spacing:.08em;margin:0 0 10px;}
+.disclaimer p{margin:0 0 12px;font-size:14px;line-height:1.92;color:var(--ink-soft);}
+.disclaimer p:last-child{margin:0;}
+
+.foot{margin-top:90px;border-top:1px solid var(--line);padding:44px 0 56px;}
+.foot__inner{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:center;}
+.foot__links{display:flex;flex-wrap:wrap;gap:26px;}
+.foot__links a{font-size:14px;font-weight:500;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;}
+.copy{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);margin:0;}
+
+@media (max-width:820px){
+  .nav a:nth-child(n+3){display:none;}
+  .head__mark{display:none;}
+  .calc,.result,.upsell{padding:26px 20px;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;}}
+
+/* ===== 表の横スクロール ===== */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 28px;}
+.tw table{margin-bottom:0;min-width:420px;}
+
+/* ===== アバター ===== */
+.pic{display:block;border-radius:50%;background:linear-gradient(135deg,var(--dawn),var(--rose));object-fit:cover;}
+.pic--l{width:96px;height:96px;}
+.pic--s{width:66px;height:66px;}
+
+/* ===== モバイル最適化 ===== */
+@media (max-width:820px){
+  body::before{display:none;}
+  .masthead{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;}
+  .masthead__inner{height:auto;min-height:58px;padding:10px 0;flex-wrap:wrap;gap:6px 16px;}
+  .brand{font-size:17px;letter-spacing:.1em;}
+  .nav{gap:16px;flex-wrap:wrap;}
+  .nav a{font-size:12.5px;letter-spacing:.02em;padding:2px 0;border-bottom-width:2px;}
+  .nav a:nth-child(n+3){display:inline-block;}
+  .wrap,.column{padding-left:18px;padding-right:18px;}
+  h1,h2,h3,p,li,td,th,.post__title,.tool__name,.shop__name{overflow-wrap:anywhere;}
+  .tools,.shop,.channels{grid-template-columns:1fr;}
+  .toc{padding:22px 20px;}
+  .btn{padding:14px 22px;font-size:14px;}
+  .grid{grid-template-columns:1fr;}
+  .actions{gap:10px;}
+  .btn-run,.btn-sample{width:100%;justify-content:center;}
+}
+@media (max-width:400px){
+  .brand{font-size:16px;letter-spacing:.06em;}
+  .nav{gap:12px;}
+  .nav a{font-size:11.5px;}
+}
+
+/* ===== 装飾円を文字の背面へ ===== */
+.hero{isolation:isolate;}
+.hero__blob{z-index:-1;}
+.hero .wrap{position:relative;z-index:1;}
+.head__mark{z-index:-1;}
+.head{isolation:isolate;}
+
+/* ===== モバイルの装飾円 ===== */
+@media (max-width:820px){
+  .hero__blob--a{width:190px;height:190px;top:-70px;right:-70px;opacity:.55;}
+  .hero__blob--b{display:none;}
+  .hero__blob--c{width:80px;height:80px;bottom:-24px;left:-30px;opacity:.6;}
+  .hero{padding:52px 0 46px;}
+  .hero h1{font-size:clamp(25px,7.2vw,34px);line-height:1.5;max-width:none;}
+  .hero p{font-size:15px;}
+  .eyebrow{font-size:10.5px;letter-spacing:.22em;word-break:break-word;}
+}
+@media (max-width:400px){
+  .hero__blob--a{width:150px;height:150px;top:-60px;right:-60px;}
+  .hero h1{font-size:24px;letter-spacing:.02em;}
+}
+
+/* ==== 可読性の底上げ ==== */
+.hint,.row .hint,.field small,.calc__hint,.tab small,.kpi b{
+  font-size:13px;color:var(--ink-soft)}
+.band-legend,.metric .d{color:var(--ink-soft)}
+/* 読ませる文章は本文と同じ濃さ・大きさに */
+.note,.verdict-note,.check,.sub,.notes,.about p,.about li,.disclaimer p,
+.expbody,.legend,.remarks li{color:var(--ink)}
+.note{font-size:14px;line-height:1.8}
+.verdict-note,.check{font-size:14px}
+.note .tag{font-weight:700}
+footer,.foot__links a{color:var(--ink-soft)}
+th{color:var(--ink)}
+label,.row>label,.field label{color:var(--ink);font-weight:600}
+
+/* ==== 文字を太く・くっきり ==== */
+body{font-weight:500}
+th,b,strong,dt{font-weight:700}
+h1,h2,h3,h4{font-weight:700}
+input,select,textarea,button{font-weight:600}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BETYS4R53Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BETYS4R53Y');
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">本文へ移動</a>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <a class="brand" href="/test_credit_test/">数字の<span>ものさし</span></a>
+      <nav class="nav" aria-label="サイト内">
+        <a href="/test_credit_test/#tools">ツール</a>
+        <a href="/test_credit_test/#excel">Excel版</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="column">
+
+      <p class="crumbs"><a href="/test_credit_test/">ホーム</a> ／ <a href="/test_credit_test/#tools">ツール</a> ／ 与信</p>
+
+      <header class="head">
+        <span class="head__mark" aria-hidden="true"></span>
+        <span class="badge">簡易版</span>
+        <h1>与信スコア 簡易判定</h1>
+        <p>直近1期の決算数値から、取引先の安全性を「業歴・資本構成・損益・償還余力」の4つの軸で判定します。自己資本比率や債務償還年数の計算も自動で行います。</p>
+        <span class="head__safe">入力内容は送信されません。すべてブラウザの中で計算します</span>
+      </header>
+
+      <section class="calc">
+        <h2>決算数値を入力する</h2>
+        <p class="calc__hint">単位は百万円。直近1期分だけで判定できます。分からない項目は 0 のままで構いませんが、精度は落ちます。</p>
+
+        <div class="grid">
+          <div class="field">
+            <label for="years">業歴<small>創業からの年数</small></label>
+            <input id="years" type="number" inputmode="numeric" placeholder="0">
+          </div>
+          <div class="field">
+            <label for="sales">売上高<small>百万円</small></label>
+            <input id="sales" type="number" inputmode="numeric" placeholder="0">
+          </div>
+          <div class="field">
+            <label for="op">経常利益<small>百万円・赤字はマイナスで</small></label>
+            <input id="op" type="number" inputmode="numeric" placeholder="0">
+          </div>
+          <div class="field">
+            <label for="dep">減価償却費<small>百万円</small></label>
+            <input id="dep" type="number" inputmode="numeric" placeholder="0">
+          </div>
+          <div class="field">
+            <label for="asset">総資産<small>百万円</small></label>
+            <input id="asset" type="number" inputmode="numeric" placeholder="0">
+          </div>
+          <div class="field">
+            <label for="equity">純資産<small>百万円・債務超過はマイナスで</small></label>
+            <input id="equity" type="number" inputmode="numeric" placeholder="0">
+          </div>
+          <div class="field">
+            <label for="debt">有利子負債<small>百万円・借入金と社債の合計</small></label>
+            <input id="debt" type="number" inputmode="numeric" placeholder="0">
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn-run" type="button" id="run">判定する</button>
+          <button class="btn-sample" type="button" id="sample1">優良モデルを入れる</button>
+          <button class="btn-sample" type="button" id="sample2">要注意モデルを入れる</button>
+        </div>
+        <p class="err" id="err"></p>
+      </section>
+
+      <section class="result" id="result" aria-live="polite">
+        <p class="result__label">assessment</p>
+        <p class="result__grade" id="grade">—</p>
+        <p class="result__score"><b id="score">0</b> / 60 点</p>
+
+        <div class="axes" id="axes"></div>
+
+        <div class="tw"><table class="figs" id="figs"></table></div>
+
+        <ul class="remarks" id="remarks"></ul>
+      </section>
+
+      <!-- 結果の直下は広告ではなく、自社サービスへの導線 -->
+      <a class="upsell" href="/test_credit_test/credit-pro/">
+        <span class="upsell__badge">Web版 / 1社 500円</span>
+        <h2 class="upsell__name">決算書PDFを置くだけで、この続きが出ます</h2>
+        <p class="upsell__desc">ここでの判定は4軸60点の一次スクリーニングです。実務で決裁を通すには、3期分の推移、業種・資本金階層ごとの公的基準との比較、そして与信限度額の目安が要ります。<strong>財務でポン！</strong> なら、決算書のPDFを置くだけで3期分を読み取り、6軸100点・信用程度A〜Eまで判定します。判定を画面で見るところまでは料金がかからず、稟議に添付できるExcel（5シート）が必要なときだけ1社500円です。</p>
+        <span class="upsell__go">財務でポン！ を使ってみる →</span>
+      </a>
+
+      <a class="upsell" href="https://note.com/pythonddd/n/n9b4e7122fc05" target="_blank" rel="noopener" style="margin-top:18px;">
+        <span class="upsell__badge">Excel版 / note</span>
+        <h2 class="upsell__name">これから何社も見るなら、手元に置くExcel版</h2>
+        <p class="upsell__desc">数式が全て入った8シート。しきい値も配点も、自社の与信方針に合わせて書き換えられます。何度も使う方は、こちらのほうが結果的に手早く、安く済みます。</p>
+        <span class="upsell__go">noteで詳しく見る →</span>
+      </a>
+
+      <div class="tw"><table class="cmp">
+        <thead>
+          <tr><th>できること</th><th>この簡易判定<br>無料</th><th>Web版 Pro<br>1社 500円</th><th>Excel版 Pro<br>note</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>決算書PDFの読み取り</th><td class="no">—</td><td>自動（3期分）</td><td class="no">手入力</td></tr>
+          <tr><th>入力する決算期</th><td>1期</td><td>3期</td><td>3期</td></tr>
+          <tr><th>評価の軸</th><td>4軸 / 60点</td><td>6軸 / 100点</td><td>6軸 / 100点</td></tr>
+          <tr><th>判定の段階</th><td>3段階</td><td>A〜E の5段階</td><td>A〜E の5段階</td></tr>
+          <tr><th>与信限度額の目安</th><td class="no">—</td><td>自動算出</td><td>自動算出</td></tr>
+          <tr><th>業種・資本金階層別の公的基準と比較</th><td class="no">—</td><td>財務省統計を内蔵</td><td>財務省統計を内蔵</td></tr>
+          <tr><th>財務指標の3期比較</th><td class="no">—</td><td>収録</td><td>14種</td></tr>
+          <tr><th>運転資金分析・資金償還表</th><td class="no">—</td><td>収録</td><td>自動</td></tr>
+          <tr><th>所見の自動生成</th><td>定型3〜5行</td><td>該当項目を文章で生成</td><td>該当項目を文章で生成</td></tr>
+          <tr><th>稟議添付用のA4レイアウト</th><td class="no">—</td><td>決裁欄つき</td><td>決裁欄つき</td></tr>
+          <tr><th>受け取るファイル</th><td class="no">—</td><td>5シート・数式なし<br>1社分の記録</td><td>8シート・数式入り<br>繰り返し使える</td></tr>
+          <tr><th>しきい値・配点の書き換え</th><td class="no">—</td><td class="no">—</td><td>自社方針に合わせて可</td></tr>
+        </tbody>
+      </table></div>
+
+      <section class="about">
+        <h2>この判定の前提</h2>
+        <p>与信判断の本質は、突き詰めれば「返ってくるか」です。この簡易版でも、その考え方に沿って配点しています。60点のうち15点を償還余力に置いているのはそのためです。</p>
+
+        <h3>4つの軸と配点</h3>
+        <ul>
+          <li><strong>業歴（10点）</strong>：創業からの年数。事業が続いてきたこと自体が、市場から受け入れられてきた証拠です。</li>
+          <li><strong>資本構成（20点）</strong>：自己資本比率。赤字を何回吸収できるかの余力を見ます。債務超過は0点です。</li>
+          <li><strong>損益（15点）</strong>：売上高経常利益率。本業と財務活動を合わせた、通常の稼ぐ力を見ます。</li>
+          <li><strong>償還余力（15点）</strong>：債務償還年数。有利子負債を簡易キャッシュフローで割り、何年で返せるかを見ます。</li>
+        </ul>
+
+        <h3>使っている計算式</h3>
+        <ul>
+          <li>自己資本比率 ＝ <code>純資産 ÷ 総資産</code></li>
+          <li>売上高経常利益率 ＝ <code>経常利益 ÷ 売上高</code></li>
+          <li>簡易キャッシュフロー ＝ <code>経常利益 × 0.7 ＋ 減価償却費</code></li>
+          <li>債務償還年数 ＝ <code>有利子負債 ÷ 簡易キャッシュフロー</code></li>
+        </ul>
+        <p>簡易キャッシュフローで経常利益に0.7を掛けているのは、税引後に手元へ残る分をおおまかに見るためです。実効税率を約30%と置いた、実務でよく使われる簡便法です。</p>
+
+        <h3>この判定に含めていないもの</h3>
+        <ul>
+          <li>3期分の推移。1期だけでは、改善しているのか悪化しているのかが分かりません。</li>
+          <li>業種による違い。自己資本比率の適正水準は、卸売業と情報通信業では大きく異なります。</li>
+          <li>企業規模の補正。同じ比率でも、年商10億円の会社と1,000億円の会社では意味が違います。</li>
+          <li>経営者の評価。業界経験や決算書の開示姿勢は、決算書には表れませんが与信では重い要素です。</li>
+          <li>正常運転資金の控除。実際の償還余力は、事業継続に必要な運転資金を差し引いて測ります。</li>
+        </ul>
+        <p>これらを飛ばしているため、<strong>この判定はあくまで「一次スクリーニング」です。</strong>ここで「要注意」が出た先を掘り下げる、という使い方が正しい順序になります。</p>
+
+        <h3>結果の読み方</h3>
+        <p>点数そのものより、どの軸が落ちているかを見てください。資本構成が低くても償還余力が満点なら、借入は多いが返せている会社です。逆に資本構成が高くても償還余力が0点なら、過去の蓄積を食いつぶしている最中かもしれません。<strong>合計点は要約であって、判断材料は内訳のほうにあります。</strong></p>
+      
+        <h2>4つの軸は、それぞれ何を見ているのか</h2>
+        <p>与信判断は「儲かっているか」を見る作業ではありません。<strong>「払えなくなる可能性がどれくらいあるか」を見る作業</strong>です。この2つは似ているようで、見る場所が違います。</p>
+
+        <h3>業歴（10点）｜生き残ってきたこと自体が情報</h3>
+        <p>創業からの年数です。数字としては最も単純ですが、軽視できません。<strong>事業が続いてきたということは、その間の景気変動・取引先の入れ替わり・資金繰りの山を、実際に越えてきたという証拠</strong>だからです。</p>
+        <p>倒産件数は創業から数年に集中します。10年続いた会社と3年目の会社では、同じ財務内容でも生き残る確率が違います。一方で、業歴が長いことは将来を保証しません。老舗が事業モデルの陳腐化で行き詰まる例は珍しくありません。<strong>業歴は「下振れしにくさ」を示す指標であって、成長性の指標ではありません。</strong></p>
+
+        <h3>資本構成（20点）｜赤字を何回吸収できるか</h3>
+        <p>自己資本比率です。配点を最も高くしているのは、<strong>これが「持ちこたえる力」を最も直接に表す</strong>からです。</p>
+        <p>自己資本は、赤字を吸収するための緩衝材です。純資産が1億円ある会社は、年間2,000万円の赤字なら5年持ちます。純資産が2,000万円しかなければ1年で債務超過です。同じ赤字額でも、意味がまったく違います。</p>
+        <p><strong>債務超過（純資産がマイナス）は0点にしています。</strong>厳しく見えますが、債務超過は「解散したら債権者に返しきれない」状態です。取引を続けるなら、その前提で条件を組む必要があります。</p>
+
+        <h3>損益（15点）｜本業と財務を合わせた稼ぐ力</h3>
+        <p>売上高経常利益率を見ています。営業利益ではなく経常利益を使うのは、<strong>支払利息を含めた「通常の状態での稼ぐ力」を見たい</strong>からです。</p>
+        <p>借入が多い会社は、営業利益が黒字でも支払利息で経常が赤字になることがあります。返済原資を考えるうえでは、利息を引いたあとの数字で見るほうが実態に近くなります。特別損益を含む当期純利益を使わないのは、一時的な要因で年ごとに大きく振れるためです。</p>
+
+        <h3>償還余力（15点）｜何年で借金を返せるか</h3>
+        <p>債務償還年数です。有利子負債を簡易キャッシュフローで割って、<strong>いま稼いでいるペースで借入を返し切るのに何年かかるか</strong>を出します。</p>
+        <p>金融機関の実務では、この年数がおおむね10年を超えると要注意、20年を超えると返済能力に疑問がある、という見方をすることが多いです。ただし業種によって適正水準は違います。設備投資が重い製造業や不動産賃貸業では長くなるのが普通で、同じ15年でも卸売業とは意味が違います。</p>
+
+        <h2>点数より先に見る欄</h2>
+        <p>スコアは判断を補助する道具であって、判断そのものではありません。<strong>実際の調査では、点数を出す前に必ず見る場所があります。</strong></p>
+        <ul>
+        <li><strong>売掛金と在庫の増え方。</strong>売上の伸び以上に増えていたら、回収できていないか売れ残っています。粉飾のときも、ここが真っ先に膨らみます</li>
+        <li><strong>役員貸付金。</strong>会社の金が社長個人に流れている状態です。金額が大きい、あるいは毎期増えている場合、資金管理に問題があります</li>
+        <li><strong>短期借入金の比率。</strong>設備投資を短期借入で賄っていると、借換えが止まった瞬間に資金が回らなくなります</li>
+        <li><strong>現金預金の水準。</strong>月商の1か月を切っていたら、多少利益が出ていても危険域です</li>
+        <li><strong>決算月の変更。</strong>直近で決算期を変えている場合、何かを繰り延べた可能性を疑います</li>
+        </ul>
+        <p>売掛金と在庫の見方は、<a href="/test_credit_test/articles/funshoku/">粉飾の兆候は数字のどこに出るか</a>で数値例つきに整理しています。決算書を開いたときにどこから見るかは、<a href="/test_credit_test/articles/kessansho-yoshin/">決算書のどこを見て与信を判断するか</a>のほうにまとめました。</p>
+
+        <h2>与信限度額をどう置くか</h2>
+        <p>スコアが出たあと、実務で必要になるのは「では、いくらまで売っていいか」です。<strong>点数から限度額を機械的に決める公式はありません</strong>が、実務でよく使われる考え方が3つあります。</p>
+        <div class="tw"><table>
+        <thead><tr><th>考え方</th><th>置き方</th><th>向いている場面</th></tr></thead>
+        <tbody>
+        <tr><td>自社の体力から</td><td>自己資本の一定割合を上限に置く</td><td>貸倒れが自社に与える影響から逆算したいとき</td></tr>
+        <tr><td>相手の体力から</td><td>相手の純資産や月商の一定割合</td><td>相手が払える範囲で抑えたいとき</td></tr>
+        <tr><td>取引の実態から</td><td>月商×回収サイト＋αで必要額を算出</td><td>実際に必要な枠を積み上げたいとき</td></tr>
+        </tbody>
+        </table></div>
+        <p>3つを出して、<strong>いちばん小さい額を採用する</strong>のが安全な組み方です。取引の実態から必要な額が、相手の体力から見た上限を超えているなら、その取引はそもそも無理をしています。前払い、担保、保証、取引信用保険といった条件をつけるかどうかの判断に入ります。</p>
+
+        <h2>決算書だけでは分からないこと</h2>
+        <p>この判定は決算数値だけを使っています。<strong>実際の与信判断で決め手になるのは、決算書に載っていない情報のほうが多い</strong>というのが正直なところです。</p>
+        <ul>
+        <li><strong>支払いの遅れ。</strong>これが最も強い予兆です。財務内容が良くても、支払サイトが伸び始めた会社は要注意です</li>
+        <li><strong>取引先の集中度。</strong>売上の大半が1社に依存している場合、その1社が止まると連鎖します</li>
+        <li><strong>後継者の有無。</strong>社長が高齢で後継者がいない場合、数年先の事業継続そのものが不確実です</li>
+        <li><strong>金融機関の姿勢。</strong>メインバンクが変わった、取引行が減った、という情報は決算書に出ません</li>
+        <li><strong>決算書の入手経路。</strong>相手から直接もらった決算書と、公的機関に提出されたものとでは、信頼度が違います</li>
+        </ul>
+        <p>スコアが高くても支払いが遅れ始めたら、スコアより支払実績を優先してください。<strong>財務指標は過去の姿で、支払いの遅れは現在の姿です。</strong></p>
+
+        <h2>実務メモ｜調査する側が「危ない」と感じるとき</h2>
+        <p>信用調査の仕事では、数字と同じくらい、会社に足を運んだときの様子を見ます。定量化できないので点数には入りませんが、<strong>後から振り返ると当たっていたことが多かった</strong>のは、次のような場面でした。</p>
+        <ul>
+        <li><strong>決算書を出し渋る。</strong>直近期だけ出さない、試算表しか出てこない、という状態は、その期に説明しにくい何かがあることが多い</li>
+        <li><strong>数字を社長が把握していない。</strong>売上は即答できるのに、粗利率や借入残高になると経理担当を呼ぶ会社は、資金繰りが属人化しています</li>
+        <li><strong>説明が毎回変わる。</strong>前回聞いた話と今回の話で、売掛金が増えた理由が違う</li>
+        <li><strong>本業と関係のない資産が増える。</strong>投資有価証券、ゴルフ会員権、関係会社への貸付金が急に膨らむ</li>
+        </ul>
+        <p>逆に、財務内容が良くなくても心配が薄い会社もあります。<strong>数字を正確に把握していて、悪い理由を自分の言葉で説明でき、いつまでにどう戻すかを持っている会社</strong>です。赤字であること自体より、赤字の理由を説明できないことのほうが、判断としては重く見ます。</p>
+
+        <h2>この判定を社内でどう使うか</h2>
+        <p>スコアの使い方は、合否の判定ではなく<strong>「どの条件で取引するか」の区分</strong>にするのが実務的です。</p>
+        <ul>
+        <li>スコアが高い先 → 通常の掛け取引。年1回の定期見直し</li>
+        <li>中位の先 → 限度額を設定。半期ごとに決算書を入手して再評価</li>
+        <li>低い先 → 前払い、担保、保証、取引信用保険のいずれかを条件に</li>
+        <li>債務超過先 → 現金取引を原則に。継続するなら決裁権限を上げる</li>
+        </ul>
+        <p>大事なのは、<strong>基準を先に決めておくこと</strong>です。案件が出てきてから判断すると、営業側の事情に引きずられます。区分と条件を先に文書化しておけば、断るときの説明も楽になります。</p>
+        <p>判定の根拠を稟議に添付できる形にしたい場合は、計算過程を式で追えるExcel（エクセル）版があります。自社の与信規程に合わせて配点や閾値を変えられるよう、数式は隠していません。</p>
+
+        </section>
+
+<section class="disclaimer">
+        <h3>ご利用にあたって</h3>
+        <p>本ツールは与信判断を支援する一次スクリーニングです。算出される点数と判定は判断材料の一つであり、特定の取引や与信の可否を保証・推奨するものではありません。最終的な与信判断は、信用調査報告書・面談内容・業界動向・保全状況等を踏まえ、貴社の決裁権者が総合的に行ってください。</p>
+        <p>中小企業から中堅企業を主な想定として設計しています。金融業・保険業や、超大手企業の数値を入力した場合、前提から外れた結果になることがあります。本ツールの利用により生じたいかなる損害についても、作成者は責任を負いかねます。</p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <nav class="foot__links" aria-label="フッター">
+        <a href="/test_credit_test/about/">運営者情報</a>
+        <a href="/test_credit_test/privacy/">プライバシーポリシー</a>
+        <a href="/test_credit_test/tokusho/">特定商取引法に基づく表記</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+        <a href="/test_credit_test/sitemap.xml">サイトマップ</a>
+      </nav>
+      <p class="copy">© 2026 数字のものさし</p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var ids = ["years","sales","op","dep","asset","equity","debt"];
+
+  function val(id){ var v = parseFloat($(id).value); return isFinite(v) ? v : 0; }
+  function fmt(n, d){ d = d || 0; return n.toLocaleString("ja-JP", {minimumFractionDigits:d, maximumFractionDigits:d}); }
+
+  function scoreYears(y){
+    if(y >= 10) return [10,"10年以上"];
+    if(y >= 5)  return [7,"5年以上10年未満"];
+    if(y >= 3)  return [4,"3年以上5年未満"];
+    return [1,"3年未満"];
+  }
+  function scoreEquity(r){
+    if(r === null) return [0,"算定不能"];
+    if(r < 0)    return [0,"債務超過"];
+    if(r >= 0.40) return [20,"40%以上"];
+    if(r >= 0.30) return [16,"30%以上40%未満"];
+    if(r >= 0.20) return [12,"20%以上30%未満"];
+    if(r >= 0.10) return [7,"10%以上20%未満"];
+    return [3,"10%未満"];
+  }
+  function scoreProfit(r){
+    if(r === null) return [0,"算定不能"];
+    if(r < 0)     return [0,"経常赤字"];
+    if(r >= 0.05) return [15,"5%以上"];
+    if(r >= 0.02) return [11,"2%以上5%未満"];
+    return [7,"0%以上2%未満"];
+  }
+  function scoreDebt(years, cf, debt){
+    if(debt <= 0)  return [15,"実質無借金"];
+    if(cf <= 0)    return [0,"返済原資なし"];
+    if(years <= 10) return [15,"10年以内"];
+    if(years <= 15) return [10,"10年超15年以内"];
+    if(years <= 20) return [6,"15年超20年以内"];
+    return [2,"20年超"];
+  }
+
+  function run(){
+    var years  = val("years"), sales = val("sales"), op = val("op"),
+        dep    = val("dep"),   asset = val("asset"), equity = val("equity"), debt = val("debt");
+
+    var err = $("err");
+    if(asset <= 0 || sales <= 0){
+      err.textContent = "総資産と売上高は、0より大きい数値を入れてください。";
+      err.style.display = "block";
+      return;
+    }
+    err.style.display = "none";
+
+    var eqRatio = equity / asset;
+    var opRatio = op / sales;
+    var cf      = op * 0.7 + dep;
+    var dYears  = (debt > 0 && cf > 0) ? debt / cf : null;
+
+    var a1 = scoreYears(years);
+    var a2 = scoreEquity(eqRatio);
+    var a3 = scoreProfit(opRatio);
+    var a4 = scoreDebt(dYears === null ? Infinity : dYears, cf, debt);
+
+    var total = a1[0] + a2[0] + a3[0] + a4[0];
+
+    // 債務超過・返済原資なしは、合計点にかかわらず引き下げる
+    var forced = (equity < 0) || (debt > 0 && cf <= 0);
+
+    var grade, cls, color;
+    if(forced || total < 30){ grade = "要注意"; cls = "is-low";  color = "#B5623F"; }
+    else if(total < 45)      { grade = "標準";   cls = "is-mid";  color = "#D4E157"; }
+    else                     { grade = "良好";   cls = "";        color = "#82B33A"; }
+
+    var res = $("result");
+    res.className = "result " + cls;
+    res.style.display = "block";
+    $("grade").textContent = grade;
+    $("grade").style.color = (cls === "is-low") ? "#B5623F" : "#0F1A22";
+    $("score").textContent = total;
+
+    var axes = [
+      {n:"業歴",     s:a1[0], max:10, note:a1[1], c:"#84D2F5"},
+      {n:"資本構成", s:a2[0], max:20, note:a2[1], c:"#527695"},
+      {n:"損益",     s:a3[0], max:15, note:a3[1], c:"#B67AB4"},
+      {n:"償還余力", s:a4[0], max:15, note:a4[1], c:"#82B33A"}
+    ];
+    $("axes").innerHTML = axes.map(function(a){
+      return '<div class="axis">' +
+        '<div class="axis__top"><span class="axis__name">' + a.n + '</span>' +
+        '<span class="axis__val">' + a.s + ' / ' + a.max + '　' + a.note + '</span></div>' +
+        '<div class="bar"><i style="width:' + (a.s / a.max * 100) + '%;--c:' + a.c + '"></i></div></div>';
+    }).join("");
+
+    $("figs").innerHTML =
+      '<tr><th>自己資本比率</th><td>' + fmt(eqRatio * 100, 1) + ' %</td></tr>' +
+      '<tr><th>売上高経常利益率</th><td>' + fmt(opRatio * 100, 1) + ' %</td></tr>' +
+      '<tr><th>簡易キャッシュフロー</th><td>' + fmt(cf, 1) + ' 百万円</td></tr>' +
+      '<tr><th>債務償還年数</th><td>' + (dYears === null ? (debt <= 0 ? '実質無借金' : '算定不能') : fmt(dYears, 1) + ' 年') + '</td></tr>';
+
+    var rem = [];
+    if(equity < 0) rem.push("債務超過の状態です。新規の与信は慎重に判断し、既存の取引は保全と回収を優先してください。");
+    if(op < 0)     rem.push("経常損益が赤字です。一時的な要因か構造的なものか、内訳の確認が必要です。");
+    if(cf <= 0 && debt > 0) rem.push("簡易キャッシュフローがマイナスです。返済原資が確保できていません。");
+    if(dYears !== null && dYears > 20) rem.push("債務償還年数が20年を超えています。現在の稼ぐ力では、借入の返済に長期を要します。");
+    if(eqRatio >= 0.40 && op > 0) rem.push("自己資本比率が高く、黒字を確保しています。財務の安定性は高い水準です。");
+    if(debt <= 0)  rem.push("実質無借金です。外部負債による資金繰りの制約は小さいと考えられます。");
+    if(years < 3)  rem.push("業歴が3年未満です。事業の継続性を判断する材料が、まだ十分に蓄積されていません。");
+    if(rem.length === 0) rem.push("目立った警戒材料は検出されませんでした。ただし1期分の数値のみによる判定です。推移の確認をおすすめします。");
+    rem.push("この判定は1期分・4軸による一次スクリーニングです。業種水準との比較と3期推移は含まれていません。");
+
+    $("remarks").innerHTML = rem.map(function(t){
+      return '<li style="--c:' + color + '">' + t + '</li>';
+    }).join("");
+
+    res.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+
+  function fill(v){ ids.forEach(function(id, i){ $(id).value = v[i]; }); }
+
+  $("run").addEventListener("click", run);
+  // 業歴, 売上高, 経常利益, 減価償却費, 総資産, 純資産, 有利子負債
+  $("sample1").addEventListener("click", function(){ fill([28, 10200, 918, 240, 7400, 4300, 300]); run(); });
+  $("sample2").addEventListener("click", function(){ fill([15, 1180, -64, 22, 940, -85, 610]); run(); });
+
+  ids.forEach(function(id){
+    $(id).addEventListener("keydown", function(e){ if(e.key === "Enter") run(); });
+  });
+})();
+</script>
+
+</body>
+</html>

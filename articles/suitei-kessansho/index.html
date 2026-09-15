@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script>if(location.protocol==='http:'){location.replace('https://'+location.host+location.pathname+location.search+location.hash);}</script>
+
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>決算書が手に入らない会社を、外から推定する｜財務版フェルミ推定</title>
+<meta name="description" content="非上場企業の決算書は基本的に非開示です。登記簿・求人情報・賃料相場といった断片から、損益分岐点を軸に推定決算書を組み立てる手順と、その推定が外れる3つの典型パターンを整理します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="決算書が手に入らない会社を、外から推定する｜財務版フェルミ推定">
+<meta property="og:description" content="非上場企業の決算書は基本的に非開示です。登記簿・求人情報・賃料相場といった断片から、損益分岐点を軸に推定決算書を組み立てる手順と、その推定が外れる3つの典型パターンを整理します。">
+<meta property="og:url" content="https://kazumono.com/articles/suitei-kessansho/">
+<meta property="og:image" content="https://kazumono.com/assets/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="数字のものさし">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/test_credit_test/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/test_credit_test/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/test_credit_test/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#33526C">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146116373822311" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":"決算書が手に入らない会社を、外から推定する｜財務版フェルミ推定",
+  "datePublished":"2026-08-28",
+  "dateModified":"2026-08-28",
+  "author":{"@type":"Person","name":"エリエール"},
+  "publisher":{"@type":"Organization","name":"数字のものさし"},
+  "mainEntityOfPage":"https://kazumono.com/articles/suitei-kessansho/"
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BETYS4R53Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BETYS4R53Y');
+</script>
+
+<style>
+:root{
+  --paper:#FAF9F6; --card:#FFFFFF;
+  --ink:#18262F; --ink-soft:#33495B; --ink-faint:#5B7085;
+  --sea-deep:#33526C; --sea:#527695; --sky:#84D2F5; --aqua:#B0F1F0; --mist:#DFF6F1;
+  --dawn:#FEEEDF; --rose:#F4C3D3; --bloom:#F8A3BF; --plum:#B67AB4;
+  --peridot:#82B33A; --lime:#D4E157; --mint:#E8F5E9;
+  --line:rgba(24,38,47,.18);
+  --shadow:0 1px 2px rgba(35,53,67,.05), 0 10px 26px rgba(35,53,67,.07);
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Times New Roman",serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",sans-serif;
+  --num:"Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16.5px;line-height:1.98;letter-spacing:.015em;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.26;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='0.22'/></svg>");
+}
+.page{position:relative;z-index:1;}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px;}
+.column{width:100%;max-width:720px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+:focus-visible{outline:2.5px solid var(--sea);outline-offset:3px;border-radius:4px;}
+.skip{position:absolute;left:-9999px;background:var(--sea);color:#fff;padding:12px 20px;z-index:99;}
+.skip:focus{left:0;}
+
+/* ヘッダー */
+.masthead{position:sticky;top:0;z-index:20;background:rgba(250,249,246,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.masthead__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px;}
+.brand{font-family:var(--serif);font-size:19px;letter-spacing:.22em;text-decoration:none;white-space:nowrap;}
+.brand span{color:var(--sea);}
+.nav{display:flex;gap:26px;}
+.nav a{font-size:14px;font-weight:500;letter-spacing:.1em;text-decoration:none;color:var(--ink-soft);border-bottom:1.5px solid transparent;padding:6px 0;transition:color .2s,border-color .2s;}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--bloom);}
+
+/* 記事ヘッダー */
+.crumbs{font-size:13px;color:var(--ink-soft);letter-spacing:.08em;margin:34px 0 0;}
+.crumbs a{text-decoration:none;}
+.crumbs a:hover{color:var(--ink);}
+
+.head{padding:26px 0 44px;position:relative;}
+.head__mark{
+  position:absolute;top:-10px;right:-20px;width:150px;height:150px;border-radius:50%;
+  background:var(--mist);opacity:.7;pointer-events:none;
+}
+.tag{display:inline-block;font-size:11.5px;letter-spacing:.14em;padding:5px 14px;border-radius:999px;background:var(--mist);position:relative;}
+.head h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(25px,4.2vw,37px);line-height:1.68;letter-spacing:.04em;
+  margin:20px 0 18px;position:relative;
+}
+.head__meta{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.1em;margin:0;position:relative;}
+.head__lead{
+  margin:26px 0 0;font-size:16.5px;line-height:2;color:var(--ink);
+  border-left:3px solid var(--rose);padding-left:20px;position:relative;
+}
+
+/* 目次 */
+.toc{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:26px 30px;margin:0 0 52px;box-shadow:var(--shadow);
+}
+.toc h2{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.18em;margin:0 0 14px;}
+.toc ol{margin:0;padding-left:1.3em;}
+.toc li{margin:8px 0;font-size:15px;}
+.toc a{text-decoration:none;color:var(--ink);}
+.toc a:hover{color:var(--ink);text-decoration:underline;text-decoration-color:var(--sky);text-underline-offset:4px;}
+
+/* 本文 */
+.body h2{
+  font-family:var(--serif);font-weight:600;font-size:clamp(21px,3vw,26px);
+  letter-spacing:.06em;line-height:1.66;
+  margin:64px 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.body h3{
+  font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.08em;
+  margin:44px 0 14px;
+}
+.body h3::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bloom);margin-right:11px;vertical-align:middle;}
+.body p{margin:0 0 24px;}
+.body ul,.body ol{margin:0 0 24px;padding-left:1.4em;}
+.body li{margin:9px 0;}
+.body strong{background:linear-gradient(transparent 64%,var(--rose) 64%);font-weight:600;}
+.body a{color:var(--sea-deep);font-weight:600;text-underline-offset:4px;text-decoration-color:var(--sky);}
+
+table{width:100%;border-collapse:collapse;margin:0 0 28px;font-size:14.5px;background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
+th{background:var(--mist);font-weight:600;letter-spacing:.06em;}
+td{font-variant-numeric:tabular-nums;}
+tr:last-child td{border-bottom:none;}
+
+/* 補足ボックス */
+.callout{
+  background:rgba(232,245,233,.6);border-left:3px solid var(--peridot);
+  border-radius:0 16px 16px 0;padding:22px 26px;margin:0 0 30px;
+}
+.callout p:last-child{margin-bottom:0;}
+.callout strong{background:none;}
+
+/* 関連ツール */
+.toolcta{
+  position:relative;overflow:hidden;
+  display:block;text-decoration:none;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:32px 30px;margin:56px 0;box-shadow:var(--shadow);
+  transition:transform .26s,box-shadow .26s;
+}
+.toolcta::after{
+  content:"";position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;
+  background:var(--sky);opacity:.85;transition:transform .38s;
+}
+.toolcta:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(47,66,87,.12);}
+.toolcta:hover::after{transform:scale(1.4);}
+.toolcta__label{position:relative;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 12px;}
+.toolcta__name{position:relative;font-family:var(--serif);font-size:21px;letter-spacing:.08em;margin:0 0 10px;}
+.toolcta__desc{position:relative;font-size:14.5px;color:var(--ink-soft);margin:0 0 16px;max-width:26em;}
+.toolcta__go{position:relative;font-size:14.5px;font-weight:600;letter-spacing:.08em;color:var(--sea-deep);}
+
+/* 出典・免責 */
+.sources{margin:60px 0 0;border-top:1px solid var(--line);padding-top:30px;}
+.sources h2{font-family:var(--serif);font-weight:600;font-size:16px;letter-spacing:.16em;margin:0 0 14px;}
+.sources ul{list-style:none;margin:0;padding:0;}
+.sources li{font-size:14px;line-height:1.9;color:var(--ink-soft);margin:0 0 8px;padding-left:18px;position:relative;}
+.sources li::before{content:"";position:absolute;left:0;top:.85em;width:6px;height:6px;border-radius:50%;background:var(--peridot);}
+
+.disclaimer{
+  margin:30px 0 0;border-left:4px solid var(--peridot);background:rgba(232,245,233,.55);
+  border-radius:0 16px 16px 0;padding:22px 26px;
+}
+.disclaimer p{margin:0;font-size:14px;line-height:1.92;color:var(--ink-soft);}
+
+/* 執筆者 */
+.byline{
+  display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:28px;margin:44px 0 0;box-shadow:var(--shadow);
+}
+.byline__mark{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--bloom),var(--plum));display:grid;place-items:center;font-family:var(--serif);font-weight:600;font-size:22px;color:#fff;}
+.byline h3{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.1em;margin:0 0 6px;}
+.byline p{margin:0;font-size:14.5px;line-height:1.88;color:var(--ink-soft);}
+
+/* 前後の記事 */
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0 0;}
+.pager a{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;
+  text-decoration:none;transition:transform .22s,border-color .22s;
+}
+.pager a:hover{transform:translateY(-3px);border-color:var(--sky);}
+.pager span{display:block;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+.pager strong{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1.7;letter-spacing:.05em;}
+
+/* 広告枠 */
+/* フッター */
+.foot{margin-top:90px;border-top:1px solid var(--line);padding:44px 0 56px;}
+.foot__inner{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:center;}
+.foot__links{display:flex;flex-wrap:wrap;gap:26px;}
+.foot__links a{font-size:14px;font-weight:500;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;}
+.foot__links a:hover{color:var(--ink);}
+.copy{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.08em;margin:0;}
+
+@media (max-width:820px){
+  .nav a:nth-child(n+3){display:none;}
+  .head__mark{display:none;}
+  .byline{grid-template-columns:1fr;text-align:left;}
+  .pager{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+/* ===== 表の横スクロール ===== */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 28px;}
+.tw table{margin-bottom:0;min-width:420px;}
+
+/* ===== アバター ===== */
+.pic{display:block;border-radius:50%;background:linear-gradient(135deg,var(--dawn),var(--rose));object-fit:cover;}
+.pic--l{width:96px;height:96px;}
+.pic--s{width:66px;height:66px;}
+
+/* ===== モバイル最適化 ===== */
+@media (max-width:820px){
+  body::before{display:none;}
+  .masthead{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;}
+  .masthead__inner{height:auto;min-height:58px;padding:10px 0;flex-wrap:wrap;gap:6px 16px;}
+  .brand{font-size:17px;letter-spacing:.1em;}
+  .nav{gap:16px;flex-wrap:wrap;}
+  .nav a{font-size:12.5px;letter-spacing:.02em;padding:2px 0;border-bottom-width:2px;}
+  .nav a:nth-child(n+3){display:inline-block;}
+  .wrap,.column{padding-left:18px;padding-right:18px;}
+  h1,h2,h3,p,li,td,th,.post__title,.tool__name,.shop__name{overflow-wrap:anywhere;}
+  .tools,.shop,.channels{grid-template-columns:1fr;}
+  .toc{padding:22px 20px;}
+  .btn{padding:14px 22px;font-size:14px;}
+  .grid{grid-template-columns:1fr;}
+  .actions{gap:10px;}
+  .btn-run,.btn-sample{width:100%;justify-content:center;}
+}
+@media (max-width:400px){
+  .brand{font-size:16px;letter-spacing:.06em;}
+  .nav{gap:12px;}
+  .nav a{font-size:11.5px;}
+}
+
+/* ===== 装飾円を文字の背面へ ===== */
+.hero{isolation:isolate;}
+.hero__blob{z-index:-1;}
+.hero .wrap{position:relative;z-index:1;}
+.head__mark{z-index:-1;}
+.head{isolation:isolate;}
+
+/* ===== モバイルの装飾円 ===== */
+@media (max-width:820px){
+  .hero__blob--a{width:190px;height:190px;top:-70px;right:-70px;opacity:.55;}
+  .hero__blob--b{display:none;}
+  .hero__blob--c{width:80px;height:80px;bottom:-24px;left:-30px;opacity:.6;}
+  .hero{padding:52px 0 46px;}
+  .hero h1{font-size:clamp(25px,7.2vw,34px);line-height:1.5;max-width:none;}
+  .hero p{font-size:15px;}
+  .eyebrow{font-size:10.5px;letter-spacing:.22em;word-break:break-word;}
+}
+@media (max-width:400px){
+  .hero__blob--a{width:150px;height:150px;top:-60px;right:-60px;}
+  .hero h1{font-size:24px;letter-spacing:.02em;}
+}
+
+/* ===== 本文中の図版 ===== */
+.fig{margin:0 0 30px;}
+.fig img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px;
+  box-shadow:var(--shadow);background:#fff;}
+.fig figcaption{margin:11px 2px 0;font-size:13px;line-height:1.85;color:var(--ink-faint);}
+/* 外れるパターンの3枚組 */
+.miss{display:grid;gap:16px;margin:0 0 28px;}
+.miss__item{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:22px 24px;box-shadow:var(--shadow);}
+.miss__no{display:inline-block;font-family:var(--num);font-size:12px;font-weight:700;letter-spacing:.16em;
+  color:#fff;background:var(--sea-deep);border-radius:999px;padding:4px 12px;margin:0 0 12px;}
+.miss__item h3{margin:0 0 10px;font-size:18px;letter-spacing:.04em;}
+.miss__item h3::before{display:none;}
+.miss__item p{margin:0 0 12px;font-size:15.5px;}
+.miss__item p:last-child{margin-bottom:0;}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">本文へ移動</a>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <a class="brand" href="/test_credit_test/">数字の<span>ものさし</span></a>
+      <nav class="nav" aria-label="サイト内">
+        <a href="/test_credit_test/#tools">ツール</a>
+        <a href="/test_credit_test/articles/">読みもの</a>
+        <a href="/test_credit_test/#excel">Excel版</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="column">
+
+      <p class="crumbs"><a href="/test_credit_test/">ホーム</a> ／ <a href="/test_credit_test/articles/">読みもの</a> ／ 与信</p>
+
+      <header class="head">
+        <span class="head__mark" aria-hidden="true"></span>
+        <span class="tag">与信</span>
+        <h1>決算書が手に入らない会社を、外から推定する｜財務版フェルミ推定</h1>
+        <p class="head__meta">2026.08.28 公開 ／ 2026.08.28 更新</p>
+        <p class="head__lead">
+          取引先の決算書がもらえない。日本の会社の大半は非上場で、これがむしろ普通の状態です。
+          それでも判断はしなければならない。公開されている断片から決算書を組み立てる手順と、
+          その推定が外れる典型的な場面をまとめます。
+        </p>
+      </header>
+
+      <nav class="toc" aria-label="目次">
+        <h2>目次</h2>
+        <ol>
+          <li><a href="#s1">決算公告は義務。ただし守られていない</a></li>
+          <li><a href="#s2">推定の骨格は「損益分岐点」ひとつ</a></li>
+          <li><a href="#s3">損益計算書を組み立てる</a></li>
+          <li><a href="#s4">貸借対照表を組み立てる</a></li>
+          <li><a href="#s5">推定が外れる3つのパターン</a></li>
+          <li><a href="#s6">外れ方にも意味がある</a></li>
+          <li><a href="#s7">どこまで当てにしてよいか</a></li>
+        </ol>
+      </nav>
+
+      <div class="body">
+
+        <h2 id="s1">決算公告は義務。ただし守られていない</h2>
+        <p>取引先の決算書が欲しい。けれど出してもらえない。与信の実務で最も多い場面がこれです。</p>
+        <p>意外に思われるかもしれませんが、<strong>株式会社の決算公告は会社法上の義務です</strong>。会社法440条は、定時株主総会の終結後、遅滞なく貸借対照表を公告しなければならないと定めています。つまり本来なら、どの株式会社の決算書も見られるはずなのです。</p>
+        <p>実際には、そうなっていません。理由は単純で、<strong>公告を怠っても、罰則がほとんど適用されないから</strong>です。会社法976条は100万円以下の過料を定めていますが、公告を怠っただけで実際に科された例はほとんど確認できません。官報に載せているのは、対外的な信用を重く見る一部の会社に限られます。</p>
+        <p>経営者の立場からすれば、財布の中身を進んで見せたくないのは自然な感覚です。それを責めても仕方がない。<strong>「非開示が当たり前」という前提から始めるほうが実務的です。</strong></p>
+
+        <div class="callout">
+          <p><strong>実務メモ</strong>：信用調査の仕事をしていたとき、決算書を出してもらえない会社のほうが圧倒的に多数でした。それでも報告書は書かなければならない。だから「見えない会社をどう見るか」は、避けて通れない技術でした。<strong>決算書がある会社を分析するのは、実は簡単なほうです。</strong></p>
+        </div>
+
+        <h2 id="s2">推定の骨格は「損益分岐点」ひとつ</h2>
+        <p>推定と聞くと、勘や当てずっぽうを想像するかもしれません。違います。<strong>推定には計算の背骨が必要で、それが損益分岐点です。</strong></p>
+        <p>考え方はこうです。会社の費用は、売上に比例して増える<strong>変動費</strong>と、売上と関係なくかかる<strong>固定費</strong>に分けられます。そして固定費は、外から見えるのです。</p>
+        <ul>
+          <li><strong>人件費</strong> … 従業員数と求人票の給与額から計算できる</li>
+          <li><strong>家賃</strong> … 所在地と面積、周辺の賃料相場から計算できる</li>
+        </ul>
+        <p>一方の変動費は、業界の粗利益率で近似できます。売上原価をほぼ変動費とみなすなら、こうなります。</p>
+        <div class="tw"><table>
+          <thead><tr><th>求めるもの</th><th>式</th></tr></thead>
+          <tbody>
+            <tr><td>損益分岐点売上高</td><td>固定費 ÷ 粗利益率</td></tr>
+            <tr><td>変動費</td><td>売上高 ×（1 − 粗利益率）</td></tr>
+            <tr><td>最終損益</td><td>売上高 − 固定費 − 変動費</td></tr>
+          </tbody>
+        </table></div>
+        <p><strong>この1本目の式が、推定全体を支えます。</strong>固定費が積み上がれば、その会社が赤字にならないための最低売上ラインが出る。あとは実際の売上がその線の上か下かを判断するだけになります。</p>
+
+        <figure class="fig">
+          <img src="./assets/01-bep.jpg" width="1200" height="674" alt="固定費を粗利益率で割ると損益分岐点売上高が求まることを示した図。てこの支点が業界の粗利益率にあたる。" loading="lazy">
+          <figcaption>固定費を業界の粗利益率で割ると、その会社が「絶対に死守すべき売上」が出る。推定の出発点はここ。</figcaption>
+        </figure>
+
+        <p>この式の感覚をつかむには、<a href="/test_credit_test/bep/">損益分岐点シミュレーター</a>で固定費と粗利率を動かしてみるのが早いと思います。固定費が1割増えると損益分岐点がいくら動くか、粗利率が5ポイント下がると何が起きるか。推定でいちばん効くのはこの体感です。</p>
+
+        <h2 id="s3">損益計算書を組み立てる</h2>
+        <p>順番は、確実なものから曖昧なものへ。<strong>いちばん確からしい固定費から積み上げ、最後に売上を置く</strong>のが崩れにくい手順です。</p>
+
+        <h3>従業員数を推定する</h3>
+        <p>まず商業登記簿を取得します。そのうえで、会社ホームページの会社概要、ハローワークや求人サイトの募集要項を探します。店舗があるなら、その数と面積からも見当がつきます。</p>
+        <p>どれも見つからないときは、<strong>「5名以下」と置いて構いません。</strong>規模が大きくなれば、外から見える情報は自然に増えるからです。情報が出てこないこと自体が、規模の小ささを示しています。</p>
+
+        <h3>人件費を推定する</h3>
+        <p>求人票が見つかれば、募集給与が分かります。年収に換算して従業員数を掛ければ、固定費の大半を占める人件費が出ます。<strong>ここが推定全体の中で最も精度が高い部分です。</strong>会社が自分で公表している数字だからです。</p>
+
+        <h3>家賃、その他の固定費</h3>
+        <p>本店所在地と事業所の面積から、周辺の賃料相場を調べて年額換算します。自社保有と見られる場合は、路線価などから資産価値を逆算します（この数字は後で貸借対照表にそのまま使えます）。</p>
+        <p>残りの固定費は、正直なところ肌感覚です。<strong>判断がつかなければ、仮置きした推定年商の10%を足すだけでも実用的な精度になります。</strong>水道光熱費、通信費、保険料、リース料といった細かい費用は、この一括りで吸収できます。</p>
+
+        <h3>売上高を置く</h3>
+        <p>ここが最も難しい。商品や単価が分かるなら「客単価 × 日商 × 営業日数」で組めます。分からない場合は、<strong>先に計算した損益分岐点売上高より上か下か、その一点だけを判断します。</strong></p>
+        <p>BtoCの会社であれば、「情報が出てこない ≒ 規模は大きくない ≒ 損益分岐点の近く」という見立てで、大きく外れません。ただしこの見立てには例外があり、それが後半の主題になります。</p>
+
+        <h2 id="s4">貸借対照表を組み立てる</h2>
+        <p>損益計算書ができれば、貸借対照表はその延長で組めます。<strong>作れるのは取得原価ベースの決算書ではなく、いまの価値で見た「実態バランスシート」です。</strong>与信の判断材料としては、むしろこちらのほうが役に立ちます。</p>
+
+        <h3>固定資産と借入金は、登記簿が語る</h3>
+        <p>不動産を自社で持っているかどうかを調べます。持っていれば、路線価や周辺の取引相場から評価額を出し、経過年数ぶんを減価させて7割程度に置きます。</p>
+        <p>そして<strong>不動産登記簿は、資産だけでなく負債も教えてくれます。</strong>銀行の根抵当権が設定されていれば、その極度額と設定日が分かる。設定日から返済が進んだぶんを差し引けば、現在の借入残高の見当がつきます。ここに運転資金ぶんの借入を足せば、負債側の骨格ができます。</p>
+        <p>社用車があれば、1台あたり50〜100万円で車両運搬具に計上します。</p>
+
+        <figure class="fig">
+          <img src="./assets/02-touki.jpg" width="1200" height="674" alt="不動産登記簿から、路線価による資産の逆算と、根抵当権による負債の逆算の両方ができることを示した図。" loading="lazy">
+          <figcaption>不動産登記簿は資産と負債の両方を映す。根抵当権の極度額と設定日から、借入の水準が読める。</figcaption>
+        </figure>
+
+        <h3>売掛金と買掛金は、決済サイクルから出る</h3>
+        <p>企業間取引の決済は「月末締め・翌月末払い」が標準です。回収まで30日と置けば、貸借対照表に載る売掛金は<strong>日商の30日分</strong>になります。買掛金も同じで、日次の売上原価の30日分。売上原価は「売上高 ×（1 − 粗利益率）」で出ているので、そのまま使えます。</p>
+
+        <figure class="fig">
+          <img src="./assets/03-cycle.jpg" width="1200" height="674" alt="30日の決済サイクルから、売掛金は日商の30日分、買掛金は日次売上原価の30日分として逆算できることを示した図。" loading="lazy">
+          <figcaption>売掛金も買掛金も、決済サイクルの日数だけ滞留する。損益計算書ができていれば自動的に決まる。</figcaption>
+        </figure>
+
+        <h3>現預金と純資産</h3>
+        <p>現預金は正直、勘の領域です。資金繰りが安定している会社なら月商の2〜3か月分。赤字と見立てているなら0.5〜1か月分。この幅で置きます。</p>
+        <p>最後に、資産の合計から負債の合計を引いた差額を純資産とします。<strong>ここまで積み上げてきた推定の誤差が、全部この一点に集まる</strong>ことになります。だから純資産の推定値は、絶対額より符号のほうが重要です。</p>
+        <p>迷ったときは<strong>厳しめに置く</strong>のが実務です。与信判断で外して困るのは、危ない会社を安全と見誤ったときだけだからです。</p>
+
+        <figure class="fig">
+          <img src="./assets/04-junshisan.jpg" width="1200" height="674" alt="推定した資産の合計から負債の合計を差し引いた差額が純資産になることを示した図。" loading="lazy">
+          <figcaption>純資産＝資産−負債。ここまでの推定誤差はすべてこの一点に集まる。</figcaption>
+        </figure>
+
+        <h2 id="s5">推定が外れる3つのパターン</h2>
+        <p>ここからが本題です。手順どおりに組んでも、外れるときは外れます。しかも<strong>外れ方には型があります。</strong>何百件と推定を作っていると、同じ場所で同じように外していることに気づきます。</p>
+        <p>そして重要なのは、<strong>3つとも「実際より悪く見積もってしまう」方向に外れる</strong>という点です。危ない会社を安全と誤るのではなく、健全な会社を危ないと誤る。与信の実務としては安全側の誤りですが、優良な取引先を逃す原因になります。</p>
+
+        <div class="miss">
+          <div class="miss__item">
+            <p class="miss__no">PATTERN 1</p>
+            <h3>固定資産と有価証券を厚く持っている会社</h3>
+            <p>推定の骨格は損益計算書です。損益分岐点から売上を置き、そこから貸借対照表に展開する。<strong>つまり「稼ぐ力」を軸に会社を見ています。</strong></p>
+            <p>ところが、長く続いている会社ほど、稼ぐ力とは別の財産を持っています。何十年も前に取得して簿価が下がりきった土地、代々持ち続けている取引先の株式、生命保険の積立金。<strong>これらは損益計算書にほとんど出てきません。</strong></p>
+            <p>結果として、損益からは「ぎりぎりの会社」に見えるのに、実際には売れば数億円になる資産を抱えている。<strong>推定純資産と実際の純資産が、桁で違うことがあります。</strong>創業が古い会社、地場の同族会社では、この外し方を疑ったほうがいい。</p>
+          </div>
+
+          <div class="miss__item">
+            <p class="miss__no">PATTERN 2</p>
+            <h3>建設業・工事業で、大口とのつながりが強い会社</h3>
+            <p>この業種は、外から見える情報が極端に少ない。一般消費者向けの広告を打つ必要がなく、ホームページも会社概要だけということが珍しくありません。求人も、出していても少人数です。</p>
+            <p>手順どおりなら「情報が少ない＝規模が小さい＝損益分岐点の近く」と置くところです。<strong>ところが、この見立てが最も外れるのがここです。</strong></p>
+            <p>元請けや官公庁との関係が固まっている会社は、営業活動をほとんどしません。だから外に情報が出ない。そして工事の前受金が先に入る商流のため、<strong>手元の現金は驚くほど厚いことが多い。</strong>推定では月商1か月分の現預金を置いたのに、実際には半年分あった、ということが起こります。</p>
+          </div>
+
+          <div class="miss__item">
+            <p class="miss__no">PATTERN 3</p>
+            <h3>既存の取引先だけで回っている会社</h3>
+            <p>2番目と近い構造ですが、業種を問いません。新規開拓をしていない会社は、<strong>そもそも外部に情報を出す動機がありません。</strong></p>
+            <p>求人を出さないのは、人が辞めないから。ホームページを更新しないのは、それで困らないから。<strong>情報の少なさは、経営の不振ではなく、安定の裏返しであることがあります。</strong></p>
+            <p>この場合、推定は手がかりを失って空振りします。売上は損益分岐点付近に置かざるを得ず、現預金も薄く置くことになる。<strong>実態はその何倍もある、ということが起こります。</strong></p>
+          </div>
+        </div>
+
+        <h2 id="s6">外れ方にも意味がある</h2>
+        <p>3つのパターンには、共通した構造があります。<strong>この推定手法は「外に向かって情報を発信している会社」を前提にしている</strong>ということです。</p>
+        <p>広告を打ち、求人を出し、店舗を構える会社は、その活動そのものが手がかりになる。逆に、<strong>発信しなくても事業が回る会社は、この網に引っかかりません。</strong></p>
+        <div class="tw"><table>
+          <thead>
+            <tr><th>情報量</th><th>素直な解釈</th><th>疑うべき例外</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>多い</td><td>規模が大きい／成長中</td><td>集客に費用がかかる業態</td></tr>
+            <tr><td>少ない（BtoC）</td><td>規模は小さい</td><td>おおむね素直に解釈してよい</td></tr>
+            <tr><td>少ない（BtoB・建設）</td><td>—</td><td><strong>固定客で完結。むしろ堅い可能性</strong></td></tr>
+            <tr><td>少ない（創業が古い）</td><td>—</td><td><strong>含み資産を持っている可能性</strong></td></tr>
+          </tbody>
+        </table></div>
+        <p>だから推定を作ったあとに、確認すべきことが決まります。<strong>「この会社は、情報を出す必要がある業態か」</strong>という問いです。答えが「いいえ」なら、推定値は下振れしていると考えたほうがいい。</p>
+        <p>そして、その場合に効くのが不動産登記簿です。<strong>情報を出さない会社でも、不動産の所有と担保設定だけは登記に残ります。</strong>推定が空振りしやすい会社ほど、登記簿の重みが増すという関係になっています。</p>
+
+        <div class="callout">
+          <p><strong>実務メモ</strong>：推定を何百件と作ってわかったのは、<strong>当てにいくと外れる</strong>ということでした。金額をぴたりと当てようとすると、根拠の薄い数字を積み上げることになる。むしろ「損益分岐点の上か下か」「債務超過かそうでないか」という粗い判断のほうが、はるかに高い確率で当たります。<strong>精度を上げるべきなのは金額ではなく、結論の粒度のほうです。</strong></p>
+        </div>
+
+        <h2 id="s7">どこまで当てにしてよいか</h2>
+        <p>最後に、この手法の限界をはっきりさせておきます。</p>
+        <p><strong>推定決算書は、決算書の代わりにはなりません。</strong>与信限度額をこの数字で決めるのは無理があります。使いどころは、そこではありません。</p>
+        <div class="tw"><table>
+          <thead><tr><th>使える</th><th>使えない</th></tr></thead>
+          <tbody>
+            <tr><td>取引を始める前の、規模感の把握</td><td>与信限度額の算定</td></tr>
+            <tr><td>相手が語る事業規模との整合確認</td><td>債務超過かどうかの断定</td></tr>
+            <tr><td>決算書を出してもらう交渉の準備</td><td>社内稟議の根拠資料</td></tr>
+            <tr><td>取引条件をどこまで緩められるかの検討</td><td>取引停止の判断</td></tr>
+          </tbody>
+        </table></div>
+        <p>いちばん実用的なのは、3つ目です。<strong>推定を持って面談に行くと、質問の質が変わります。</strong>「御社の年商はどれくらいですか」ではなく「3億前後と見ているのですが、近いですか」と聞ける。前者は答えをはぐらかせますが、後者は否定か肯定しか返せません。</p>
+        <p>そして相手が数字を訂正してくれたら、それは<strong>決算書の一部を口頭で開示してもらったのと同じ</strong>です。推定の本当の価値は、当てることより、相手に語らせることにあります。</p>
+        <p>もし決算書が手に入ったなら、推定はそこで役目を終えます。あとは<a href="/test_credit_test/articles/kessansho-yoshin/">実際の数字を読む作業</a>に移ってください。</p>
+
+        <a class="toolcta" href="/test_credit_test/credit-pro/">
+          <p class="toolcta__label">try the tool</p>
+          <h2 class="toolcta__name" style="border:none;padding:0;margin:0 0 10px;">財務でポン！</h2>
+          <p class="toolcta__desc">決算書が手に入ったら、PDFを置くだけで3期分を読み取り、業歴・資本構成・規模・損益・経営者・償還余力の6軸100点満点で判定します。判定結果を画面で確かめるところまでは料金がかかりません。読み取りも計算もブラウザの中だけで行い、決算書ファイルは送信されません。</p>
+          <span class="toolcta__go">決算書を置いてみる →</span>
+        </a>
+
+        <h2>まとめ</h2>
+        <ul>
+          <li>決算公告は会社法440条の義務だが、罰則がほぼ適用されないため<strong>非開示が常態</strong>になっている。</li>
+          <li>推定の骨格は<strong>損益分岐点売上高＝固定費÷粗利益率</strong>。固定費は外から見え、変動費は業界粗利率で近似できる。</li>
+          <li>手順は<strong>確実なものから曖昧なものへ</strong>。従業員数→人件費→家賃→その他固定費→売上、の順に置く。</li>
+          <li>貸借対照表は、不動産登記簿（資産と根抵当権）と決済サイクル（売掛金・買掛金）から組む。</li>
+          <li>外れるのは<strong>含み資産を持つ古い会社、大口と固定的につながる建設・工事業、既存客だけで回る会社</strong>の3つ。いずれも実態より悪く見積もる方向に外れる。</li>
+          <li>金額を当てにいかず、<strong>結論の粒度を粗くする</strong>ほうが当たる。</li>
+        </ul>
+
+      </div>
+
+      <section class="sources">
+        <h2>参照した資料</h2>
+        <ul>
+          <li>決算公告の義務および過料について、会社法第440条・第976条（参照日：2026年8月28日）</li>
+          <li>業種別の粗利益率・財務指標の水準を確認する際は、財務省「法人企業統計調査」（参照日：2026年8月28日）</li>
+          <li>路線価は、国税庁「財産評価基準書 路線価図・評価倍率表」（参照日：2026年8月28日）</li>
+          <li>登記事項証明書の取得方法は、法務省「登記・供託オンライン申請システム」（参照日：2026年8月28日）</li>
+          <li>推定の手順そのものは、公表資料の解説ではなく、企業信用調査の実務で用いていた方法を整理したものです。</li>
+        </ul>
+        <div class="disclaimer">
+          <p>本記事で説明する推定は、公開情報から企業の財務内容を概算するための手法であり、算出された数値は実際の決算内容と一致しません。特定の取引や与信の可否を推奨するものでもありません。与信限度額の設定や取引の可否は、決算書・信用調査報告書・保全状況等を踏まえ、貴社の基準に沿ってご判断ください。</p>
+        </div>
+      </section>
+
+      <div class="byline">
+        <img class="pic pic--s" src="/test_credit_test/assets/eryael.png" width="480" height="480" alt="エリエール" loading="lazy">
+        <div>
+          <h3>エリエール</h3>
+          <p>財務経理、金融機関での法人営業・制度対応、企業信用調査を経て独立。会社の数字を作る側、貸す側、調べる側の三方向から決算書を見てきました。</p>
+        </div>
+      </div>
+
+      <nav class="pager" aria-label="前後の記事">
+        <a href="/test_credit_test/articles/kessansho-yoshin/"><span>前の記事</span><strong>決算書のどこを見て与信を判断するか｜最初に開く5か所</strong></a>
+        <a href="/test_credit_test/articles/funshoku/"><span>次の記事</span><strong>粉飾はどこに出るか｜決算書で気づける4つの型</strong></a>
+      </nav>
+
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <nav class="foot__links" aria-label="フッター">
+        <a href="/test_credit_test/about/">運営者情報</a>
+        <a href="/test_credit_test/privacy/">プライバシーポリシー</a>
+        <a href="/test_credit_test/tokusho/">特定商取引法に基づく表記</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+        <a href="/test_credit_test/sitemap.xml">サイトマップ</a>
+      </nav>
+      <p class="copy">© 2026 数字のものさし</p>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
