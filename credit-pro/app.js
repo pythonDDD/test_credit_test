@@ -3,11 +3,11 @@
  * 計算は engine.js、Excel生成は xlsx-export.js。ここはUIだけを担当する。
  * ========================================================================== */
 import { evaluate, emptyInput, INDUSTRIES, CAPITAL_TIERS, LISTING_OPTIONS, POLICY }
-  from "./engine.js?v=29";
-import { downloadXlsx } from "./xlsx-export.js?v=29";
-import { checkLicense, payUrl, payUrlReady, companyFingerprint, forgetOrder } from "./license.js?v=29";
-import { scanPdf, buildPeriod, validatePeriod, toEngineFields } from "./pdf-extract.js?v=29";
-import { renderViz, renderHead, attachTips, renderFigures, readingLines } from "./viz.js?v=29";
+  from "./engine.js?v=30";
+import { downloadXlsx } from "./xlsx-export.js?v=30";
+import { checkLicense, payUrl, payUrlReady, companyFingerprint, forgetOrder } from "./license.js?v=30";
+import { scanPdf, buildPeriod, validatePeriod, toEngineFields } from "./pdf-extract.js?v=30";
+import { renderViz, renderHead, attachTips, renderFigures, readingLines } from "./viz.js?v=30";
 
 const $ = (id) => document.getElementById(id);
 const COLS = ["今期（直近）", "前期", "前々期"];
@@ -217,7 +217,7 @@ function init() {
  * 取り違えてテスト用のファイルを本番へ上げてしまっても、課金は外れない。
  * この二重の歯止めがあるので、事故で売上がゼロになることはない。
  * ---------------------------------------------------------------------- */
-const FREE_BUILD = true;   // ★このファイルはテスト用（test_credit_test）専用
+const FREE_BUILD = true;   // ★テスト用（test_credit_test）専用
 const FREE_MODE = FREE_BUILD &&
   !/(^|\.)kazumono\.com$/i.test(String(location.hostname || ""));
 
@@ -315,6 +315,23 @@ function freeUnlock() {
   $("gateOk")?.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
+/**
+ * ライセンスの確認口。checkLicense を直接呼ばず、必ずここを通す。
+ *
+ * テスト環境（FREE_MODE）では、サーバーに問い合わせても注文番号が無いため
+ * 必ず「未購入」が返る。呼び出し側それぞれに迂回を書くと、今回のように
+ * 書き忘れた1か所でダウンロードだけ止まる。入口をひとつにしておく。
+ */
+async function verifyLicense() {
+  if (FREE_MODE) {
+    const nm = state_name().trim();
+    const ok = !!(paidSnap && paidSnap.free && nm && paidSnap.name === nm);
+    return { state: ok ? "licensed" : "unlicensed",
+             order: paidSnap ? paidSnap.order : "", reason: "", expiresAt: 0 };
+  }
+  return checkLicense(await companyFingerprint(state_name()));
+}
+
 /** 決済まわりで何が起きているかを画面に出し、切り分けられるようにする */
 function showLicenseDiag(st, order, reason, expiresAt) {
   const el = $("licDiag");
@@ -387,14 +404,11 @@ async function pollLicense(order) {
     if (wait) wait.innerHTML =
       `<p class="note-s"><b>お支払いを確認しています…（経過 ${sec} 秒／最大3分）</b><br>` +
       `Squareからの通知待ちです。この画面のままお待ちください。</p>`;
-    const { state, expiresAt } = await checkLicense(await companyFingerprint(state_name()));
+    const { state, expiresAt } = await verifyLicense();
     if (state === "licensed") {
       licensed = true;
-      refreshLicense();
-      return;
-      showLicenseDiag("licensed", order, null, expiresAt);
-      showGate("gateOk");
       if (window.gtag) gtag("event", "license_ok", { tool: "credit-pro" });
+      refreshLicense();   // 控えの作成とゲートの開閉は refreshLicense に任せる
       return true;
     }
     if (state === "offline") break;
@@ -419,7 +433,7 @@ async function refreshLicense() {
   if (FREE_MODE) { applyFreeMode(); return; }
   showGate("gateWait");
   const fp = await companyFingerprint(state_name());
-  const { state: st, order, reason, expiresAt } = await checkLicense(fp);
+  const { state: st, order, reason, expiresAt } = await verifyLicense();
   licensed = st === "licensed";
   if (licensed) {
     // 控えは注文番号ごとに1回だけ取る。以後は差し替えても上書きしない。
@@ -750,13 +764,11 @@ function lockedCard() {
 
 /* -------------------------------------------------------------- ダウンロード */
 async function onDownload() {
-  const btn0 = $("btnXlsx");
-  $("dlNote").textContent = "確認しています…";
+  $("dlNote").textContent = FREE_MODE ? "" : "確認しています…";
   // ボタンの表示状態だけに頼らず、実行の直前にもう一度確認する。
   // このとき会社名の指紋を必ず一緒に送る。送り忘れると
   // 「別の会社に使い回そうとしている」と判定され、解錠が取り消されてしまう。
-  const { state: st, order, reason, expiresAt } =
-    await checkLicense(await companyFingerprint(state_name()));
+  const { state: st, order, reason, expiresAt } = await verifyLicense();
   if (st !== "licensed") {
     licensed = false; paidSnap = null;
     showLicenseDiag(st, order, reason, expiresAt);
