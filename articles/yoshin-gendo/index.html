@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script>if(location.protocol==='http:'){location.replace('https://'+location.host+location.pathname+location.search+location.hash);}</script>
+
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>与信限度額はどう決めるか｜自己資本・月商・仕入の3基準</title>
+<meta name="description" content="取引を始めるとき、いくらまで売ってよいか。与信限度額を決める3つの基準（自己資本基準・月商基準・仕入基準）の考え方と、なぜ小さいほうを採るのかを、信用調査の実務にそって整理します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="与信限度額はどう決めるか｜自己資本・月商・仕入の3基準">
+<meta property="og:description" content="取引を始めるとき、いくらまで売ってよいか。与信限度額を決める3つの基準の考え方と、なぜ小さいほうを採るのかを、信用調査の実務にそって整理します。">
+<meta property="og:url" content="https://kazumono.com/articles/yoshin-gendo/">
+<meta property="og:image" content="https://kazumono.com/assets/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="数字のものさし">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/test_credit_test/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/test_credit_test/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/test_credit_test/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#33526C">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146116373822311" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":"与信限度額はどう決めるか｜自己資本・月商・仕入の3基準",
+  "datePublished":"2026-09-02",
+  "dateModified":"2026-09-02",
+  "author":{"@type":"Person","name":"エリエール"},
+  "publisher":{"@type":"Organization","name":"数字のものさし"},
+  "mainEntityOfPage":"https://kazumono.com/articles/yoshin-gendo/"
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BETYS4R53Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BETYS4R53Y');
+</script>
+
+<style>
+:root{
+  --paper:#FAF9F6; --card:#FFFFFF;
+  --ink:#18262F; --ink-soft:#33495B; --ink-faint:#5B7085;
+  --sea-deep:#33526C; --sea:#527695; --sky:#84D2F5; --aqua:#B0F1F0; --mist:#DFF6F1;
+  --dawn:#FEEEDF; --rose:#F4C3D3; --bloom:#F8A3BF; --plum:#B67AB4;
+  --peridot:#82B33A; --lime:#D4E157; --mint:#E8F5E9;
+  --line:rgba(24,38,47,.18);
+  --shadow:0 1px 2px rgba(35,53,67,.05), 0 10px 26px rgba(35,53,67,.07);
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Times New Roman",serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",sans-serif;
+  --num:"Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16.5px;line-height:1.98;letter-spacing:.015em;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.26;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='0.22'/></svg>");
+}
+.page{position:relative;z-index:1;}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px;}
+.column{width:100%;max-width:720px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+:focus-visible{outline:2.5px solid var(--sea);outline-offset:3px;border-radius:4px;}
+.skip{position:absolute;left:-9999px;background:var(--sea);color:#fff;padding:12px 20px;z-index:99;}
+.skip:focus{left:0;}
+
+/* ヘッダー */
+.masthead{position:sticky;top:0;z-index:20;background:rgba(250,249,246,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.masthead__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px;}
+.brand{font-family:var(--serif);font-size:19px;letter-spacing:.22em;text-decoration:none;white-space:nowrap;}
+.brand span{color:var(--sea);}
+.nav{display:flex;gap:26px;}
+.nav a{font-size:14px;font-weight:500;letter-spacing:.1em;text-decoration:none;color:var(--ink-soft);border-bottom:1.5px solid transparent;padding:6px 0;transition:color .2s,border-color .2s;}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--bloom);}
+
+/* 記事ヘッダー */
+.crumbs{font-size:13px;color:var(--ink-soft);letter-spacing:.08em;margin:34px 0 0;}
+.crumbs a{text-decoration:none;}
+.crumbs a:hover{color:var(--ink);}
+
+.head{padding:26px 0 44px;position:relative;}
+.head__mark{
+  position:absolute;top:-10px;right:-20px;width:150px;height:150px;border-radius:50%;
+  background:var(--mist);opacity:.7;pointer-events:none;
+}
+.tag{display:inline-block;font-size:11.5px;letter-spacing:.14em;padding:5px 14px;border-radius:999px;background:var(--mist);position:relative;}
+.head h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(25px,4.2vw,37px);line-height:1.68;letter-spacing:.04em;
+  margin:20px 0 18px;position:relative;
+}
+.head__meta{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.1em;margin:0;position:relative;}
+.head__lead{
+  margin:26px 0 0;font-size:16.5px;line-height:2;color:var(--ink);
+  border-left:3px solid var(--rose);padding-left:20px;position:relative;
+}
+
+/* 目次 */
+.toc{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:26px 30px;margin:0 0 52px;box-shadow:var(--shadow);
+}
+.toc h2{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.18em;margin:0 0 14px;}
+.toc ol{margin:0;padding-left:1.3em;}
+.toc li{margin:8px 0;font-size:15px;}
+.toc a{text-decoration:none;color:var(--ink);}
+.toc a:hover{color:var(--ink);text-decoration:underline;text-decoration-color:var(--sky);text-underline-offset:4px;}
+
+/* 本文 */
+.body h2{
+  font-family:var(--serif);font-weight:600;font-size:clamp(21px,3vw,26px);
+  letter-spacing:.06em;line-height:1.66;
+  margin:64px 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.body h3{
+  font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.08em;
+  margin:44px 0 14px;
+}
+.body h3::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bloom);margin-right:11px;vertical-align:middle;}
+.body p{margin:0 0 24px;}
+.body ul,.body ol{margin:0 0 24px;padding-left:1.4em;}
+.body li{margin:9px 0;}
+.body strong{background:linear-gradient(transparent 64%,var(--rose) 64%);font-weight:600;}
+.body a{color:var(--sea-deep);font-weight:600;text-underline-offset:4px;text-decoration-color:var(--sky);}
+
+table{width:100%;border-collapse:collapse;margin:0 0 28px;font-size:14.5px;background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
+th{background:var(--mist);font-weight:600;letter-spacing:.06em;}
+td{font-variant-numeric:tabular-nums;}
+tr:last-child td{border-bottom:none;}
+
+/* 補足ボックス */
+.callout{
+  background:rgba(232,245,233,.6);border-left:3px solid var(--peridot);
+  border-radius:0 16px 16px 0;padding:22px 26px;margin:0 0 30px;
+}
+.callout p:last-child{margin-bottom:0;}
+.callout strong{background:none;}
+
+/* 関連ツール */
+.toolcta{
+  position:relative;overflow:hidden;
+  display:block;text-decoration:none;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:32px 30px;margin:56px 0;box-shadow:var(--shadow);
+  transition:transform .26s,box-shadow .26s;
+}
+.toolcta::after{
+  content:"";position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;
+  background:var(--sky);opacity:.85;transition:transform .38s;
+}
+.toolcta:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(47,66,87,.12);}
+.toolcta:hover::after{transform:scale(1.4);}
+.toolcta__label{position:relative;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 12px;}
+.toolcta__name{position:relative;font-family:var(--serif);font-size:21px;letter-spacing:.08em;margin:0 0 10px;}
+.toolcta__desc{position:relative;font-size:14.5px;color:var(--ink-soft);margin:0 0 16px;max-width:26em;}
+.toolcta__go{position:relative;font-size:14.5px;font-weight:600;letter-spacing:.08em;color:var(--sea-deep);}
+
+/* 出典・免責 */
+.sources{margin:60px 0 0;border-top:1px solid var(--line);padding-top:30px;}
+.sources h2{font-family:var(--serif);font-weight:600;font-size:16px;letter-spacing:.16em;margin:0 0 14px;}
+.sources ul{list-style:none;margin:0;padding:0;}
+.sources li{font-size:14px;line-height:1.9;color:var(--ink-soft);margin:0 0 8px;padding-left:18px;position:relative;}
+.sources li::before{content:"";position:absolute;left:0;top:.85em;width:6px;height:6px;border-radius:50%;background:var(--peridot);}
+
+.disclaimer{
+  margin:30px 0 0;border-left:4px solid var(--peridot);background:rgba(232,245,233,.55);
+  border-radius:0 16px 16px 0;padding:22px 26px;
+}
+.disclaimer p{margin:0;font-size:14px;line-height:1.92;color:var(--ink-soft);}
+
+/* 執筆者 */
+.byline{
+  display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:28px;margin:44px 0 0;box-shadow:var(--shadow);
+}
+.byline__mark{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--bloom),var(--plum));display:grid;place-items:center;font-family:var(--serif);font-weight:600;font-size:22px;color:#fff;}
+.byline h3{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.1em;margin:0 0 6px;}
+.byline p{margin:0;font-size:14.5px;line-height:1.88;color:var(--ink-soft);}
+
+/* 前後の記事 */
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0 0;}
+.pager a{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;
+  text-decoration:none;transition:transform .22s,border-color .22s;
+}
+.pager a:hover{transform:translateY(-3px);border-color:var(--sky);}
+.pager span{display:block;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+.pager strong{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1.7;letter-spacing:.05em;}
+
+/* 広告枠 */
+/* フッター */
+.foot{margin-top:90px;border-top:1px solid var(--line);padding:44px 0 56px;}
+.foot__inner{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:center;}
+.foot__links{display:flex;flex-wrap:wrap;gap:26px;}
+.foot__links a{font-size:14px;font-weight:500;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;}
+.foot__links a:hover{color:var(--ink);}
+.copy{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.08em;margin:0;}
+
+@media (max-width:820px){
+  .nav a:nth-child(n+3){display:none;}
+  .head__mark{display:none;}
+  .byline{grid-template-columns:1fr;text-align:left;}
+  .pager{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+/* ===== 表の横スクロール ===== */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 28px;}
+.tw table{margin-bottom:0;min-width:420px;}
+
+/* ===== アバター ===== */
+.pic{display:block;border-radius:50%;background:linear-gradient(135deg,var(--dawn),var(--rose));object-fit:cover;}
+.pic--l{width:96px;height:96px;}
+.pic--s{width:66px;height:66px;}
+
+/* ===== モバイル最適化 ===== */
+@media (max-width:820px){
+  body::before{display:none;}
+  .masthead{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;}
+  .masthead__inner{height:auto;min-height:58px;padding:10px 0;flex-wrap:wrap;gap:6px 16px;}
+  .brand{font-size:17px;letter-spacing:.1em;}
+  .nav{gap:16px;flex-wrap:wrap;}
+  .nav a{font-size:12.5px;letter-spacing:.02em;padding:2px 0;border-bottom-width:2px;}
+  .nav a:nth-child(n+3){display:inline-block;}
+  .wrap,.column{padding-left:18px;padding-right:18px;}
+  h1,h2,h3,p,li,td,th,.post__title,.tool__name,.shop__name{overflow-wrap:anywhere;}
+  .tools,.shop,.channels{grid-template-columns:1fr;}
+  .toc{padding:22px 20px;}
+  .btn{padding:14px 22px;font-size:14px;}
+  .grid{grid-template-columns:1fr;}
+  .actions{gap:10px;}
+  .btn-run,.btn-sample{width:100%;justify-content:center;}
+}
+@media (max-width:400px){
+  .brand{font-size:16px;letter-spacing:.06em;}
+  .nav{gap:12px;}
+  .nav a{font-size:11.5px;}
+}
+
+/* ===== 装飾円を文字の背面へ ===== */
+.hero{isolation:isolate;}
+.hero__blob{z-index:-1;}
+.hero .wrap{position:relative;z-index:1;}
+.head__mark{z-index:-1;}
+.head{isolation:isolate;}
+
+/* ===== モバイルの装飾円 ===== */
+@media (max-width:820px){
+  .hero__blob--a{width:190px;height:190px;top:-70px;right:-70px;opacity:.55;}
+  .hero__blob--b{display:none;}
+  .hero__blob--c{width:80px;height:80px;bottom:-24px;left:-30px;opacity:.6;}
+  .hero{padding:52px 0 46px;}
+  .hero h1{font-size:clamp(25px,7.2vw,34px);line-height:1.5;max-width:none;}
+  .hero p{font-size:15px;}
+  .eyebrow{font-size:10.5px;letter-spacing:.22em;word-break:break-word;}
+}
+@media (max-width:400px){
+  .hero__blob--a{width:150px;height:150px;top:-60px;right:-60px;}
+  .hero h1{font-size:24px;letter-spacing:.02em;}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">本文へ移動</a>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <a class="brand" href="/test_credit_test/">数字の<span>ものさし</span></a>
+      <nav class="nav" aria-label="サイト内">
+        <a href="/test_credit_test/#tools">ツール</a>
+        <a href="/test_credit_test/articles/">読みもの</a>
+        <a href="/test_credit_test/#excel">Excel版</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="column">
+
+      <p class="crumbs"><a href="/test_credit_test/">ホーム</a> ／ <a href="/test_credit_test/articles/">読みもの</a> ／ 与信</p>
+
+      <header class="head">
+        <span class="head__mark" aria-hidden="true"></span>
+        <span class="tag">与信</span>
+        <h1>与信限度額はどう決めるか｜自己資本・月商・仕入の3基準</h1>
+        <p class="head__meta">2026.09.02 公開 ／ 2026.09.02 更新</p>
+        <p class="head__lead">
+          「この会社と取引してよいか」は決まった。次に来るのが「では、いくらまで売ってよいか」です。
+          ここで手が止まる会社は多い。取引先の信用力を測る話は本に載っていますが、
+          そこから金額を出す手順は、あまり書かれていないからです。
+        </p>
+      </header>
+
+      <nav class="toc" aria-label="目次">
+        <h2>目次</h2>
+        <ol>
+          <li><a href="#s1">「取引してよいか」と「いくらまでか」は別の問い</a></li>
+          <li><a href="#s2">基準1：相手の自己資本から決める</a></li>
+          <li><a href="#s3">基準2：自社の月商から決める</a></li>
+          <li><a href="#s4">基準3：相手の仕入規模から決める</a></li>
+          <li><a href="#s5">3つのうち、いちばん小さい額を採る</a></li>
+          <li><a href="#s6">限度額は「残高」で管理する</a></li>
+          <li><a href="#s7">限度額を超えたときに何をするか</a></li>
+          <li><a href="#s8">見直しの頻度と、前倒しで見直す合図</a></li>
+          <li><a href="#s9">よくある失敗</a></li>
+        </ol>
+      </nav>
+
+      <div class="body">
+
+        <h2 id="s1">「取引してよいか」と「いくらまでか」は別の問い</h2>
+        <p>与信の話は、しばしば前半だけで終わります。決算書を取り寄せて、自己資本比率を見て、債務償還年数を計算して、「まあ大丈夫そうだ」で止まる。しかし実際に損失の大きさを決めるのは、<strong>その会社が倒れたときにいくら残っていたか</strong>です。</p>
+        <p>同じ相手でも、売掛残が300万円のときに倒れるのと、3,000万円のときに倒れるのとでは、被害はまるで違います。信用力の評価は「倒れる確率」を見る作業で、限度額の設定は「倒れたときの金額」を抑える作業です。<strong>前者だけをどれだけ精緻にやっても、後者を決めなければ損失はコントロールできません。</strong></p>
+        <p>そしてもう1つ。限度額を決めておく価値は、実は平時ではなく<strong>もめたときに出ます</strong>。営業から「あと500万円だけ通してほしい」と言われたとき、基準がなければ、その場の力関係で決まります。声の大きい人の案件が通り、そうでない案件が止まる。これは判断ではなく、単なる偏りです。</p>
+
+        <div class="callout">
+          <p><strong>実務メモ</strong>：信用調査の現場で、限度額を決めていない会社は珍しくありませんでした。理由を聞くと、たいてい「決め方が分からないから」と返ってきます。精緻な方法を探しているうちに、何も決まらないまま時間が過ぎている。<strong>粗くても基準がある状態は、基準がない状態より確実に強い</strong>というのが、実感としての結論です。</p>
+        </div>
+
+        <h2 id="s2">基準1：相手の自己資本から決める</h2>
+        <p>1つ目は、取引先の自己資本を出発点にする考え方です。もっとも広く使われています。</p>
+        <p>発想は単純で、<strong>会社が返済にあてられる最後の原資は自己資本</strong>だという点にあります。負債はいずれ他人に返すものですが、自己資本は返す相手がいません。だから「万一のとき、そこからどれだけ回収の目があるか」の物差しになります。</p>
+        <p>計算は、相手の自己資本に一定の率を掛けるだけです。率は各社が自社の方針として決めます。信用力の高い相手には高め、低い相手には低めを当てる形が一般的です。</p>
+        <p>ここで注意すべき点が2つあります。</p>
+        <ul>
+          <li><strong>額面の自己資本ではなく、実質で見ること。</strong>回収見込みの薄い売掛金、不良在庫、役員貸付金などを控除した後の金額を使います。これを怠ると、限度額の土台そのものが水増しされます。</li>
+          <li><strong>債務超過の相手には、この基準が使えないこと。</strong>自己資本がマイナスなら計算結果もマイナスです。この場合は限度額をゼロと置くか、前金・現金取引に切り替えるかの判断になります。</li>
+        </ul>
+        <p>自己資本基準の弱点は、<strong>自社の体力をまったく考えていない</strong>ことです。相手が大企業なら、計算上は数億円の限度額が出ます。しかし年商3億円の会社が1社に数億円を売れば、その1社が倒れた時点で自社も終わります。だから、これだけでは足りません。</p>
+
+        <h2 id="s3">基準2：自社の月商から決める</h2>
+        <p>2つ目は、視点を自社側に移します。<strong>この取引先が倒れたとき、自社は耐えられるか</strong>を問う基準です。</p>
+        <p>考え方は、自社の月商や自己資本に対する上限比率を決めておくというものです。たとえば「1社あたり自社月商の◯%まで」「自社の自己資本の◯%まで」といった形で置きます。</p>
+        <p>この基準の意味は、<strong>集中リスクを抑えること</strong>にあります。取引先1社ごとの信用力をいくら丁寧に見ても、特定の1社に売上が偏っていれば、その1社の事故で自社が持っていかれます。相手の評価とは無関係に、上限として効かせる必要があります。</p>
+        <p>実務では、次の2段構えにしておくと使いやすくなります。</p>
+        <div class="tw"><table>
+          <thead>
+            <tr><th>置くもの</th><th>役割</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1社あたりの上限</td><td>特定の1社に偏るのを防ぐ</td></tr>
+            <tr><td>与信残高の総枠</td><td>会社全体で抱えるリスクの上限を決める</td></tr>
+          </tbody>
+        </table></div>
+        <p>総枠を置いておくと、「個別の限度額はすべて基準内だが、合計すると自社の自己資本を超えている」という状態を防げます。個別審査だけを積み上げると、この落とし穴に落ちます。</p>
+
+        <div class="callout">
+          <p><strong>ここが分かれ目</strong>：月商基準は、相手の信用力とは関係なく効かせるところに意味があります。「この会社は優良だから例外」を認めた瞬間、集中リスクを防ぐという目的が消えます。<strong>優良な相手ほど取引が膨らみやすく、だからこそ上限が要る</strong>という順序です。</p>
+        </div>
+
+        <h2 id="s4">基準3：相手の仕入規模から決める</h2>
+        <p>3つ目は、あまり知られていませんが実務では効きます。<strong>その取引先が、そもそもどれだけ仕入れる会社なのか</strong>から上限を置く方法です。</p>
+        <p>相手の売上原価や仕入高を推定し、そのうち自社が占めうる割合の上限を決めます。年間の仕入が2億円の会社に対して、自社が年間3億円を売ることはありえません。売れているとしたら、どこかがおかしい。</p>
+        <p>この基準は、<strong>他の2つが見落とす異常を拾います</strong>。</p>
+        <ul>
+          <li><strong>取引の実態が伴っていない可能性。</strong>相手の事業規模に対して不自然に大きい発注は、転売や資金繰りのための仕入れであることがあります。</li>
+          <li><strong>相手が自社への依存を深めすぎている可能性。</strong>相手の仕入の大半を自社が占めている場合、こちらが止めれば相手が止まります。回収の交渉力は上がりますが、相手の事業継続そのものが自社に依存する関係になります。</li>
+          <li><strong>急な発注増の説明がつくかどうか。</strong>前年の3倍の注文が来たとき、相手の事業規模から見て説明がつくのか。つかないなら、他の仕入先が与信を絞った結果、こちらに回ってきているのかもしれません。</li>
+        </ul>
+        <p>最後の点は、実務で最も重い意味を持ちます。<strong>取引先が倒れる直前、注文が増えることがあります。</strong>従来の仕入先から現金取引を求められ、まだ掛けで買える相手に発注が集中するためです。売上が伸びて喜んでいるうちに、残高だけが積み上がる。仕入基準を置いておくと、この動きに機械的にブレーキがかかります。</p>
+
+        <h2 id="s5">3つのうち、いちばん小さい額を採る</h2>
+        <p>3つの基準で計算すると、当然ちがう金額が出ます。<strong>採用するのは、いちばん小さい額です。</strong></p>
+        <p>理由は、3つが別々のリスクを見ているからです。</p>
+        <div class="tw"><table>
+          <thead>
+            <tr><th>基準</th><th>抑えているリスク</th><th>効きやすい相手</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>自己資本基準</td><td>相手が返せなくなるリスク</td><td>財務基盤の弱い会社</td></tr>
+            <tr><td>月商基準</td><td>自社が耐えられなくなるリスク</td><td>自社より大きい会社</td></tr>
+            <tr><td>仕入基準</td><td>取引そのものが不自然になるリスク</td><td>急に発注が増えた会社</td></tr>
+          </tbody>
+        </table></div>
+        <p>どれか1つでも警告を出しているなら、そこが実質的な上限です。平均を取ったり、大きいほうに寄せたりすると、<strong>3つに分けた意味がなくなります。</strong></p>
+        <p>この「小さいほうを採る」という考え方は、与信に限らずリスク管理の基本形です。複数の制約があるとき、全体が耐えられるのは最も弱い制約までです。</p>
+
+        <a class="toolcta" href="/test_credit_test/credit-pro/">
+          <p class="toolcta__label">try the tool</p>
+          <h2 class="toolcta__name" style="border:none;padding:0;margin:0 0 10px;">財務でポン！</h2>
+          <p class="toolcta__desc">決算書のPDFを置くと、6軸100点で信用程度を判定し、自己資本基準と月商基準のうち小さいほうを与信限度額の目安として算出します。判定は無料で、ファイルはブラウザの中だけで処理されます。</p>
+          <span class="toolcta__go">取引先を判定してみる →</span>
+        </a>
+
+        <h2 id="s6">限度額は「残高」で管理する</h2>
+        <p>限度額を決めたら、次は運用です。ここでつまずく会社がとても多い。</p>
+        <p>管理すべきなのは<strong>年間の取引額ではなく、その時点の与信残高</strong>です。年間1億円を売っていても、毎月きっちり回収できていれば、抱えているリスクは月々の残高分だけです。逆に年間3,000万円でも、半年分が溜まっていれば1,500万円の残高を抱えています。</p>
+        <p>そして、与信残高に含めるべきものは売掛金だけではありません。</p>
+        <ul>
+          <li><strong>売掛金</strong>（請求済み・未入金）</li>
+          <li><strong>受取手形・電子記録債権</strong>（期日が来ていないもの）</li>
+          <li><strong>出荷済みで未請求の分</strong>。締め日の関係でまだ請求書を出していないが、モノは渡っている。</li>
+          <li><strong>受注済みで、これから出荷する分</strong>。出せば残高になります。</li>
+          <li><strong>前渡金・貸付金</strong>。相手に渡っていて、まだ回収していないもの。</li>
+        </ul>
+        <p>売掛金だけを見ていると、<strong>実際に抱えている金額を過小に見積もります。</strong>特に手形は、期日までの期間が長いぶんリスクの滞留期間も長く、残高としては重く見るべきものです。</p>
+
+        <div class="callout">
+          <p><strong>実務メモ</strong>：与信管理が形骸化する典型が、「限度額は決めたが、残高を誰も見ていない」という状態です。決めるのは一度きりですが、見るのは毎月です。<strong>月次で残高が出てこない仕組みなら、限度額は決めていないのと同じ</strong>と考えたほうが実態に近いと思います。</p>
+        </div>
+
+        <h2 id="s7">限度額を超えたときに何をするか</h2>
+        <p>限度額は、超えたときの手順とセットで初めて機能します。ここを決めていないと、超過が発覚したときに「とりあえず限度額を上げる」で処理され、基準が形だけになります。</p>
+        <p>選択肢は、おおむね次のとおりです。</p>
+        <ol>
+          <li><strong>出荷を止める。</strong>いちばん確実ですが、営業との衝突が起きます。だからこそ、事前にルールとして決めておく必要があります。</li>
+          <li><strong>回収を待って、残高が下がってから出す。</strong>入金予定が確実なら、これで足ります。</li>
+          <li><strong>取引条件を変える。</strong>一部前金、現金取引への切替、支払サイトの短縮。相手の反応そのものが情報になります。</li>
+          <li><strong>保全を取る。</strong>連帯保証、担保、取引信用保険、ファクタリング。保全の分だけ実質的な与信額が下がるので、限度額に余裕が生まれます。</li>
+          <li><strong>限度額を引き上げる。</strong>ただし、<strong>これは審査をやり直したうえでの結論であって、超過したから上げるのではありません。</strong>順序が逆になった時点で、限度額は意味を失います。</li>
+        </ol>
+        <p>あわせて、<strong>誰が決めるかも金額帯で決めておきます。</strong>一定額までは営業部長、それを超えたら役員、といった形です。決裁者が明確でないと、超過の報告そのものが上がってこなくなります。</p>
+
+        <h2 id="s8">見直しの頻度と、前倒しで見直す合図</h2>
+        <p>限度額は、決算書が新しくなれば当然変わります。基本は<strong>年1回、相手の決算期に合わせて見直す</strong>形です。</p>
+        <p>ただし、次のことが起きたら年次を待たずに見直します。いずれも、決算書に数字として表れる前に来る合図です。</p>
+        <ul>
+          <li><strong>支払サイトの延長を求められた</strong>。資金繰りの悪化が外に出た最初のサインであることが多い。</li>
+          <li><strong>支払いが遅れた</strong>。1回でも、理由の説明を求めるべきです。</li>
+          <li><strong>手形に変えてほしいと言われた</strong>。現金が足りていない可能性があります。</li>
+          <li><strong>注文が急に増えた</strong>。前章のとおり、他の仕入先が絞った結果かもしれません。</li>
+          <li><strong>決算書の提出を渋るようになった</strong>。前年まで出していた会社が出さなくなったなら、出せない事情ができたと考えるのが自然です。</li>
+          <li><strong>代表者や経理責任者が交代した</strong>。理由が説明されない交代は、注意して見る価値があります。</li>
+        </ul>
+        <p>これらは決算書に1行も出てきません。しかし<strong>限度額を見直すきっかけとしては、決算書より早く届きます。</strong></p>
+
+        <h2 id="s9">よくある失敗</h2>
+        <ul>
+          <li><strong>限度額を決めたが、営業に伝えていない。</strong>管理部門の中だけで完結していると、超過は防げません。受注の時点で見える必要があります。</li>
+          <li><strong>新規取引先だけ審査して、既存先を放置している。</strong>損失が出るのは、たいてい長年の取引先です。関係が長いほど残高は大きく、疑いにくくなります。</li>
+          <li><strong>取引額で管理している。</strong>抱えているリスクは残高です。年間取引額では、滞留に気づけません。</li>
+          <li><strong>グループ会社を別々に見ている。</strong>親会社が倒れれば子会社も止まります。実質的に同一のリスクなら、合算した枠も置くべきです。</li>
+          <li><strong>基準を精緻にしすぎて運用できない。</strong>毎月回せない仕組みは、数か月で止まります。<strong>粗くても続く形のほうが、精密で止まる形より強い</strong>のは、この分野でも同じです。</li>
+        </ul>
+        <p>最後に。ここで挙げた3つの基準に、絶対的な正解の数値はありません。業種によって適正な水準は大きく変わりますし、自社がどれだけのリスクを取れるかによっても変わります。</p>
+        <p>大切なのは、<strong>自社の物差しを決めて、全ての取引先を同じ物差しで測ること</strong>です。取引先ごとに基準が揺れている状態が、いちばん危ない。それは判断しているように見えて、実際には何も決めていないのと変わらないからです。</p>
+
+      </div>
+
+      <section class="sources">
+        <h2>参照した資料</h2>
+        <ul>
+          <li>本記事は公表資料の解説ではなく、企業信用調査および金融機関での実務における与信限度額の設定手順を整理したものです。</li>
+          <li>業種別・規模別の財務指標水準を確認する際は、財務省「法人企業統計調査」（参照日：2026年9月2日）</li>
+          <li>取引先の倒産動向や企業間信用の状況は、中小企業庁「中小企業白書」（参照日：2026年9月2日）</li>
+        </ul>
+        <div class="disclaimer">
+          <p>本記事は一般的な情報提供を目的としたものであり、特定の取引や与信の可否、限度額の水準を推奨するものではありません。適正な限度額は業種・規模・取引条件・保全状況により大きく異なります。最終的な与信判断は、信用調査報告書・面談内容・保全状況等を踏まえ、貴社の基準に沿ってご判断ください。</p>
+        </div>
+      </section>
+
+      <div class="byline">
+        <img class="pic pic--s" src="/test_credit_test/assets/eryael.png" width="480" height="480" alt="エリエール" loading="lazy">
+        <div>
+          <h3>エリエール</h3>
+          <p>財務経理、金融機関での法人営業・制度対応、企業信用調査を経て独立。会社の数字を作る側、貸す側、調べる側の三方向から決算書を見てきました。</p>
+        </div>
+      </div>
+
+      <nav class="pager" aria-label="前後の記事">
+        <a href="/test_credit_test/articles/kessansho-yoshin/"><span>前の記事</span><strong>決算書のどこを見て与信を判断するか｜最初に開く5か所</strong></a>
+        <a href="/test_credit_test/articles/suitei-kessansho/"><span>次の記事</span><strong>決算書が手に入らない会社を、外から推定する｜財務版フェルミ推定</strong></a>
+      </nav>
+
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <nav class="foot__links" aria-label="フッター">
+        <a href="/test_credit_test/about/">運営者情報</a>
+        <a href="/test_credit_test/privacy/">プライバシーポリシー</a>
+        <a href="/test_credit_test/tokusho/">特定商取引法に基づく表記</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+        <a href="/test_credit_test/sitemap.xml">サイトマップ</a>
+      </nav>
+      <p class="copy">© 2026 数字のものさし</p>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

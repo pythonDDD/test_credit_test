@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script>if(location.protocol==='http:'){location.replace('https://'+location.host+location.pathname+location.search+location.hash);}</script>
+
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>非上場株式の評価額は、なぜ社長の想像より高くなるのか</title>
+<meta name="description" content="「売れない株に値段などつかない」——事業承継でよく聞く言葉ですが、相続税評価では必ず値段がつきます。純資産価額方式、類似業種比準方式、会社規模判定、特定の評価会社。評価額が跳ね上がる4つの理由を、計算の構造から整理します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="非上場株式の評価額は、なぜ社長の想像より高くなるのか">
+<meta property="og:description" content="「売れない株に値段などつかない」——事業承継でよく聞く言葉ですが、相続税評価では必ず値段がつきます。純資産価額方式、類似業種比準方式、会社規模判定、特定の評価会社。評価額が跳ね上がる4つの理由を、計算の構造から整理します。">
+<meta property="og:url" content="https://kazumono.com/articles/jishakabu-takai/">
+<meta property="og:image" content="https://kazumono.com/assets/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="数字のものさし">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/test_credit_test/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/test_credit_test/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/test_credit_test/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#33526C">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146116373822311" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":"非上場株式の評価額は、なぜ社長の想像より高くなるのか",
+  "datePublished":"2026-08-08",
+  "dateModified":"2026-08-08",
+  "author":{"@type":"Person","name":"エリエール"},
+  "publisher":{"@type":"Organization","name":"数字のものさし"},
+  "mainEntityOfPage":"https://kazumono.com/articles/jishakabu-takai/"
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BETYS4R53Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BETYS4R53Y');
+</script>
+
+<style>
+:root{
+  --paper:#FAF9F6; --card:#FFFFFF;
+  --ink:#18262F; --ink-soft:#33495B; --ink-faint:#5B7085;
+  --sea-deep:#33526C; --sea:#527695; --sky:#84D2F5; --aqua:#B0F1F0; --mist:#DFF6F1;
+  --dawn:#FEEEDF; --rose:#F4C3D3; --bloom:#F8A3BF; --plum:#B67AB4;
+  --peridot:#82B33A; --lime:#D4E157; --mint:#E8F5E9;
+  --line:rgba(24,38,47,.18);
+  --shadow:0 1px 2px rgba(35,53,67,.05), 0 10px 26px rgba(35,53,67,.07);
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Times New Roman",serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",sans-serif;
+  --num:"Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16.5px;line-height:1.98;letter-spacing:.015em;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.26;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='0.22'/></svg>");
+}
+.page{position:relative;z-index:1;}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px;}
+.column{width:100%;max-width:720px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+:focus-visible{outline:2.5px solid var(--sea);outline-offset:3px;border-radius:4px;}
+.skip{position:absolute;left:-9999px;background:var(--sea);color:#fff;padding:12px 20px;z-index:99;}
+.skip:focus{left:0;}
+
+/* ヘッダー */
+.masthead{position:sticky;top:0;z-index:20;background:rgba(250,249,246,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.masthead__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px;}
+.brand{font-family:var(--serif);font-size:19px;letter-spacing:.22em;text-decoration:none;white-space:nowrap;}
+.brand span{color:var(--sea);}
+.nav{display:flex;gap:26px;}
+.nav a{font-size:14px;font-weight:500;letter-spacing:.1em;text-decoration:none;color:var(--ink-soft);border-bottom:1.5px solid transparent;padding:6px 0;transition:color .2s,border-color .2s;}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--bloom);}
+
+/* 記事ヘッダー */
+.crumbs{font-size:13px;color:var(--ink-soft);letter-spacing:.08em;margin:34px 0 0;}
+.crumbs a{text-decoration:none;}
+.crumbs a:hover{color:var(--ink);}
+
+.head{padding:26px 0 44px;position:relative;}
+.head__mark{
+  position:absolute;top:-10px;right:-20px;width:150px;height:150px;border-radius:50%;
+  background:var(--mist);opacity:.7;pointer-events:none;
+}
+.tag{display:inline-block;font-size:11.5px;letter-spacing:.14em;padding:5px 14px;border-radius:999px;background:var(--mist);position:relative;}
+.head h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(25px,4.2vw,37px);line-height:1.68;letter-spacing:.04em;
+  margin:20px 0 18px;position:relative;
+}
+.head__meta{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.1em;margin:0;position:relative;}
+.head__lead{
+  margin:26px 0 0;font-size:16.5px;line-height:2;color:var(--ink);
+  border-left:3px solid var(--rose);padding-left:20px;position:relative;
+}
+
+/* 目次 */
+.toc{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:26px 30px;margin:0 0 52px;box-shadow:var(--shadow);
+}
+.toc h2{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.18em;margin:0 0 14px;}
+.toc ol{margin:0;padding-left:1.3em;}
+.toc li{margin:8px 0;font-size:15px;}
+.toc a{text-decoration:none;color:var(--ink);}
+.toc a:hover{color:var(--ink);text-decoration:underline;text-decoration-color:var(--sky);text-underline-offset:4px;}
+
+/* 本文 */
+.body h2{
+  font-family:var(--serif);font-weight:600;font-size:clamp(21px,3vw,26px);
+  letter-spacing:.06em;line-height:1.66;
+  margin:64px 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.body h3{
+  font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.08em;
+  margin:44px 0 14px;
+}
+.body h3::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bloom);margin-right:11px;vertical-align:middle;}
+.body p{margin:0 0 24px;}
+.body ul,.body ol{margin:0 0 24px;padding-left:1.4em;}
+.body li{margin:9px 0;}
+.body strong{background:linear-gradient(transparent 64%,var(--rose) 64%);font-weight:600;}
+.body a{color:var(--sea-deep);font-weight:600;text-underline-offset:4px;text-decoration-color:var(--sky);}
+
+table{width:100%;border-collapse:collapse;margin:0 0 28px;font-size:14.5px;background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
+th{background:var(--mist);font-weight:600;letter-spacing:.06em;}
+td{font-variant-numeric:tabular-nums;}
+tr:last-child td{border-bottom:none;}
+
+/* 補足ボックス */
+.callout{
+  background:rgba(232,245,233,.6);border-left:3px solid var(--peridot);
+  border-radius:0 16px 16px 0;padding:22px 26px;margin:0 0 30px;
+}
+.callout p:last-child{margin-bottom:0;}
+.callout strong{background:none;}
+
+/* 関連ツール */
+.toolcta{
+  position:relative;overflow:hidden;
+  display:block;text-decoration:none;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:32px 30px;margin:56px 0;box-shadow:var(--shadow);
+  transition:transform .26s,box-shadow .26s;
+}
+.toolcta::after{
+  content:"";position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;
+  background:var(--sky);opacity:.85;transition:transform .38s;
+}
+.toolcta:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(47,66,87,.12);}
+.toolcta:hover::after{transform:scale(1.4);}
+.toolcta__label{position:relative;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 12px;}
+.toolcta__name{position:relative;font-family:var(--serif);font-size:21px;letter-spacing:.08em;margin:0 0 10px;}
+.toolcta__desc{position:relative;font-size:14.5px;color:var(--ink-soft);margin:0 0 16px;max-width:26em;}
+.toolcta__go{position:relative;font-size:14.5px;font-weight:600;letter-spacing:.08em;color:var(--sea-deep);}
+
+/* 出典・免責 */
+.sources{margin:60px 0 0;border-top:1px solid var(--line);padding-top:30px;}
+.sources h2{font-family:var(--serif);font-weight:600;font-size:16px;letter-spacing:.16em;margin:0 0 14px;}
+.sources ul{list-style:none;margin:0;padding:0;}
+.sources li{font-size:14px;line-height:1.9;color:var(--ink-soft);margin:0 0 8px;padding-left:18px;position:relative;}
+.sources li::before{content:"";position:absolute;left:0;top:.85em;width:6px;height:6px;border-radius:50%;background:var(--peridot);}
+
+.disclaimer{
+  margin:30px 0 0;border-left:4px solid var(--peridot);background:rgba(232,245,233,.55);
+  border-radius:0 16px 16px 0;padding:22px 26px;
+}
+.disclaimer p{margin:0;font-size:14px;line-height:1.92;color:var(--ink-soft);}
+
+/* 執筆者 */
+.byline{
+  display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:28px;margin:44px 0 0;box-shadow:var(--shadow);
+}
+.byline__mark{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--bloom),var(--plum));display:grid;place-items:center;font-family:var(--serif);font-weight:600;font-size:22px;color:#fff;}
+.byline h3{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.1em;margin:0 0 6px;}
+.byline p{margin:0;font-size:14.5px;line-height:1.88;color:var(--ink-soft);}
+
+/* 前後の記事 */
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0 0;}
+.pager a{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;
+  text-decoration:none;transition:transform .22s,border-color .22s;
+}
+.pager a:hover{transform:translateY(-3px);border-color:var(--sky);}
+.pager span{display:block;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+.pager strong{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1.7;letter-spacing:.05em;}
+
+/* 広告枠 */
+/* フッター */
+.foot{margin-top:90px;border-top:1px solid var(--line);padding:44px 0 56px;}
+.foot__inner{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:center;}
+.foot__links{display:flex;flex-wrap:wrap;gap:26px;}
+.foot__links a{font-size:14px;font-weight:500;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;}
+.foot__links a:hover{color:var(--ink);}
+.copy{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.08em;margin:0;}
+
+@media (max-width:820px){
+  .nav a:nth-child(n+3){display:none;}
+  .head__mark{display:none;}
+  .byline{grid-template-columns:1fr;text-align:left;}
+  .pager{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+/* ===== 表の横スクロール ===== */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 28px;}
+.tw table{margin-bottom:0;min-width:420px;}
+
+/* ===== アバター ===== */
+.pic{display:block;border-radius:50%;background:linear-gradient(135deg,var(--dawn),var(--rose));object-fit:cover;}
+.pic--l{width:96px;height:96px;}
+.pic--s{width:66px;height:66px;}
+
+/* ===== モバイル最適化 ===== */
+@media (max-width:820px){
+  body::before{display:none;}
+  .masthead{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;}
+  .masthead__inner{height:auto;min-height:58px;padding:10px 0;flex-wrap:wrap;gap:6px 16px;}
+  .brand{font-size:17px;letter-spacing:.1em;}
+  .nav{gap:16px;flex-wrap:wrap;}
+  .nav a{font-size:12.5px;letter-spacing:.02em;padding:2px 0;border-bottom-width:2px;}
+  .nav a:nth-child(n+3){display:inline-block;}
+  .wrap,.column{padding-left:18px;padding-right:18px;}
+  h1,h2,h3,p,li,td,th,.post__title,.tool__name,.shop__name{overflow-wrap:anywhere;}
+  .tools,.shop,.channels{grid-template-columns:1fr;}
+  .toc{padding:22px 20px;}
+  .btn{padding:14px 22px;font-size:14px;}
+  .grid{grid-template-columns:1fr;}
+  .actions{gap:10px;}
+  .btn-run,.btn-sample{width:100%;justify-content:center;}
+}
+@media (max-width:400px){
+  .brand{font-size:16px;letter-spacing:.06em;}
+  .nav{gap:12px;}
+  .nav a{font-size:11.5px;}
+}
+
+/* ===== 装飾円を文字の背面へ ===== */
+.hero{isolation:isolate;}
+.hero__blob{z-index:-1;}
+.hero .wrap{position:relative;z-index:1;}
+.head__mark{z-index:-1;}
+.head{isolation:isolate;}
+
+/* ===== モバイルの装飾円 ===== */
+@media (max-width:820px){
+  .hero__blob--a{width:190px;height:190px;top:-70px;right:-70px;opacity:.55;}
+  .hero__blob--b{display:none;}
+  .hero__blob--c{width:80px;height:80px;bottom:-24px;left:-30px;opacity:.6;}
+  .hero{padding:52px 0 46px;}
+  .hero h1{font-size:clamp(25px,7.2vw,34px);line-height:1.5;max-width:none;}
+  .hero p{font-size:15px;}
+  .eyebrow{font-size:10.5px;letter-spacing:.22em;word-break:break-word;}
+}
+@media (max-width:400px){
+  .hero__blob--a{width:150px;height:150px;top:-60px;right:-60px;}
+  .hero h1{font-size:24px;letter-spacing:.02em;}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">本文へ移動</a>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <a class="brand" href="/test_credit_test/">数字の<span>ものさし</span></a>
+      <nav class="nav" aria-label="サイト内">
+        <a href="/test_credit_test/#tools">ツール</a>
+        <a href="/test_credit_test/articles/">読みもの</a>
+        <a href="/test_credit_test/#excel">Excel版</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="column">
+
+      <p class="crumbs"><a href="/test_credit_test/">ホーム</a> ／ <a href="/test_credit_test/articles/">読みもの</a> ／ 事業承継</p>
+
+      <header class="head">
+        <span class="head__mark" aria-hidden="true"></span>
+        <span class="tag">事業承継</span>
+        <h1>非上場株式の評価額は、なぜ社長の想像より高くなるのか</h1>
+        <p class="head__meta">2026.08.08 公開 ／ 2026.08.08 更新</p>
+        <p class="head__lead">
+          「うちの株なんて、売れないんだから価値はゼロでしょう」。
+          事業承継の話をしていて、社長からこう言われたことが何度もあります。
+          しかし相続税の世界では、売れない株にも必ず値段がつきます。しかもその額は、多くの場合、想像を大きく上回ります。
+        </p>
+      </header>
+
+      <nav class="toc" aria-label="目次">
+        <h2>目次</h2>
+        <ol>
+          <li><a href="#s1">売れないのに、値段がつく</a></li>
+          <li><a href="#s2">理由1：純資産価額方式は「今日たたんだら」で測る</a></li>
+          <li><a href="#s3">理由2：類似業種比準方式は、頑張った会社ほど高くなる</a></li>
+          <li><a href="#s4">理由3：会社の規模で、使える計算方法が決まる</a></li>
+          <li><a href="#s5">理由4：「特定の評価会社」に落ちると逃げ道がなくなる</a></li>
+          <li><a href="#s6">例外：配当還元方式という別世界</a></li>
+          <li><a href="#s7">まず、自社の数字を知るところから</a></li>
+        </ol>
+      </nav>
+
+      <div class="body">
+
+        <h2 id="s1">売れないのに、値段がつく</h2>
+        <p>上場株式なら話は簡単です。市場で値がついているので、その日の終値を見れば済みます。ところが非上場株式には市場がありません。買いたい人もいなければ、売りたくても売り先がない。実際、多くの中小企業の株式は、社長が生きている限り一度も取引されないまま終わります。</p>
+        <p>それでも相続や贈与が起きれば、その株式は課税対象の財産です。市場価格がない以上、国税庁が定めた計算方法で価額を出すことになります。それが<strong>財産評価基本通達</strong>に定められた「取引相場のない株式」の評価です。</p>
+        <p>ここで多くの社長が誤解します。売れない株なのだから、評価も控えめだろうと。実際は逆で、評価額が数億円になり、相続人が納税資金を工面できずに困る、というのが事業承継の典型的な失敗の形です。なぜそうなるのか。理由は大きく4つあります。</p>
+
+        <div class="callout">
+          <p><strong>実務メモ</strong>：信用調査で決算書を見ていた頃、純資産が大きい会社ほど「うちは無借金で健全だ」と誇らしげに話す社長に多く会いました。財務としては正しい。ただ、その健全さがそのまま相続税評価額に跳ね返るという話になると、たいてい表情が変わりました。</p>
+        </div>
+
+        <!-- 広告：目次を読み終えた直後。本文の流れを切らない位置 -->
+<h2 id="s2">理由1：純資産価額方式は「今日たたんだら」で測る</h2>
+        <p>純資産価額方式は、いま会社を解散して資産を全部売り払い、負債を返し、残った財産を株主で分けたらいくらか、という考え方で評価します。会社という箱を開けて、中身をそのまま見に行く方法です。</p>
+        <p>問題は、この中身を<strong>簿価ではなく相続税評価額で測り直す</strong>ことにあります。ここで含み益が一気に表に出てきます。</p>
+
+        <h3>典型的に膨らむのはこの3つ</h3>
+        <ul>
+          <li><strong>土地</strong>。バブル前から持っている本社や工場の土地は、帳簿では取得時のままです。それを路線価で評価し直すと、簿価の何倍にもなることがあります。</li>
+          <li><strong>上場株式や有価証券</strong>。持ち合い株や余資運用で買った株が、取得時より大きく値上がりしているケース。</li>
+          <li><strong>生命保険</strong>。法人契約の保険は、支払保険料が損金になっていれば帳簿にほとんど残りません。しかし解約返戻金には現実の価値があり、これは資産として評価されます。</li>
+        </ul>
+        <p>なお、課税時期前3年以内に取得した土地や建物については、路線価等ではなく<strong>通常の取引価額</strong>で評価します。相続の直前に不動産を買って評価を下げる、という手が効かないようにするための規定です。</p>
+
+        <h3>含み益にかかる税金は引いてもらえる</h3>
+        <p>ただし救済もあります。実際に解散すれば、含み益には法人税等が課されます。そこで、相続税評価額による純資産と帳簿価額による純資産の差額（＝評価差額）に対して、<strong>法人税額等に相当する金額</strong>を控除できることになっています。</p>
+        <p>この控除割合は長く37%でしたが、<strong>令和8年3月25日付の通達改正により38%に引き上げられました</strong>（課評2-28）。令和7年度税制改正で創設された防衛特別法人税により、根拠となる税率の合計が変わったためです。この改正は<strong>令和8年4月1日以後の相続、遺贈、贈与に適用</strong>されます。</p>
+        <p>とはいえ、控除できるのは含み益の38%です。<strong>残りの62%は、そのまま評価額に乗ります。</strong>「税金を引いてもらえるなら大丈夫だろう」という感覚は、ここで裏切られます。</p>
+
+        <div class="callout">
+          <p><strong>補足</strong>：株式を取得する人とその同族関係者の議決権が、会社全体の50%以下にとどまる場合には、計算した1株当たりの純資産価額に80%を乗じます。支配権が及ばない立場への配慮です。逆に言えば、<strong>会社を支配する立場で承継する人ほど、割引なしの評価額を負う</strong>ということでもあります。</p>
+        </div>
+
+        <h2 id="s3">理由2：類似業種比準方式は、頑張った会社ほど高くなる</h2>
+        <p>もう一つの柱が類似業種比準方式です。こちらは会社の中身を見るのではなく、<strong>同じ業種の上場企業と自社を比べる</strong>方法です。</p>
+        <p>比べる物差しは3つ。1株当たりの<strong>配当金額</strong>、<strong>利益金額</strong>、<strong>純資産価額（簿価）</strong>です。それぞれ上場企業の平均と自社を比較して比率を出し、平均したうえで、業種ごとの株価に掛けます。</p>
+        <p>最後に<strong>斟酌率</strong>を掛けて調整します。会社規模に応じて、大会社は0.7、中会社は0.6、小会社は0.5です。上場企業と中小企業では株式の流動性がまるで違うため、その差を織り込むための割引です。</p>
+
+        <h3>ここが落とし穴</h3>
+        <p>3要素のうち、中小企業で最も大きく振れるのが<strong>利益金額</strong>です。配当を出していない会社なら配当の比率はゼロになりますが、利益は違います。業績が良ければ良いほど、この比率が上がり、評価額が上がる。</p>
+        <p><strong>つまり、社長が何十年もかけて利益を積み上げてきた努力が、そのまま相続税の評価額として跳ね返ってくる</strong>という構造になっています。これが感覚と最もずれる部分です。会社を大きくすることと、承継しやすくすることは、税務上は逆を向いています。</p>
+
+        <h2 id="s4">理由3：会社の規模で、使える計算方法が決まる</h2>
+        <p>ここまで2つの方式を見てきましたが、どちらを使うかは会社が選べません。<strong>会社規模の判定によって自動的に決まります。</strong></p>
+        <p>判定に使うのは、従業員数、総資産価額、取引金額（売上高）の3つです。業種（卸売業／小売・サービス業／それ以外）によって基準値が変わります。従業員数が70人以上であれば、他の要素を見るまでもなく大会社です。</p>
+
+        <div class="tw"><table>
+          <thead>
+            <tr><th>会社規模</th><th>原則的な評価方法</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>大会社</td><td>類似業種比準価額（純資産価額との選択可）</td></tr>
+            <tr><td>中会社</td><td>両方式の併用（Lの割合 0.90／0.75／0.60）</td></tr>
+            <tr><td>小会社</td><td>純資産価額（Lを0.50とした併用も選択可）</td></tr>
+          </tbody>
+        </table></div>
+
+        <p>ポイントは、<strong>規模が小さいほど純資産価額方式の比重が上がる</strong>ことです。そして純資産価額方式は、先ほど見たとおり含み益を直撃します。</p>
+        <p>従業員が少なく、代わりに古くからの土地を持っている会社。中小企業では珍しくない形ですが、この組み合わせが評価額を最も押し上げます。会社の規模は小さいのに、株式の評価額だけが大きい、という状態が生まれます。</p>
+
+<h2 id="s5">理由4：「特定の評価会社」に落ちると逃げ道がなくなる</h2>
+        <p>さらに、一定の条件に当てはまる会社は<strong>特定の評価会社</strong>とされ、原則として純資産価額方式でしか評価できなくなります。類似業種比準方式という、比較的評価が抑えられる可能性のある道が閉ざされるということです。</p>
+
+        <ul>
+          <li><strong>株式等保有特定会社</strong>：総資産に占める株式等の割合が50%以上</li>
+          <li><strong>土地保有特定会社</strong>：総資産に占める土地等の割合が、大会社で70%以上、中会社で90%以上</li>
+          <li><strong>比準要素数1の会社</strong>：配当・利益・純資産の3要素のうち、2つがゼロの状態が続いている</li>
+          <li><strong>開業後3年未満の会社</strong></li>
+          <li>開業前・休業中の会社、清算中の会社</li>
+        </ul>
+
+        <h3>節税のつもりが逆効果になる</h3>
+        <p>ここで実務上よく起きるのが、対策のつもりで打った手が裏目に出るパターンです。</p>
+        <p>「不動産を買えば相続税評価が下がる」という話を聞いて、法人で収益不動産を購入する。ところがその結果、総資産に占める土地等の割合が基準を超えて<strong>土地保有特定会社に該当してしまい、類似業種比準方式が使えなくなる</strong>。含み益を抱えた純資産価額方式一本で評価され、対策前より評価額が上がってしまう。</p>
+        <p>持株会社をつくって株式を集約した結果、株式等保有特定会社に該当してしまうケースも同じ構造です。<strong>個々の手法が正しくても、判定基準をまたいだ瞬間に前提が変わる</strong>のがこの領域の難しさです。</p>
+
+        <h2 id="s6">例外：配当還元方式という別世界</h2>
+        <p>ここまでは会社を支配する立場、いわゆる同族株主が取得する場合の話です。同族株主以外が取得する場合には、まったく別の計算方法が使われます。</p>
+        <p>それが<strong>配当還元方式</strong>です。過去の配当金額をもとに、その株式から得られる配当を還元して価額を求めます。経営に関与できず、配当を受け取るだけの立場なら、株式の価値もその配当に見合ったものだ、という考え方です。</p>
+        <p>この方式で計算すると、評価額は原則的評価方式による額を大きく下回るのが通常です。無配の会社であっても、1株当たりの年配当金額を2円50銭として計算する下限が設けられています。</p>
+        <p>ここから分かるのは、<strong>非上場株式の評価額は「会社の値段」ではなく「誰がその株を取得するか」で決まる</strong>ということです。同じ会社の同じ1株でも、後継者が取得すれば原則的評価、従業員が少数だけ持つなら配当還元。金額は桁が変わることもあります。</p>
+
+        <h2 id="s7">まず、自社の数字を知るところから</h2>
+        <p>ここまで4つの理由を見てきました。整理すると、こうなります。</p>
+        <ol>
+          <li>含み益が表に出る（純資産価額方式）</li>
+          <li>利益を出してきた実績が評価に乗る（類似業種比準方式）</li>
+          <li>規模が小さいほど純資産価額の比重が上がる（会社規模判定）</li>
+          <li>条件次第で逃げ道が閉じる（特定の評価会社）</li>
+        </ol>
+        <p>どれも「悪い会社だから高くなる」のではありません。<strong>健全に経営してきた会社ほど高くなる</strong>のがこの制度の性質です。</p>
+        <p>そして対策には時間がかかります。役員退職金の支給、資産構成の見直し、事業承継税制の検討。どれも数年単位の話で、相続が起きてから動いても間に合いません。</p>
+        <p><strong>最初にやるべきことは、対策を打つことではなく、現状の評価額を把握することです。</strong>数字が分からないまま「うちは大丈夫だろう」と考えるのが、いちばん危険な状態です。</p>
+
+        <a class="toolcta" href="/test_credit_test/kabuka/">
+          <p class="toolcta__label">try the tool</p>
+          <h2 class="toolcta__name" style="border:none;padding:0;margin:0 0 10px;">非上場株式 株価算定シミュレーター</h2>
+          <p class="toolcta__desc">会社規模判定から、類似業種比準価額・純資産価額・配当還元価額まで自動で計算します。特定の評価会社に該当するかの判定、DCF法など第三者間売買での評価も同時に表示。入力はブラウザ内で完結し、送信されません。</p>
+          <span class="toolcta__go">自社の評価額を出してみる →</span>
+        </a>
+
+        <p>出てきた数字を持って税理士に相談すれば、話が早く進みます。ゼロから「うちの株はいくらでしょうか」と聞くのと、「純資産価額方式でこの金額が出たのですが」と聞くのとでは、返ってくる答えの深さが変わります。</p>
+
+      </div>
+
+      <section class="sources">
+        <h2>参照した資料</h2>
+        <ul>
+          <li>国税庁「財産評価基本通達」第8章第1節 株式及び出資（178〜189-7）（参照日：2026年8月8日）</li>
+          <li>国税庁「財産評価基本通達の一部改正について（法令解釈通達）」令和8年3月25日 課評2-28（参照日：2026年8月8日）</li>
+          <li>国税庁「取引相場のない株式（出資）の評価明細書」および同記載方法等（参照日：2026年8月8日）</li>
+        </ul>
+        <div class="disclaimer">
+          <p>本記事は一般的な情報提供を目的としたものであり、個別の税務相談に応じるものではありません。実際の株価評価および事業承継対策は、必ず税理士にご相談ください。制度改正により内容が変わる場合があります。なお、令和8年3月25日改正に伴う評価明細書の様式改訂は、令和8年6月頃に予定されているとされています。</p>
+        </div>
+      </section>
+
+      <div class="byline">
+        <img class="pic pic--s" src="/test_credit_test/assets/eryael.png" width="480" height="480" alt="エリエール" loading="lazy">
+        <div>
+          <h3>エリエール</h3>
+          <p>財務経理、金融機関での法人営業・制度対応、企業信用調査を経て独立。会社の数字を作る側、貸す側、調べる側の三方向から決算書を見てきました。</p>
+        </div>
+      </div>
+
+
+      <nav class="pager" aria-label="前後の記事">
+        <a href="/test_credit_test/articles/"><span>一覧</span><strong>読みものをすべて見る</strong></a>
+        <a href="/test_credit_test/articles/kaisha-kibo/"><span>次の記事</span><strong>会社規模判定で評価額が変わる｜大会社・中会社・小会社の分かれ目</strong></a>
+      </nav>
+
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <nav class="foot__links" aria-label="フッター">
+        <a href="/test_credit_test/about/">運営者情報</a>
+        <a href="/test_credit_test/privacy/">プライバシーポリシー</a>
+        <a href="/test_credit_test/tokusho/">特定商取引法に基づく表記</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+        <a href="/test_credit_test/sitemap.xml">サイトマップ</a>
+      </nav>
+      <p class="copy">© 2026 数字のものさし</p>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

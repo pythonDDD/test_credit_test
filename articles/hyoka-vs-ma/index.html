@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script>if(location.protocol==='http:'){location.replace('https://'+location.host+location.pathname+location.search+location.hash);}</script>
+
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>相続税評価とM&Aの価格が何倍も違う理由</title>
+<meta name="description" content="税理士が出した自社株の評価額と、M&A仲介が言う価格がまるで違う。計算方法ではなく、見ている時間軸と目的が違うからです。配当還元を含めた3つの価格の関係、少数株の買取で起きる論点まで、数値例つきで整理します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="相続税評価とM&Aの価格が何倍も違う理由">
+<meta property="og:description" content="税理士が出した自社株の評価額と、M&A仲介が言う価格がまるで違う。計算方法ではなく、見ている時間軸と目的が違うからです。配当還元を含めた3つの価格の関係、少数株の買取で起きる論点まで、数値例つきで整理します。">
+<meta property="og:url" content="https://kazumono.com/articles/hyoka-vs-ma/">
+<meta property="og:image" content="https://kazumono.com/assets/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="数字のものさし">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/test_credit_test/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/test_credit_test/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/test_credit_test/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#33526C">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146116373822311" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":"相続税評価とM&Aの価格が何倍も違う理由",
+  "datePublished":"2026-08-08",
+  "dateModified":"2026-08-08",
+  "author":{"@type":"Person","name":"エリエール"},
+  "publisher":{"@type":"Organization","name":"数字のものさし"},
+  "mainEntityOfPage":"https://kazumono.com/articles/hyoka-vs-ma/"
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BETYS4R53Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BETYS4R53Y');
+</script>
+
+<style>
+:root{
+  --paper:#FAF9F6; --card:#FFFFFF;
+  --ink:#18262F; --ink-soft:#33495B; --ink-faint:#5B7085;
+  --sea-deep:#33526C; --sea:#527695; --sky:#84D2F5; --aqua:#B0F1F0; --mist:#DFF6F1;
+  --dawn:#FEEEDF; --rose:#F4C3D3; --bloom:#F8A3BF; --plum:#B67AB4;
+  --peridot:#82B33A; --lime:#D4E157; --mint:#E8F5E9;
+  --line:rgba(24,38,47,.18);
+  --shadow:0 1px 2px rgba(35,53,67,.05), 0 10px 26px rgba(35,53,67,.07);
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Times New Roman",serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",sans-serif;
+  --num:"Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16.5px;line-height:1.98;letter-spacing:.015em;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.26;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='0.22'/></svg>");
+}
+.page{position:relative;z-index:1;}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px;}
+.column{width:100%;max-width:720px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+:focus-visible{outline:2.5px solid var(--sea);outline-offset:3px;border-radius:4px;}
+.skip{position:absolute;left:-9999px;background:var(--sea);color:#fff;padding:12px 20px;z-index:99;}
+.skip:focus{left:0;}
+
+/* ヘッダー */
+.masthead{position:sticky;top:0;z-index:20;background:rgba(250,249,246,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.masthead__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px;}
+.brand{font-family:var(--serif);font-size:19px;letter-spacing:.22em;text-decoration:none;white-space:nowrap;}
+.brand span{color:var(--sea);}
+.nav{display:flex;gap:26px;}
+.nav a{font-size:14px;font-weight:500;letter-spacing:.1em;text-decoration:none;color:var(--ink-soft);border-bottom:1.5px solid transparent;padding:6px 0;transition:color .2s,border-color .2s;}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--bloom);}
+
+/* 記事ヘッダー */
+.crumbs{font-size:13px;color:var(--ink-soft);letter-spacing:.08em;margin:34px 0 0;}
+.crumbs a{text-decoration:none;}
+.crumbs a:hover{color:var(--ink);}
+
+.head{padding:26px 0 44px;position:relative;}
+.head__mark{
+  position:absolute;top:-10px;right:-20px;width:150px;height:150px;border-radius:50%;
+  background:var(--mist);opacity:.7;pointer-events:none;
+}
+.tag{display:inline-block;font-size:11.5px;letter-spacing:.14em;padding:5px 14px;border-radius:999px;background:var(--mist);position:relative;}
+.head h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(25px,4.2vw,37px);line-height:1.68;letter-spacing:.04em;
+  margin:20px 0 18px;position:relative;
+}
+.head__meta{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.1em;margin:0;position:relative;}
+.head__lead{
+  margin:26px 0 0;font-size:16.5px;line-height:2;color:var(--ink);
+  border-left:3px solid var(--rose);padding-left:20px;position:relative;
+}
+
+/* 目次 */
+.toc{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:26px 30px;margin:0 0 52px;box-shadow:var(--shadow);
+}
+.toc h2{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.18em;margin:0 0 14px;}
+.toc ol{margin:0;padding-left:1.3em;}
+.toc li{margin:8px 0;font-size:15px;}
+.toc a{text-decoration:none;color:var(--ink);}
+.toc a:hover{color:var(--ink);text-decoration:underline;text-decoration-color:var(--sky);text-underline-offset:4px;}
+
+/* 本文 */
+.body h2{
+  font-family:var(--serif);font-weight:600;font-size:clamp(21px,3vw,26px);
+  letter-spacing:.06em;line-height:1.66;
+  margin:64px 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.body h3{
+  font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.08em;
+  margin:44px 0 14px;
+}
+.body h3::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bloom);margin-right:11px;vertical-align:middle;}
+.body p{margin:0 0 24px;}
+.body ul,.body ol{margin:0 0 24px;padding-left:1.4em;}
+.body li{margin:9px 0;}
+.body strong{background:linear-gradient(transparent 64%,var(--rose) 64%);font-weight:600;}
+.body a{color:var(--sea-deep);font-weight:600;text-underline-offset:4px;text-decoration-color:var(--sky);}
+
+table{width:100%;border-collapse:collapse;margin:0 0 28px;font-size:14.5px;background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
+th{background:var(--mist);font-weight:600;letter-spacing:.06em;}
+td{font-variant-numeric:tabular-nums;}
+tr:last-child td{border-bottom:none;}
+
+/* 補足ボックス */
+.callout{
+  background:rgba(232,245,233,.6);border-left:3px solid var(--peridot);
+  border-radius:0 16px 16px 0;padding:22px 26px;margin:0 0 30px;
+}
+.callout p:last-child{margin-bottom:0;}
+.callout strong{background:none;}
+
+/* 関連ツール */
+.toolcta{
+  position:relative;overflow:hidden;
+  display:block;text-decoration:none;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:32px 30px;margin:56px 0;box-shadow:var(--shadow);
+  transition:transform .26s,box-shadow .26s;
+}
+.toolcta::after{
+  content:"";position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;
+  background:var(--sky);opacity:.85;transition:transform .38s;
+}
+.toolcta:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(47,66,87,.12);}
+.toolcta:hover::after{transform:scale(1.4);}
+.toolcta__label{position:relative;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 12px;}
+.toolcta__name{position:relative;font-family:var(--serif);font-size:21px;letter-spacing:.08em;margin:0 0 10px;}
+.toolcta__desc{position:relative;font-size:14.5px;color:var(--ink-soft);margin:0 0 16px;max-width:26em;}
+.toolcta__go{position:relative;font-size:14.5px;font-weight:600;letter-spacing:.08em;color:var(--sea-deep);}
+
+/* 出典・免責 */
+.sources{margin:60px 0 0;border-top:1px solid var(--line);padding-top:30px;}
+.sources h2{font-family:var(--serif);font-weight:600;font-size:16px;letter-spacing:.16em;margin:0 0 14px;}
+.sources ul{list-style:none;margin:0;padding:0;}
+.sources li{font-size:14px;line-height:1.9;color:var(--ink-soft);margin:0 0 8px;padding-left:18px;position:relative;}
+.sources li::before{content:"";position:absolute;left:0;top:.85em;width:6px;height:6px;border-radius:50%;background:var(--peridot);}
+
+.disclaimer{
+  margin:30px 0 0;border-left:4px solid var(--peridot);background:rgba(232,245,233,.55);
+  border-radius:0 16px 16px 0;padding:22px 26px;
+}
+.disclaimer p{margin:0;font-size:14px;line-height:1.92;color:var(--ink-soft);}
+
+/* 執筆者 */
+.byline{
+  display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:28px;margin:44px 0 0;box-shadow:var(--shadow);
+}
+.byline__mark{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--bloom),var(--plum));display:grid;place-items:center;font-family:var(--serif);font-weight:600;font-size:22px;color:#fff;}
+.byline h3{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.1em;margin:0 0 6px;}
+.byline p{margin:0;font-size:14.5px;line-height:1.88;color:var(--ink-soft);}
+
+/* 前後の記事 */
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0 0;}
+.pager a{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;
+  text-decoration:none;transition:transform .22s,border-color .22s;
+}
+.pager a:hover{transform:translateY(-3px);border-color:var(--sky);}
+.pager span{display:block;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+.pager strong{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1.7;letter-spacing:.05em;}
+
+/* 広告枠 */
+/* フッター */
+.foot{margin-top:90px;border-top:1px solid var(--line);padding:44px 0 56px;}
+.foot__inner{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:center;}
+.foot__links{display:flex;flex-wrap:wrap;gap:26px;}
+.foot__links a{font-size:14px;font-weight:500;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;}
+.foot__links a:hover{color:var(--ink);}
+.copy{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.08em;margin:0;}
+
+@media (max-width:820px){
+  .nav a:nth-child(n+3){display:none;}
+  .head__mark{display:none;}
+  .byline{grid-template-columns:1fr;text-align:left;}
+  .pager{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+/* ===== 表の横スクロール ===== */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 28px;}
+.tw table{margin-bottom:0;min-width:420px;}
+
+/* ===== アバター ===== */
+.pic{display:block;border-radius:50%;background:linear-gradient(135deg,var(--dawn),var(--rose));object-fit:cover;}
+.pic--l{width:96px;height:96px;}
+.pic--s{width:66px;height:66px;}
+
+/* ===== モバイル最適化 ===== */
+@media (max-width:820px){
+  body::before{display:none;}
+  .masthead{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;}
+  .masthead__inner{height:auto;min-height:58px;padding:10px 0;flex-wrap:wrap;gap:6px 16px;}
+  .brand{font-size:17px;letter-spacing:.1em;}
+  .nav{gap:16px;flex-wrap:wrap;}
+  .nav a{font-size:12.5px;letter-spacing:.02em;padding:2px 0;border-bottom-width:2px;}
+  .nav a:nth-child(n+3){display:inline-block;}
+  .wrap,.column{padding-left:18px;padding-right:18px;}
+  h1,h2,h3,p,li,td,th,.post__title,.tool__name,.shop__name{overflow-wrap:anywhere;}
+  .tools,.shop,.channels{grid-template-columns:1fr;}
+  .toc{padding:22px 20px;}
+  .btn{padding:14px 22px;font-size:14px;}
+  .grid{grid-template-columns:1fr;}
+  .actions{gap:10px;}
+  .btn-run,.btn-sample{width:100%;justify-content:center;}
+}
+@media (max-width:400px){
+  .brand{font-size:16px;letter-spacing:.06em;}
+  .nav{gap:12px;}
+  .nav a{font-size:11.5px;}
+}
+
+/* ===== 装飾円を文字の背面へ ===== */
+.hero{isolation:isolate;}
+.hero__blob{z-index:-1;}
+.hero .wrap{position:relative;z-index:1;}
+.head__mark{z-index:-1;}
+.head{isolation:isolate;}
+
+/* ===== モバイルの装飾円 ===== */
+@media (max-width:820px){
+  .hero__blob--a{width:190px;height:190px;top:-70px;right:-70px;opacity:.55;}
+  .hero__blob--b{display:none;}
+  .hero__blob--c{width:80px;height:80px;bottom:-24px;left:-30px;opacity:.6;}
+  .hero{padding:52px 0 46px;}
+  .hero h1{font-size:clamp(25px,7.2vw,34px);line-height:1.5;max-width:none;}
+  .hero p{font-size:15px;}
+  .eyebrow{font-size:10.5px;letter-spacing:.22em;word-break:break-word;}
+}
+@media (max-width:400px){
+  .hero__blob--a{width:150px;height:150px;top:-60px;right:-60px;}
+  .hero h1{font-size:24px;letter-spacing:.02em;}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">本文へ移動</a>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <a class="brand" href="/test_credit_test/">数字の<span>ものさし</span></a>
+      <nav class="nav" aria-label="サイト内">
+        <a href="/test_credit_test/#tools">ツール</a>
+        <a href="/test_credit_test/articles/">読みもの</a>
+        <a href="/test_credit_test/#excel">Excel版</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="column">
+
+      <p class="crumbs"><a href="/test_credit_test/">ホーム</a> ／ <a href="/test_credit_test/articles/">読みもの</a> ／ 事業承継</p>
+
+      <header class="head">
+        <span class="head__mark" aria-hidden="true"></span>
+        <span class="tag">事業承継</span>
+        <h1>相続税評価とM&Aの価格が何倍も違う理由</h1>
+        <p class="head__meta">2026.08.08 公開 ／ 2026.08.08 更新</p>
+        <p class="head__lead">税理士が出した自社株の評価額は3億円。ところがM&amp;A仲介に相談したら1億円と言われた。どちらも間違っていません。そもそも別の目的で、別のものを測っているからです。</p>
+      </header>
+
+      <nav class="toc" aria-label="目次">
+        <h2>目次</h2>
+        <ol>
+          <li><a href="#s1">同じ会社に、まったく違う値段がつく</a></li>
+          <li><a href="#s2">相続税評価は「課税のための共通ルール」</a></li>
+          <li><a href="#s3">M&amp;Aの価格は「買い手が払える額」</a></li>
+          <li><a href="#s4">なぜ差が生まれるのか</a></li>
+          <li><a href="#s5">数字で並べてみる</a></li>
+          <li><a href="#s6">第3の価格がある：配当還元</a></li>
+          <li><a href="#s7">少数株主の株を買い戻すとき</a></li>
+          <li><a href="#s8">この差をどう使うか</a></li>
+          <li><a href="#s9">まず両方を出してみる</a></li>
+        </ol>
+      </nav>
+
+      <div class="body">
+
+        <h2 id="s1">同じ会社に、まったく違う値段がつく</h2>
+        <p>自社株の評価額を税理士に出してもらったら3億円だった。ところがM&amp;Aの仲介会社に相談したら「1億円くらいでしょう」と言われた。あるいはその逆で、税務上は1億円なのに買い手は5億円を提示してきた。</p>
+        <p>どちらも珍しくありません。<strong>相続税評価とM&amp;A価格は、そもそも別の目的で、別の方法で計算されているから</strong>です。</p>
+        <p>この違いを理解していないと、事業承継の場面で判断を誤ります。「税務上の評価が3億だから、売るなら3億もらえるはずだ」という前提が、交渉の最初でつまずく原因になります。</p>
+
+        <h2 id="s2">相続税評価は「課税のための共通ルール」</h2>
+        <p>相続税評価額は、財産評価基本通達という国税庁の定めに従って計算します。会社規模を判定し、類似業種比準価額と純資産価額を組み合わせる、あの手順です。</p>
+        <p>この方法の目的は、<strong>誰が計算しても同じ答えが出ること</strong>にあります。課税の公平を保つため、判断の余地を可能な限り排除している。だから会社規模の判定も、業種の分類も、機械的に決まります。</p>
+        <p>言い換えると、<strong>その会社の個性はほとんど反映されません。</strong>優れた技術を持っていても、取引先が1社に偏っていても、社長が明日引退しても、通達の計算式は同じ答えを返します。</p>
+
+        <div class="callout">
+          <p><strong>ここが誤解のもと</strong>：相続税評価額は「その会社の価値」ではなく、<strong>「課税するためにいくらと置くか」という約束事</strong>です。市場価格の推定ではありません。両者が一致する必然性は、もともとありません。</p>
+        </div>
+
+<h2 id="s3">M&amp;Aの価格は「買い手が払える額」</h2>
+        <p>一方、第三者間の売買価格は交渉で決まります。理屈の上での計算はしますが、それは交渉の出発点にすぎません。実務でよく使われるのは次の3つです。</p>
+
+        <h3>DCF法</h3>
+        <p>将来のキャッシュフローを予測し、現在価値に割り引いて算出します。<strong>理論的には最も正しい方法</strong>ですが、将来予測と割引率という2つの前提で答えが大きく動きます。買い手と売り手で前提が違えば、当然、金額も違います。</p>
+        <p>中小企業では事業計画そのものが存在しないことも多く、<strong>DCF法を使うために計画を作るところから始まる</strong>のが実情です。その計画を誰が作ったかで数字が動く、という弱点があります。</p>
+
+        <h3>時価純資産法（＋年買法）</h3>
+        <p>資産と負債を時価に洗い替えた純資産に、営業利益の数年分を「のれん」として上乗せする方法です。中小企業のM&amp;Aで最も広く使われています。<strong>上乗せの年数は3年程度を目安とすることが多い</strong>ものの、これも交渉次第です。</p>
+        <p>広く使われる理由は、<strong>売り手にも買い手にも直感的に分かるから</strong>です。「純資産に営業利益3年分」と言えば、双方が同じ絵を思い浮かべられます。</p>
+
+        <h3>マルチプル法</h3>
+        <p>類似する上場企業のEBITDA倍率などを参考に、対象会社の価値を推定します。比較対象をどう選ぶかで結果が変わります。</p>
+
+        <p>3つに共通するのは、<strong>いずれも「将来どれだけ稼ぐか」を見ている</strong>ことです。相続税評価が過去の蓄積（純資産）と直近の実績（利益・配当）を見ているのとは、視点が違います。</p>
+
+        <h2 id="s4">なぜ差が生まれるのか</h2>
+        <div class="tw"><table>
+          <thead><tr><th>論点</th><th>相続税評価</th><th>M&amp;A価格</th></tr></thead>
+          <tbody>
+            <tr><td>目的</td><td>課税の公平</td><td>取引の成立</td></tr>
+            <tr><td>見る時間軸</td><td>過去と現在</td><td>将来</td></tr>
+            <tr><td>個別事情</td><td>ほぼ反映しない</td><td>すべて反映する</td></tr>
+            <tr><td>含み益のある土地</td><td>評価額を押し上げる</td><td>事業に不要なら評価されないことも</td></tr>
+            <tr><td>社長への依存</td><td>反映されない</td><td>大きな減額要因</td></tr>
+            <tr><td>取引先の集中</td><td>反映されない</td><td>減額要因</td></tr>
+            <tr><td>技術・人材・許認可</td><td>反映されない</td><td>加算要因</td></tr>
+            <tr><td>買い手との相乗効果</td><td>概念がない</td><td>加算要因</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>評価が高く出やすいのはこういう会社</h3>
+        <p><strong>相続税評価のほうが高くなる</strong>のは、含み益のある不動産を持ち、内部留保が厚く、しかし利益はそれほど出ていない会社です。純資産価額方式が効いて評価は膨らむのに、将来のキャッシュフローが小さいのでM&amp;Aでは値がつきにくい。<strong>老舗の製造業や、本社土地を古くから持つ会社に多い形</strong>です。</p>
+        <p>逆に<strong>M&amp;A価格のほうが高くなる</strong>のは、資産は少ないが利益率が高く、参入障壁のある事業を持つ会社です。情報通信、専門サービス、許認可が絡む事業などが典型で、買い手にとっては買う価値が大きい。</p>
+
+        <h2 id="s5">数字で並べてみる</h2>
+        <p>仮の会社で比べてみます。単位は百万円です。</p>
+        <div class="tw"><table>
+          <thead><tr><th>項目</th><th>A社（老舗製造業）</th><th>B社（専門サービス業）</th></tr></thead>
+          <tbody>
+            <tr><td>簿価純資産</td><td>300</td><td>80</td></tr>
+            <tr><td>土地の含み益</td><td>500</td><td>0</td></tr>
+            <tr><td>営業利益</td><td>20</td><td>90</td></tr>
+            <tr><td>時価純資産（概算）</td><td>800</td><td>80</td></tr>
+            <tr class="tot"><td>時価純資産＋営業利益3年分</td><td>860</td><td>350</td></tr>
+          </tbody>
+        </table></div>
+        <p>純資産価額方式に近い考え方で見ると、A社は800、B社は80。<strong>10倍の差</strong>です。ところが年買法で見ると860と350になり、差は約2.5倍まで縮まります。</p>
+        <p>そしてA社は含み益に対する法人税額等相当額の控除があるものの、相続税評価では<strong>この800前後が課税の基礎</strong>になります。一方、買い手から見れば、A社の土地が事業に必要でなければ「土地だけ買いたいわけではない」となり、評価は下がります。</p>
+        <p><strong>A社は、税務上は重く、売却では軽い。</strong>この非対称が、承継のコストを最も重くします。</p>
+
+        <h2 id="s6">第3の価格がある：配当還元</h2>
+        <p>ここまで2つの価格を比べてきましたが、実は税務の世界にももう1つの価格があります。<strong>配当還元価額</strong>です。</p>
+        <p>これは、同族株主以外の人が株式を取得する場合に使われる評価方法で、過去の配当実績をもとに価額を算出します。経営に関与できず配当を受け取るだけの立場なら、株式の価値もその配当に見合ったものだ、という考え方です。</p>
+        <p>この方法で計算すると、評価額は原則的評価方式による額を<strong>大きく下回るのが通常</strong>です。つまり、同じ会社の同じ1株でも、<strong>誰が取得するかで税務上の評価が桁違いに変わります。</strong></p>
+        <div class="tw"><table>
+          <thead><tr><th>取得する人</th><th>使われる評価方法</th><th>水準</th></tr></thead>
+          <tbody>
+            <tr><td>後継者（同族株主）</td><td>原則的評価方式</td><td>高い</td></tr>
+            <tr><td>従業員・取引先など</td><td>配当還元方式</td><td>大きく下がる</td></tr>
+            <tr><td>第三者（M&amp;A）</td><td>交渉価格</td><td>会社次第</td></tr>
+          </tbody>
+        </table></div>
+        <p>つまり同じ株に、<strong>少なくとも3つの価格が併存している</strong>ということです。「うちの株はいくらか」という問いに一意の答えがないのは、このためです。</p>
+
+        <h2 id="s7">少数株主の株を買い戻すとき</h2>
+        <p>実務でこの差が最も生々しく出るのが、少数株主からの買取です。</p>
+        <p>創業時に名前を借りた親族、退職した役員、取引先。長年放置されていた少数株が、承継の直前になって問題になります。<strong>集約しないまま承継すると、後継者の意思決定に支障が出る</strong>からです。</p>
+        <p>ここで難しいのは、<strong>売る側と買う側で「妥当な価格」の感覚が大きく違う</strong>ことです。売る側は原則的評価方式の数字を持ち出し、買う側は配当還元方式の水準を提示する。同じ株なのに主張が数倍離れる、ということが起こります。</p>
+        <p>加えて、価格の設定そのものが税務上の論点になります。<strong>著しく低い価額で譲渡すれば、その差額が実質的な贈与とみなされる可能性がある</strong>からです。逆に高すぎれば、会社から個人への利益移転と見られることもあります。</p>
+        <p>具体的にどの水準なら問題ないかは、当事者の関係（個人か法人か、同族株主かどうか）によって適用される取扱いが変わります。<strong>ここは必ず税理士に確認すべき領域</strong>で、独自の判断で価格を決めるのは危険です。</p>
+
+        <h2 id="s8">この差をどう使うか</h2>
+        <p>差があること自体は問題ではありません。<strong>問題は、片方の数字だけを見て意思決定してしまうこと</strong>です。</p>
+        <ul>
+          <li><strong>親族に承継するなら</strong>、効いてくるのは相続税評価です。納税資金をどう用意するかが論点になります</li>
+          <li><strong>第三者に売却するなら</strong>、効いてくるのはM&amp;A価格です。買い手から見た魅力をどう高めるかが論点になります</li>
+          <li><strong>少数株を集約するなら</strong>、配当還元方式との関係と、価格設定の税務リスクが論点になります</li>
+          <li><strong>まだ決めていないなら</strong>、全部を出しておく意味があります。差の大きさが、そのまま選択肢の性格の違いを表します</li>
+        </ul>
+        <p>実際、<strong>相続税評価が高くM&amp;A価格が低い会社は、承継のコストが最も重くなります。</strong>納税額は大きいのに、売っても納税資金に足りない。この構造に気づかないまま相続を迎えるのが、いちばん避けたい形です。</p>
+        <p>逆にM&amp;A価格のほうが高い会社は、選択肢が広い。売却して納税し、残りを次の事業に回すという道も現実的になります。</p>
+
+        <h2 id="s9">まず両方を出してみる</h2>
+        <p>どちらの数字も、精緻な評価には専門家が必要です。しかし<strong>桁を掴むだけなら、自分でできます。</strong>そして桁が分かれば、相談すべき相手と、聞くべきことが決まります。</p>
+        <p>「うちの会社はいくらですか」と白紙で聞くのと、「相続税評価でこの金額、年買法でこの金額が出たのですが、この差はどこから来ていますか」と聞くのとでは、返ってくる答えの深さがまるで違います。</p>
+        <p>そして<strong>差の原因が分かれば、対策の方向も見えます。</strong>含み益のある遊休不動産が原因なら、それをどう扱うか。社長への依存が減額要因なら、承継までに何を引き継ぐか。<strong>数字は結論ではなく、次に何を考えるべきかを教えてくれる材料</strong>です。</p>
+
+
+        <a class="toolcta" href="/test_credit_test/kabuka/">
+          <p class="toolcta__label">try the tool</p>
+          <h2 class="toolcta__name" style="border:none;padding:0;margin:0 0 10px;">非上場株式 株価算定シミュレーター</h2>
+          <p class="toolcta__desc">会社規模判定から類似業種比準価額・純資産価額・配当還元価額までの相続税評価と、DCF法・時価純資産法・年買法・EBITDAマルチプル法による第三者間売買での評価を、同じ画面で並べて表示します。入力はブラウザ内で完結し、送信されません。</p>
+          <span class="toolcta__go">3つの価格を出してみる →</span>
+        </a>
+
+      </div>
+
+      <section class="sources">
+        <h2>参照した資料</h2>
+        <ul>
+          <li>国税庁「財産評価基本通達」第8章第1節 株式及び出資（178〜189-7）（参照日：2026年8月8日）</li>
+          <li>中小企業庁「中小M&amp;Aガイドライン」（参照日：2026年8月8日）</li>
+          <li>本記事のM&amp;A評価に関する記述は、公表資料の解説に加え、金融機関および企業信用調査での実務経験に基づく整理を含みます。</li>
+        </ul>
+        <div class="disclaimer">
+          <p>本記事は一般的な情報提供を目的としたものであり、個別の税務相談や企業価値評価に応じるものではありません。掲載した数値はすべて説明のための仮の例です。とくに株式の譲渡価額の設定は、当事者の関係により適用される税務上の取扱いが異なり、判断を誤ると課税上の問題を生じます。実際の評価および価格設定にあたっては、必ず税理士・公認会計士等の専門家にご相談ください。</p>
+        </div>
+      </section>
+
+      <div class="byline">
+        <img class="pic pic--s" src="/test_credit_test/assets/eryael.png" width="480" height="480" alt="エリエール" loading="lazy">
+        <div>
+          <h3>エリエール</h3>
+          <p>財務経理、金融機関での法人営業・制度対応、企業信用調査を経て独立。会社の数字を作る側、貸す側、調べる側の三方向から決算書を見てきました。</p>
+        </div>
+      </div>
+
+      <nav class="pager" aria-label="前後の記事">
+        <a href="/test_credit_test/articles/funshoku/"><span>前の記事</span><strong>粉飾の兆候は数字のどこに出るか｜売掛金と在庫の増え方を見る</strong></a>
+        <a href="/test_credit_test/articles/hyojun-hoshu/"><span>次の記事</span><strong>標準報酬月額は4〜6月で決まる｜12か月分を3か月が決める仕組み</strong></a>
+      </nav>
+
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <nav class="foot__links" aria-label="フッター">
+        <a href="/test_credit_test/about/">運営者情報</a>
+        <a href="/test_credit_test/privacy/">プライバシーポリシー</a>
+        <a href="/test_credit_test/tokusho/">特定商取引法に基づく表記</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+        <a href="/test_credit_test/sitemap.xml">サイトマップ</a>
+      </nav>
+      <p class="copy">© 2026 数字のものさし</p>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

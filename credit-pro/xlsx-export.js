@@ -271,9 +271,9 @@ function sheetSummary(wb, r) {
   ws.mergeCells(row, 2, row + 2, 8);
   for (let k = 0; k < 3; k++) ws.getRow(row + k).height = 16;
   put(ws, `B${row}`,
-    "出典：財務省「年次別法人企業統計調査（令和6年度）」令和7年9月1日公表（統計法に基づく基幹統計調査）\n" +
+    "出典：財務省「年次別法人企業統計調査（令和7年度）」令和8年9月1日公表（統計法に基づく基幹統計調査）\n" +
     "本ファイルは1社分の判定結果です（計算式は含まれません）。配点・しきい値を自社基準に書き換えて何度でもお使いいただける" +
-    "数式入りのExcel版「与信判断検討書類 Pro」もご用意しています。\n" +
+    "計算ロジックをすべて開示したExcel版「与信判断検討書類 Pro」もご用意しています。\n" +
     "本書は与信判断を支援する一次スクリーニング資料です。最終的な与信判断は貴社の決裁権者が総合的に行ってください。",
     { font: font(8.5, false, C.muted), align: AL.w, border: false });
 
@@ -477,7 +477,7 @@ function sheetScore(wb, r) {
   ws.mergeCells(row, 2, row + 1, 6);
   put(ws, `B${row}`,
     "※ 各評価項目のしきい値・配点表は本ファイルには含まれません。配点を自社の与信方針に合わせて変更したい場合は、" +
-    "数式入りのExcel版「与信判断検討書類 Pro」をご利用ください。",
+    "計算ロジックをすべて開示したExcel版「与信判断検討書類 Pro」をご利用ください。",
     { font: font(9, false, C.muted), align: AL.w, border: false });
   return ws;
 }

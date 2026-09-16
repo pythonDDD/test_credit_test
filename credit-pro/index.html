@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex,nofollow,noarchive">
 <meta name="googlebot" content="noindex,nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>財務でポン！｜決算書を入れるだけで決算分析と与信判定・Excel出力</title>
+<title>財務でポン！｜決算書PDFから自動で財務分析・与信判定・Excel出力</title>
 <meta name="description" content="「財務でポン！」は決算書3期分を入力するだけで、取引先の信用力を業歴・資本構成・規模・損益・経営者・償還余力の6軸100点満点で判定します。信用程度A〜Eと与信限度額の目安、稟議に添付できるExcel（エクセル）ファイルまで自動作成。業種別の基準値は財務省の法人企業統計調査に準拠。計算はブラウザ内で完結し、入力内容は送信されません。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="財務でポン！｜決算書を入れるだけで決算分析と与信判定・Excel出力">
@@ -571,6 +571,27 @@ body.has-freebar{padding-top:46px;}
 body.has-freebar .masthead{top:46px;}
 @media (max-width:820px){.freebar{font-size:12px;padding:8px 12px;}body.has-freebar{padding-top:62px;}
   body.has-freebar .masthead{top:62px;}}
+
+/* ===== 受け取れるもの（Excelのシート見本） ===== */
+.deliver{margin:26px 0 0;padding:26px 24px 22px;background:var(--card);border:1.5px solid var(--line);
+  border-left:5px solid var(--sea-deep);border-radius:20px;box-shadow:var(--shadow);}
+.deliver__head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap;}
+.deliver__eyebrow{margin:0 0 4px;font-size:11.5px;font-weight:700;letter-spacing:.18em;color:var(--sea-deep);}
+.deliver__h{font-family:var(--serif);font-size:21px;font-weight:700;letter-spacing:.04em;margin:0;}
+.deliver__price{margin:0;font-family:var(--num);white-space:nowrap;color:var(--ink);}
+.deliver__price b{font-size:34px;font-weight:700;line-height:1;}
+.deliver__price span{font-family:var(--sans);font-size:13px;font-weight:600;margin-left:3px;color:var(--ink-soft);}
+.deliver__lead{margin:14px 0 18px;font-size:15px;line-height:1.95;}
+.deliver__foot{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:18px 0 0;}
+.deliver__foot .calc__hint{margin:0;flex:1 1 220px;}
+@media (max-width:820px){
+  .deliver{padding:20px 14px 18px;}
+  .deliver__h{font-size:18px;}
+  .deliver__price b{font-size:28px;}
+  .shot__tabs button{font-size:11.5px;padding:7px 10px;}
+  .shot__nav{width:32px;height:32px;}
+  .shot__nav--prev{left:10px;} .shot__nav--next{right:10px;}
+}
 </style>
 
 <!-- Google tag (gtag.js) -->
@@ -622,13 +643,13 @@ body.has-freebar .masthead{top:46px;}
       <header class="head">
         <span class="head__mark" aria-hidden="true"></span>
         <span class="badge">CREDIT ASSESSMENT PRO</span>
-        <h1>財務でポン！<br><span class="h1sub">決算書を入れるだけで、決算分析と与信判定</span></h1>
+        <h1>財務でポン！<br><span class="h1sub">決算書を入れるだけで、財務分析と与信判定</span></h1>
         <p>決算書のPDFを置くだけで、自動分析してExcel形式で出力。取引先の信用力を6軸100点満点で判定し、稟議にそのまま添付できるレポートを作成します。信用程度A〜E、与信限度額の目安、主要財務指標14種まで自動で計算します。</p>
         <p class="head__safe">ファイルはブラウザの中だけで処理され、どこにも送信されません。</p>
       </header>
 
       <section class="step" id="step1">
-        <div class="step__head"><span class="step__no">1</span><h2>PDFを置くだけで、ポン。</h2></div>
+        <div class="step__head"><span class="step__no">1</span><h2>PDFを置くだけで、分析完了。</h2></div>
         <p class="step__lead">決算書のPDFをドラッグ＆ドロップ。それだけで、財務分析と与信判定が<b>7つの図</b>になって出てきます。</p>
 
         <div class="demo">
@@ -640,10 +661,39 @@ body.has-freebar .masthead{top:46px;}
           <div id="demoCol" class="demo__col"></div>
         </div>
 
-        <div class="sample">
-          <p class="sample__lead"><b>Excelも同じものが出ます。</b>グラフを載せたダッシュボードつき・6シート構成。架空の会社の数値で実物をお試しいただけます。</p>
-          <button class="btn-sample" id="btnSample" type="button">サンプルExcelをダウンロード</button>
-          <p class="calc__hint" id="sampleNote" aria-live="polite"></p>
+        <div class="deliver">
+          <div class="deliver__head">
+            <div>
+              <p class="deliver__eyebrow">受け取れるもの</p>
+              <h3 class="deliver__h">Excelでは、もう一段くわしく見られます</h3>
+            </div>
+            <p class="deliver__price"><b>500</b><span>円 ／ 1社</span></p>
+          </div>
+          <p class="deliver__lead">上でご覧いただいた7つの図は、そのままダッシュボードになります。
+          そのうえでExcelには、<b>3期比較の主要指標14種</b>、<b>償還余力の算定過程</b>、<b>100点の配点根拠</b>と、
+          画面には出していない数字が並びます。決裁欄つきで、稟議にそのまま添付できる6シート構成です。</p>
+
+          <div class="shot">
+            <div class="shot__tabs" role="tablist" aria-label="Excelのシート">
+              <button type="button" data-shot="0" class="is-on" role="tab" aria-selected="true">① 判定サマリー</button>
+              <button type="button" data-shot="1" role="tab" aria-selected="false">② 財務分析</button>
+              <button type="button" data-shot="2" role="tab" aria-selected="false">③ 資金償還表</button>
+              <button type="button" data-shot="3" role="tab" aria-selected="false">④ 配点内訳</button>
+              <button type="button" data-shot="4" role="tab" aria-selected="false">⑤ 入力データ</button>
+              <button type="button" data-shot="5" role="tab" aria-selected="false">⑥ ダッシュボード</button>
+            </div>
+            <div class="shot__stage">
+              <img id="shotImg" src="./assets/1-summary.jpg" alt="Excelのシート見本" loading="lazy" decoding="async">
+              <button type="button" class="shot__nav shot__nav--prev" id="shotPrev" aria-label="前のシート">&#8249;</button>
+              <button type="button" class="shot__nav shot__nav--next" id="shotNext" aria-label="次のシート">&#8250;</button>
+            </div>
+            <p class="shot__cap" id="shotCap"></p>
+          </div>
+
+          <div class="deliver__foot">
+            <button class="btn-sample" id="btnSample" type="button">サンプルExcelをダウンロード</button>
+            <p class="calc__hint" id="sampleNote" aria-live="polite">架空の会社の数値です。実際に受け取るものとまったく同じ手順で作っています。</p>
+          </div>
         </div>
 
       </section>
@@ -917,8 +967,8 @@ body.has-freebar .masthead{top:46px;}
 
       </div></details>
 <details class="acc" id="acc-source"><summary><span id="source">出典・準拠時点・免責</span></summary><div class="acc__body">
-      <p><b>業界基準値の出典</b>　財務省「年次別法人企業統計調査（令和6年度）」令和7年9月1日公表（統計法に基づく基幹統計調査）。売上高利益率および自己資本比率の公表計数を用いています。</p>
-      <p><b>準拠時点</b>　令和6年度確定計数。基準値は統計の更新状況を踏まえて見直します。最新の公表内容は財務省の該当ページをご確認ください。</p>
+      <p><b>業界基準値の出典</b>　財務省「年次別法人企業統計調査（令和7年度）」令和8年9月1日公表（統計法に基づく基幹統計調査）。売上高利益率および自己資本比率の公表計数を用いています。</p>
+      <p><b>準拠時点</b>　令和7年度確定計数。基準値は統計の更新状況を踏まえて見直します。最新の公表内容は財務省の該当ページをご確認ください。</p>
       <p><b>免責</b>　本ツールは与信判断を支援する一次スクリーニングツールです。算出される評点・信用程度・与信限度額の目安は判断材料の一つであり、特定の取引や与信の可否を保証・推奨するものではありません。最終的な与信判断は、信用調査報告書・面談内容・業界動向・保全状況等を踏まえ、貴社の決裁権者が総合的に行ってください。本ツールの利用により生じたいかなる損害についても、作成者は責任を負いかねます。</p>
       <p>本ツールは中小企業から中堅企業の与信判断を主な想定として設計しています。金融業・保険業は法人企業統計調査の対象外です。</p>
 
@@ -958,7 +1008,7 @@ body.has-freebar .masthead{top:46px;}
 </div>
 
 <script src="../vendor/exceljs.min.js" defer></script>
-<script type="module" src="./app.js?v=30"></script>
+<script type="module" src="./app.js?v=31"></script>
 
 </body>
 </html>

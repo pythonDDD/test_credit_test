@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script>if(location.protocol==='http:'){location.replace('https://'+location.host+location.pathname+location.search+location.hash);}</script>
+
+<meta charset="UTF-8">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta name="googlebot" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>その差は偶然か｜p値の読み方と、実務的に意味のある差</title>
+<meta name="description" content="「有意差が出ました」という報告を受けたら、何を確認すべきか。p値が答えていない問い、件数を増やせば有意になる仕組み、「有意差なし」を「差がない」と読んではいけない理由を、実際の計算例で整理します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="その差は偶然か｜p値の読み方と、実務的に意味のある差">
+<meta property="og:description" content="「有意差が出ました」という報告を受けたら、何を確認すべきか。p値が答えていない問い、件数を増やせば有意になる仕組み、「有意差なし」を「差がない」と読んではいけない理由を、実際の計算例で整理します。">
+<meta property="og:url" content="https://kazumono.com/articles/pchi-yuuisa/">
+<meta name="twitter:card" content="summary_large_image">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146116373822311" crossorigin="anonymous"></script>
+<link rel="icon" href="/test_credit_test/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/test_credit_test/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/test_credit_test/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#33526C">
+<meta property="og:site_name" content="数字のものさし">
+<meta property="og:image" content="https://kazumono.com/assets/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Article",
+  "headline":"その差は偶然か｜p値の読み方と、実務的に意味のある差",
+  "datePublished":"2026-08-08",
+  "dateModified":"2026-08-08",
+  "author":{"@type":"Person","name":"エリエール"},
+  "publisher":{"@type":"Organization","name":"数字のものさし"},
+  "mainEntityOfPage":"https://kazumono.com/articles/pchi-yuuisa/"
+}
+</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BETYS4R53Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BETYS4R53Y');
+</script>
+
+<style>
+:root{
+  --paper:#FAF9F6; --card:#FFFFFF;
+  --ink:#18262F; --ink-soft:#33495B; --ink-faint:#5B7085;
+  --sea-deep:#33526C; --sea:#527695; --sky:#84D2F5; --aqua:#B0F1F0; --mist:#DFF6F1;
+  --dawn:#FEEEDF; --rose:#F4C3D3; --bloom:#F8A3BF; --plum:#B67AB4;
+  --peridot:#82B33A; --lime:#D4E157; --mint:#E8F5E9;
+  --line:rgba(24,38,47,.18);
+  --shadow:0 1px 2px rgba(35,53,67,.05), 0 10px 26px rgba(35,53,67,.07);
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Times New Roman",serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",sans-serif;
+  --num:"Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-size:16.5px;line-height:1.98;letter-spacing:.015em;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.26;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='0.22'/></svg>");
+}
+.page{position:relative;z-index:1;}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px;}
+.column{width:100%;max-width:720px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+:focus-visible{outline:2.5px solid var(--sea);outline-offset:3px;border-radius:4px;}
+.skip{position:absolute;left:-9999px;background:var(--sea);color:#fff;padding:12px 20px;z-index:99;}
+.skip:focus{left:0;}
+
+/* ヘッダー */
+.masthead{position:sticky;top:0;z-index:20;background:rgba(250,249,246,.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.masthead__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:68px;}
+.brand{font-family:var(--serif);font-size:19px;letter-spacing:.22em;text-decoration:none;white-space:nowrap;}
+.brand span{color:var(--sea);}
+.nav{display:flex;gap:26px;}
+.nav a{font-size:14px;font-weight:500;letter-spacing:.1em;text-decoration:none;color:var(--ink-soft);border-bottom:1.5px solid transparent;padding:6px 0;transition:color .2s,border-color .2s;}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--bloom);}
+
+/* 記事ヘッダー */
+.crumbs{font-size:13px;color:var(--ink-soft);letter-spacing:.08em;margin:34px 0 0;}
+.crumbs a{text-decoration:none;}
+.crumbs a:hover{color:var(--ink);}
+
+.head{padding:26px 0 44px;position:relative;}
+.head__mark{
+  position:absolute;top:-10px;right:-20px;width:150px;height:150px;border-radius:50%;
+  background:var(--mist);opacity:.7;pointer-events:none;
+}
+.tag{display:inline-block;font-size:11.5px;letter-spacing:.14em;padding:5px 14px;border-radius:999px;background:var(--mist);position:relative;}
+.head h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(25px,4.2vw,37px);line-height:1.68;letter-spacing:.04em;
+  margin:20px 0 18px;position:relative;
+}
+.head__meta{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.1em;margin:0;position:relative;}
+.head__lead{
+  margin:26px 0 0;font-size:16.5px;line-height:2;color:var(--ink);
+  border-left:3px solid var(--rose);padding-left:20px;position:relative;
+}
+
+/* 目次 */
+.toc{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:26px 30px;margin:0 0 52px;box-shadow:var(--shadow);
+}
+.toc h2{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:.18em;margin:0 0 14px;}
+.toc ol{margin:0;padding-left:1.3em;}
+.toc li{margin:8px 0;font-size:15px;}
+.toc a{text-decoration:none;color:var(--ink);}
+.toc a:hover{color:var(--ink);text-decoration:underline;text-decoration-color:var(--sky);text-underline-offset:4px;}
+
+/* 本文 */
+.body h2{
+  font-family:var(--serif);font-weight:600;font-size:clamp(21px,3vw,26px);
+  letter-spacing:.06em;line-height:1.66;
+  margin:64px 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line);
+}
+.body h3{
+  font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.08em;
+  margin:44px 0 14px;
+}
+.body h3::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bloom);margin-right:11px;vertical-align:middle;}
+.body p{margin:0 0 24px;}
+.body ul,.body ol{margin:0 0 24px;padding-left:1.4em;}
+.body li{margin:9px 0;}
+.body strong{background:linear-gradient(transparent 64%,var(--rose) 64%);font-weight:600;}
+.body a{color:var(--sea-deep);font-weight:600;text-underline-offset:4px;text-decoration-color:var(--sky);}
+
+table{width:100%;border-collapse:collapse;margin:0 0 28px;font-size:14.5px;background:var(--card);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);}
+th,td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
+th{background:var(--mist);font-weight:600;letter-spacing:.06em;}
+td{font-variant-numeric:tabular-nums;}
+tr:last-child td{border-bottom:none;}
+
+/* 補足ボックス */
+.callout{
+  background:rgba(232,245,233,.6);border-left:3px solid var(--peridot);
+  border-radius:0 16px 16px 0;padding:22px 26px;margin:0 0 30px;
+}
+.callout p:last-child{margin-bottom:0;}
+.callout strong{background:none;}
+
+/* 関連ツール */
+.toolcta{
+  position:relative;overflow:hidden;
+  display:block;text-decoration:none;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:32px 30px;margin:56px 0;box-shadow:var(--shadow);
+  transition:transform .26s,box-shadow .26s;
+}
+.toolcta::after{
+  content:"";position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;
+  background:var(--sky);opacity:.85;transition:transform .38s;
+}
+.toolcta:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(47,66,87,.12);}
+.toolcta:hover::after{transform:scale(1.4);}
+.toolcta__label{position:relative;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 12px;}
+.toolcta__name{position:relative;font-family:var(--serif);font-size:21px;letter-spacing:.08em;margin:0 0 10px;}
+.toolcta__desc{position:relative;font-size:14.5px;color:var(--ink-soft);margin:0 0 16px;max-width:26em;}
+.toolcta__go{position:relative;font-size:14.5px;font-weight:600;letter-spacing:.08em;color:var(--sea-deep);}
+
+/* 出典・免責 */
+.sources{margin:60px 0 0;border-top:1px solid var(--line);padding-top:30px;}
+.sources h2{font-family:var(--serif);font-weight:600;font-size:16px;letter-spacing:.16em;margin:0 0 14px;}
+.sources ul{list-style:none;margin:0;padding:0;}
+.sources li{font-size:14px;line-height:1.9;color:var(--ink-soft);margin:0 0 8px;padding-left:18px;position:relative;}
+.sources li::before{content:"";position:absolute;left:0;top:.85em;width:6px;height:6px;border-radius:50%;background:var(--peridot);}
+
+.disclaimer{
+  margin:30px 0 0;border-left:4px solid var(--peridot);background:rgba(232,245,233,.55);
+  border-radius:0 16px 16px 0;padding:22px 26px;
+}
+.disclaimer p{margin:0;font-size:14px;line-height:1.92;color:var(--ink-soft);}
+
+/* 執筆者 */
+.byline{
+  display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;
+  background:var(--card);border:1px solid var(--line);border-radius:22px;
+  padding:28px;margin:44px 0 0;box-shadow:var(--shadow);
+}
+.byline__mark{width:66px;height:66px;border-radius:50%;background:linear-gradient(135deg,var(--bloom),var(--plum));display:grid;place-items:center;font-family:var(--serif);font-weight:600;font-size:22px;color:#fff;}
+.byline h3{font-family:var(--serif);font-weight:600;font-size:17px;letter-spacing:.1em;margin:0 0 6px;}
+.byline p{margin:0;font-size:14.5px;line-height:1.88;color:var(--ink-soft);}
+
+/* 前後の記事 */
+.pager{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:48px 0 0;}
+.pager a{
+  background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;
+  text-decoration:none;transition:transform .22s,border-color .22s;
+}
+.pager a:hover{transform:translateY(-3px);border-color:var(--sky);}
+.pager span{display:block;font-family:var(--num);font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;}
+.pager strong{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1.7;letter-spacing:.05em;}
+
+/* 広告枠 */
+/* フッター */
+.foot{margin-top:90px;border-top:1px solid var(--line);padding:44px 0 56px;}
+.foot__inner{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:center;}
+.foot__links{display:flex;flex-wrap:wrap;gap:26px;}
+.foot__links a{font-size:14px;font-weight:500;letter-spacing:.08em;color:var(--ink-soft);text-decoration:none;}
+.foot__links a:hover{color:var(--ink);}
+.copy{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);letter-spacing:.08em;margin:0;}
+
+@media (max-width:820px){
+  .nav a:nth-child(n+3){display:none;}
+  .head__mark{display:none;}
+  .byline{grid-template-columns:1fr;text-align:left;}
+  .pager{grid-template-columns:1fr;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important;}}
+
+/* ===== 表の横スクロール ===== */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 28px;}
+.tw table{margin-bottom:0;min-width:420px;}
+
+/* ===== アバター ===== */
+.pic{display:block;border-radius:50%;background:linear-gradient(135deg,var(--dawn),var(--rose));object-fit:cover;}
+.pic--l{width:96px;height:96px;}
+.pic--s{width:66px;height:66px;}
+
+/* ===== モバイル最適化 ===== */
+@media (max-width:820px){
+  body::before{display:none;}
+  .masthead{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;}
+  .masthead__inner{height:auto;min-height:58px;padding:10px 0;flex-wrap:wrap;gap:6px 16px;}
+  .brand{font-size:17px;letter-spacing:.1em;}
+  .nav{gap:16px;flex-wrap:wrap;}
+  .nav a{font-size:12.5px;letter-spacing:.02em;padding:2px 0;border-bottom-width:2px;}
+  .nav a:nth-child(n+3){display:inline-block;}
+  .wrap,.column{padding-left:18px;padding-right:18px;}
+  h1,h2,h3,p,li,td,th,.post__title,.tool__name,.shop__name{overflow-wrap:anywhere;}
+  .tools,.shop,.channels{grid-template-columns:1fr;}
+  .toc{padding:22px 20px;}
+  .btn{padding:14px 22px;font-size:14px;}
+  .grid{grid-template-columns:1fr;}
+  .actions{gap:10px;}
+  .btn-run,.btn-sample{width:100%;justify-content:center;}
+}
+@media (max-width:400px){
+  .brand{font-size:16px;letter-spacing:.06em;}
+  .nav{gap:12px;}
+  .nav a{font-size:11.5px;}
+}
+
+/* ===== 装飾円を文字の背面へ ===== */
+.hero{isolation:isolate;}
+.hero__blob{z-index:-1;}
+.hero .wrap{position:relative;z-index:1;}
+.head__mark{z-index:-1;}
+.head{isolation:isolate;}
+
+/* ===== モバイルの装飾円 ===== */
+@media (max-width:820px){
+  .hero__blob--a{width:190px;height:190px;top:-70px;right:-70px;opacity:.55;}
+  .hero__blob--b{display:none;}
+  .hero__blob--c{width:80px;height:80px;bottom:-24px;left:-30px;opacity:.6;}
+  .hero{padding:52px 0 46px;}
+  .hero h1{font-size:clamp(25px,7.2vw,34px);line-height:1.5;max-width:none;}
+  .hero p{font-size:15px;}
+  .eyebrow{font-size:10.5px;letter-spacing:.22em;word-break:break-word;}
+}
+@media (max-width:400px){
+  .hero__blob--a{width:150px;height:150px;top:-60px;right:-60px;}
+  .hero h1{font-size:24px;letter-spacing:.02em;}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">本文へ移動</a>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <a class="brand" href="/test_credit_test/">数字の<span>ものさし</span></a>
+      <nav class="nav" aria-label="サイト内">
+        <a href="/test_credit_test/#tools">ツール</a>
+        <a href="/test_credit_test/articles/">読みもの</a>
+        <a href="/test_credit_test/#excel">Excel版</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="column">
+
+      <p class="crumbs"><a href="/test_credit_test/">ホーム</a> ／ <a href="/test_credit_test/articles/">読みもの</a> ／ 統計</p>
+
+      <header class="head">
+        <span class="head__mark" aria-hidden="true"></span>
+        <span class="tag">統計</span>
+        <h1>その差は偶然か｜p値の読み方と、実務的に意味のある差</h1>
+        <p class="head__meta">2026.08.08 公開 ／ 2026.08.08 更新</p>
+        <p class="head__lead">施策Aの成約率10%、施策Bが11%。「有意差が出たのでBを採用しましょう」。この報告を受けたとき、確認すべきことが2つあります。何件で検定したのか。そして、その1%は動く価値があるのか。</p>
+      </header>
+
+      <nav class="toc" aria-label="目次">
+        <h2>目次</h2>
+        <ol>
+          <li><a href="#s1">「有意差が出ました」で終わらせない</a></li>
+          <li><a href="#s2">p値は「差がない確率」ではない</a></li>
+          <li><a href="#s3">同じ差でも、件数で結論が変わる</a></li>
+          <li><a href="#s4">「有意差なし」は「差がない」ではない</a></li>
+          <li><a href="#s5">効果量と、実務的に意味のある差</a></li>
+          <li><a href="#s6">検定の前に確かめること</a></li>
+          <li><a href="#s8">与信・財務の場面でも同じことが起きる</a></li>
+          <li><a href="#s7">報告を受けるときの3つの質問</a></li>
+        </ol>
+      </nav>
+
+      <div class="body">
+
+        <h2 id="s1">「有意差が出ました」で終わらせない</h2>
+        <p>施策Aの成約率が10%、施策Bが11%。会議で「有意差が出ました、Bを採用しましょう」という報告が上がってくる。</p>
+        <p>ここで確認すべきことが2つあります。<strong>何件で検定したのか。そして、その1%の差は、動く価値があるのか。</strong></p>
+        <p>この2つを聞かずに意思決定すると、たいてい後悔します。統計の知識が足りないからではなく、<strong>p値という指標が答えていない問いを、答えていると思い込む</strong>からです。</p>
+
+        <div class="callout">
+          <p><strong>実務メモ</strong>：金融機関で制度対応をしていた頃、施策の効果検証で「有意差あり」という報告を何度も受け取りました。そのたびに聞いていたのは「何件ですか」の一言です。<strong>件数を聞くだけで、話の半分は片がつきます。</strong></p>
+        </div>
+
+<h2 id="s2">p値は「差がない確率」ではない</h2>
+        <p>まず、最も広く共有されている誤解から片付けます。</p>
+        <p>p値が0.03だったとき、これは<strong>「差がない確率が3%」という意味ではありません。</strong>また「Bが優れている確率が97%」でもありません。</p>
+        <p>正しくは、こうです。</p>
+        <div class="callout">
+          <p><strong>もし本当は差がなかったとしたら、今回観測されたのと同じかそれ以上の差が、偶然に出てしまう確率が3%</strong>。それがp値です。</p>
+        </div>
+        <p>主語が違います。p値が語っているのは<strong>「差がないと仮定した世界での、データの珍しさ」</strong>であって、「差があるかどうかの確率」ではありません。</p>
+        <p>この違いは、言葉遊びではありません。<strong>p=0.03を「97%の確率で正しい」と読み替えた瞬間、判断の根拠が実際より強く見えてしまう</strong>からです。</p>
+
+        <h2 id="s3">同じ差でも、件数で結論が変わる</h2>
+        <p>ここが実務でいちばん効く論点です。<strong>成約率10%と11%という同じ差</strong>を、件数だけ変えて検定してみます。</p>
+        <table>
+          <thead><tr><th>各群の件数</th><th>成約率</th><th>p値</th><th>結論</th></tr></thead>
+          <tbody>
+            <tr><td>200件</td><td>10.0% vs 11.0%</td><td>0.744</td><td>有意でない</td></tr>
+            <tr><td>2,000件</td><td>10.0% vs 11.0%</td><td>0.302</td><td>有意でない</td></tr>
+            <tr class="tot"><td>20,000件</td><td>10.0% vs 11.0%</td><td>0.001</td><td>有意</td></tr>
+          </tbody>
+        </table>
+        <p><strong>差の大きさは1ポイントで変わっていません。</strong>変えたのは件数だけです。それでも結論は「有意でない」から「有意」へひっくり返ります。</p>
+        <p>つまり<strong>p値は、差の大きさと件数の両方を混ぜた指標</strong>です。「有意差が出た」という報告だけでは、大きな差があったのか、単に件数が多かったのかが区別できません。</p>
+
+        <h3>件数を増やせば、意味のない差でも有意になる</h3>
+        <p>逆方向も確かめておきます。実務上まず無視してよい0.2ポイントの差で、件数だけを増やします。</p>
+        <table>
+          <thead><tr><th>各群の件数</th><th>成約率</th><th>p値</th><th>結論</th></tr></thead>
+          <tbody>
+            <tr><td>1万件</td><td>10.00% vs 10.20%</td><td>0.656</td><td>有意でない</td></tr>
+            <tr><td>10万件</td><td>10.00% vs 10.20%</td><td>0.138</td><td>有意でない</td></tr>
+            <tr class="tot"><td>100万件</td><td>10.00% vs 10.20%</td><td>0.000</td><td>有意</td></tr>
+          </tbody>
+        </table>
+        <p><strong>件数さえ集めれば、どんな小さな差でも「有意」にできます。</strong>大規模なWebサービスのA/Bテストで、すべての施策に有意差が出てしまうのはこのためです。</p>
+        <p>だから聞くべきは「有意かどうか」ではなく、<strong>「差はどれだけあったのか」</strong>になります。</p>
+
+        <h2 id="s4">「有意差なし」は「差がない」ではない</h2>
+        <p>逆の誤解も同じくらい多く見かけます。</p>
+        <p>p値が0.4だったとき、「差はありませんでした」と報告するのは<strong>言いすぎ</strong>です。正しくは「差があるとは言い切れませんでした」。</p>
+        <p>この2つは、実務上まったく違う意味を持ちます。</p>
+        <ul>
+          <li><strong>「差がない」</strong>：施策Bを採用する理由がない。現状維持でよい</li>
+          <li><strong>「差があるとは言い切れない」</strong>：件数が足りず判断できていない。追加で検証する余地がある</li>
+        </ul>
+        <p>先ほどの表を思い出してください。200件では「有意でない」でしたが、20,000件では「有意」でした。<strong>200件の時点で「差がない」と結論していたら、本当は存在した1ポイントの改善を捨てていた</strong>ことになります。</p>
+        <p>件数が少ない検証で「有意差なし」が出たときは、<strong>結論ではなく、検証設計の見直しを促すサイン</strong>と受け取るべきです。</p>
+
+        <h2 id="s5">効果量と、実務的に意味のある差</h2>
+        <p>統計的有意と、経営判断として動かす価値があるかは、別の問いです。後者を判断するには、<strong>あらかじめ「どれだけ違えば動くか」を決めておく</strong>必要があります。</p>
+        <p>成約率の例で考えます。</p>
+        <ul>
+          <li><strong>10%が11%になる</strong>：成約数が10%増える。施策の導入コスト次第で十分に動く価値がある</li>
+          <li><strong>10%が10.2%になる</strong>：成約数の増加は2%。システム改修に数百万円かかるなら、統計的に有意でも見送るべき</li>
+        </ul>
+        <p>この判断基準は、<strong>データを取る前に決めておく</strong>のが正しい順序です。結果を見てから「これくらいなら意味がある」と後付けすると、都合のいい解釈が入ります。</p>
+
+        <div class="callout">
+          <p><strong>ここが分かれ目</strong>：検証を設計する段階で、<strong>「何ポイント動いたら採用するか」を先に紙に書く。</strong>そして、その差を検出するのに何件必要かを逆算する。この順番で進めれば、「有意だが意味のない差」も「件数不足で見逃す改善」も避けられます。</p>
+        </div>
+
+        <h2 id="s6">検定の前に確かめること</h2>
+        <p>p値そのものより手前に、結果を左右する条件があります。</p>
+
+        <h3>群の分け方が偏っていないか</h3>
+        <p>A/Bの振り分けが時間帯や地域で偏っていると、施策の差ではなく条件の差を測ってしまいます。<strong>平日と週末で分けた比較は、施策の比較ではありません。</strong></p>
+
+        <h3>途中で覗いて止めていないか</h3>
+        <p>データを取りながら毎日検定し、有意になった時点で止める。これをやると<strong>偶然の有意を拾う確率が跳ね上がります。</strong>期間や件数は、始める前に決めておくべきものです。</p>
+
+        <h3>いくつの仮説を試したか</h3>
+        <p>20個の施策を検定すれば、本当は全部効果がなくても、平均1個は「有意」になります。有意水準5%とは、そういう意味です。<strong>たくさん試して1つだけ当たった、という報告は割り引いて聞く必要があります。</strong></p>
+
+        <h3>外れ値が結論を作っていないか</h3>
+        <p>1件の極端な値で平均が動き、それが有意差を作っていることがあります。<strong>検定の前に分布を見る。</strong>これは平均を扱うときと同じ原則です。</p>
+
+
+        <h2 id="s8">与信・財務の場面でも同じことが起きる</h2>
+        <p>ここまでA/Bテストを例にしてきましたが、同じ誤りは財務や与信の分析でも起きます。</p>
+
+        <h3>「業界平均と比べて有意に低い」</h3>
+        <p>自社の利益率が業界平均より低い、という分析。<strong>比較対象が何社のデータなのかで、意味の重さが変わります。</strong>5社の平均と500社の平均では、そもそも「業界平均」という言葉の信頼度が違います。</p>
+        <p>さらに、業界の定義次第で対象企業は入れ替わります。<strong>検定にかける前に、母集団が何かを確かめる。</strong>統計的な処理より手前の問題です。</p>
+
+        <h3>「この施策で貸倒率が下がった」</h3>
+        <p>与信基準を厳しくしたら、貸倒率が2.0%から1.6%に下がった。効果があった、と結論できるでしょうか。</p>
+        <p>件数が少なければ、この差は偶然の範囲に収まります。加えて、<strong>同じ期間に景気が良くなっていれば、施策の効果と景気の効果が混ざります。</strong>比較すべきは「施策の前後」ではなく、「施策を適用した群と、しなかった群」です。</p>
+        <p>前後比較は手軽ですが、<strong>時間の経過そのものが持ち込む変化を切り分けられません。</strong>これは検定の手法ではなく、比較の設計の問題です。</p>
+
+        <h3>「相関があるから、原因だ」</h3>
+        <p>広告費と売上に強い相関がある。だから広告を増やせば売上が伸びる。</p>
+        <p>この推論には穴があります。<strong>売上が伸びたから広告予算を増やした</strong>という逆の因果でも、同じ相関が出るからです。あるいは、両方とも景気という第三の要因に引っ張られているだけかもしれません。</p>
+        <p>相関係数は<strong>2つの数字が一緒に動いたという事実</strong>しか示しません。どちらが原因かも、第三の要因があるかも、教えてくれません。</p>
+
+        <h2 id="s7">報告を受けるときの3つの質問</h2>
+        <p>統計の計算そのものは、ツールが正しくやってくれます。判断を誤らないために必要なのは、次の3つを毎回聞くことです。</p>
+        <ol>
+          <li><strong>「何件で検定しましたか」</strong>。件数が分かれば、有意の意味の重さが分かります</li>
+          <li><strong>「差はどれだけありましたか」</strong>。p値ではなく、実際の数字を出してもらいます</li>
+          <li><strong>「その差で、いくら変わりますか」</strong>。金額に翻訳して初めて、動く価値があるかを判断できます</li>
+        </ol>
+        <p>3つ目が最も大事です。<strong>統計は差の有無までしか答えません。その差に投資する価値があるかどうかは、経営の判断です。</strong>ここを統計に肩代わりさせようとすると、必ずどこかで無理が出ます。</p>
+
+
+        <a class="toolcta" href="/test_credit_test/STATLAB/">
+          <p class="toolcta__label">try the tool</p>
+          <h2 class="toolcta__name" style="border:none;padding:0;margin:0 0 10px;">STATLAB 統計分析ダッシュボード</h2>
+          <p class="toolcta__desc">平均の検定、母比率の検定、分散分析まで、CSVを読み込めばその場で計算します。p値だけでなく検定統計量と可視化も同時に出るので、差の大きさと件数の関係を目で確かめられます。処理はすべてブラウザ内で完結し、データは送信されません。</p>
+          <span class="toolcta__go">手元のデータで検定する →</span>
+        </a>
+
+      </div>
+
+      <section class="sources">
+        <h2>参照した資料</h2>
+        <ul>
+          <li>本記事は公表資料の解説ではなく、金融機関および事業会社での実務における効果検証の進め方を整理したものです。</li>
+          <li>掲載したp値は、2標本の母比率の差の検定（正規近似）により算出した計算例です。</li>
+          <li>統計的有意性とp値の解釈については、American Statistical Association「Statement on Statistical Significance and P-Values」（2016年）でも同様の注意が示されています（参照日：2026年8月9日）</li>
+        </ul>
+        <div class="disclaimer">
+          <p>本記事は一般的な情報提供を目的としたものであり、統計手法の学術的な厳密性を保証するものではありません。掲載した数値はすべて説明のための計算例です。実際の検証設計にあたっては、データの性質、検定手法の前提条件、必要なサンプルサイズをご確認のうえ実施してください。</p>
+        </div>
+      </section>
+
+      <div class="byline">
+        <div class="byline__mark" aria-hidden="true">数</div>
+        <div>
+          <h3>エリエール</h3>
+          <p>財務経理、金融機関での法人営業・制度対応、企業信用調査を経て独立。会社の数字を作る側、貸す側、調べる側の三方向から決算書を見てきました。</p>
+        </div>
+      </div>
+
+      <nav class="pager" aria-label="前後の記事">
+        <a href="/test_credit_test/articles/heikin-chuuouchi/"><span>前の記事</span><strong>平均だけ見て判断すると、なぜ外すのか｜中央値と分布のかたち</strong></a>
+        <a href="/test_credit_test/articles/"><span>一覧</span><strong>読みものをすべて見る</strong></a>
+      </nav>
+
+</div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <nav class="foot__links" aria-label="フッター">
+        <a href="/test_credit_test/about/">運営者情報</a>
+        <a href="/test_credit_test/privacy/">プライバシーポリシー</a>
+        <a href="/test_credit_test/tokusho/">特定商取引法に基づく表記</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+        <a href="/test_credit_test/sitemap.xml">サイトマップ</a>
+      </nav>
+      <p class="copy">© 2026 数字のものさし</p>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

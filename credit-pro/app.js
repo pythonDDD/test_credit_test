@@ -3,11 +3,11 @@
  * 計算は engine.js、Excel生成は xlsx-export.js。ここはUIだけを担当する。
  * ========================================================================== */
 import { evaluate, emptyInput, INDUSTRIES, CAPITAL_TIERS, LISTING_OPTIONS, POLICY }
-  from "./engine.js?v=30";
-import { downloadXlsx } from "./xlsx-export.js?v=30";
-import { checkLicense, payUrl, payUrlReady, companyFingerprint, forgetOrder } from "./license.js?v=30";
-import { scanPdf, buildPeriod, validatePeriod, toEngineFields } from "./pdf-extract.js?v=30";
-import { renderViz, renderHead, attachTips, renderFigures, readingLines } from "./viz.js?v=30";
+  from "./engine.js?v=31";
+import { downloadXlsx } from "./xlsx-export.js?v=31";
+import { checkLicense, payUrl, payUrlReady, companyFingerprint, forgetOrder } from "./license.js?v=31";
+import { scanPdf, buildPeriod, validatePeriod, toEngineFields } from "./pdf-extract.js?v=31";
+import { renderViz, renderHead, attachTips, renderFigures, readingLines } from "./viz.js?v=31";
 
 const $ = (id) => document.getElementById(id);
 const COLS = ["今期（直近）", "前期", "前々期"];
@@ -985,15 +985,17 @@ function warnCompany() {
 /* --------------------------------------------------- Excel見本スライダー */
 const SHOTS = [
   ["./assets/1-summary.jpg", "①判定サマリー",
-   "総合評点・信用程度A〜E・6軸の評点内訳・与信限度額の目安・財務ハイライト・自動所見までを1枚に収めています。"],
+   "総合評点・信用程度A〜E・6軸の評点内訳・与信限度額の目安・財務ハイライト・自動所見を1枚に。決裁欄つきで、そのまま回付できます。"],
   ["./assets/2-financial.jpg", "②財務分析",
-   "損益計算書と貸借対照表の3期比較、主要財務指標14種、運転資金分析。業種基準との対比つきです。"],
+   "損益計算書と貸借対照表の3期比較に、主要財務指標14種と運転資金分析。画面のレーダーは6指標ですが、ここでは14指標を業種基準と並べて見られます。"],
   ["./assets/3-repayment.jpg", "③資金償還表",
-   "簡易キャッシュフローから債務償還年数を算定し、今後3年の約定返済に返済原資が足りるかを見ます。"],
+   "簡易キャッシュフローの作り方から債務償還年数、3年返済充足率まで。画面では結果だけをお見せしていますが、ここでは算定の過程が数字で追えます。"],
   ["./assets/4-scoring.jpg", "④配点内訳",
-   "6軸それぞれの得点と、判定に用いた値。なぜその点数になったのかを稟議で説明できます。"],
+   "6軸それぞれの得点と、判定に用いた値。「なぜこの点数になったのか」を稟議の場で説明できます。"],
   ["./assets/5-input.jpg", "⑤入力データ",
-   "判定に使った数値をそのまま記録。あとから検証・引き継ぎができます。"],
+   "判定に使った数値をそのまま記録。あとからの検証と、担当者が替わったときの引き継ぎに使えます。"],
+  ["./assets/6-dashboard.jpg", "⑥ダッシュボード",
+   "画面でご覧いただいた7つの図を、A3横1枚に。印刷してそのまま配れます。"],
 ];
 let shotAt = 0;
 
