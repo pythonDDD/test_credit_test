@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script>if(location.protocol==='http:'){location.replace('https://'+location.host+location.pathname+location.search+location.hash);}</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>リース料金ポン！｜リース料の計算と、料率・月額から金利と利益を逆算</title>
+<meta name="description" content="物件価額・期間・金利を入れるだけでリース料を計算。見積の月額やリース料率からは実質年率（金利）を逆算し、残価が設定されていた場合の金利も分かります。リース会社の利益はExcel版で分解できます。無料・登録不要。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="リース料金ポン！｜リース料の計算と、料率・月額から金利と利益を逆算">
+<meta property="og:description" content="物件価額・期間・金利を入れるだけでリース料を計算。見積の月額やリース料率からは実質年率（金利）を逆算し、残価が設定されていた場合の金利も分かります。リース会社の利益はExcel版で分解できます。無料・登録不要。">
+<meta property="og:url" content="https://kazumono.com/lease/">
+<meta property="og:image" content="https://kazumono.com/assets/ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="数字のものさし">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/test_credit_test/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/test_credit_test/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/test_credit_test/assets/apple-touch-icon.png">
+<meta name="theme-color" content="#33526C">
+
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2146116373822311" crossorigin="anonymous"></script>
+
+<style>
+:root{
+  --paper:#FAF9F6; --card:#FFFFFF;
+  --ink:#0F1A22; --ink-soft:#202F3B; --ink-faint:#242F38;
+  --sea-deep:#33526C; --sea:#527695; --sky:#84D2F5; --aqua:#B0F1F0; --mist:#DFF6F1;
+  --dawn:#FEEEDF; --rose:#F4C3D3; --bloom:#F8A3BF; --plum:#B67AB4;
+  --peridot:#82B33A; --lime:#D4E157; --mint:#E8F5E9; --warn:#B5623F;
+  --line:rgba(24,38,47,.18);
+  --shadow:0 1px 2px rgba(24,38,47,.05), 0 10px 26px rgba(24,38,47,.07);
+  --shadow-lift:0 3px 6px rgba(24,38,47,.07), 0 20px 44px rgba(24,38,47,.14);
+  --serif:"Hiragino Mincho ProN","Yu Mincho",YuMincho,"Noto Serif JP","Times New Roman",serif;
+  --sans:"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",YuGothic,"Noto Sans JP",sans-serif;
+  --num:"Helvetica Neue",Arial,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
+  font-size:16.5px;line-height:1.92;letter-spacing:.015em;}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.26;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='180' height='180' filter='url(%23g)' opacity='0.22'/></svg>");}
+.page{position:relative;z-index:1;}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding:0 24px;}
+.column{width:100%;max-width:820px;margin:0 auto;padding:0 24px;}
+a{color:inherit;}
+:focus-visible{outline:2.5px solid var(--sea-deep);outline-offset:3px;border-radius:4px;}
+.skip{position:absolute;left:-9999px;background:var(--sea-deep);color:#fff;padding:12px 20px;z-index:99;}
+.skip:focus{left:0;}
+.masthead{position:sticky;top:0;z-index:20;background:rgba(250,249,246,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+.masthead__inner{display:flex;align-items:center;justify-content:space-between;gap:24px;height:70px;}
+.brand{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:.16em;text-decoration:none;color:var(--ink);white-space:nowrap;}
+.brand span{color:var(--sea-deep);}
+.nav{display:flex;gap:26px;}
+.nav a{font-size:14px;font-weight:500;letter-spacing:.1em;text-decoration:none;color:var(--ink-soft);border-bottom:2px solid transparent;padding:6px 0;transition:color .2s,border-color .2s;}
+.nav a:hover{color:var(--ink);border-bottom-color:var(--bloom);}
+.crumbs{font-size:13px;color:var(--ink-soft);margin:34px 0 0;}
+.crumbs a{text-decoration:none;}
+.head{padding:22px 0 34px;position:relative;}
+.head__mark{position:absolute;top:-14px;right:-24px;width:156px;height:156px;border-radius:50%;background:var(--mist);pointer-events:none;}
+.badge{position:relative;display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;padding:5px 14px;border-radius:999px;background:var(--rose);margin:0 0 16px;}
+.head h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4.2vw,38px);line-height:1.55;letter-spacing:.04em;margin:0 0 18px;position:relative;}
+.head p{margin:0;font-size:16.5px;line-height:2;position:relative;max-width:34em;}
+.head__safe{display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:9px 18px;border-radius:999px;background:var(--mint);font-size:13.5px;font-weight:600;position:relative;}
+.head__safe::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--peridot);}
+.alert{border-left:4px solid var(--warn);background:rgba(254,238,223,.75);border-radius:0 16px 16px 0;padding:24px 28px;margin:0 0 28px;}
+.alert h2{font-family:var(--serif);font-weight:600;font-size:17.5px;letter-spacing:.06em;margin:0 0 10px;}
+.alert p{margin:0 0 12px;font-size:14.5px;line-height:1.9;color:var(--ink-soft);}
+.alert p:last-child{margin:0;}
+.alert strong{color:var(--ink);}
+.calc{background:var(--card);border:1.5px solid var(--line);border-radius:24px;padding:36px 32px;box-shadow:var(--shadow);margin:0 0 20px;}
+.calc h2{font-family:var(--serif);font-weight:600;font-size:20px;letter-spacing:.08em;margin:0 0 8px;}
+.calc__hint{margin:0 0 26px;font-size:14px;color:var(--ink-soft);}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;}
+.field label{display:block;font-size:14px;font-weight:600;margin:0 0 7px;}
+.field small{display:block;font-size:12.5px;font-weight:400;color:var(--ink-faint);line-height:1.6;margin-top:2px;}
+.field input{width:100%;padding:13px 15px;font-size:16px;font-family:var(--num);border:1.5px solid var(--line);border-radius:12px;background:var(--paper);color:var(--ink);text-align:right;}
+.field input:focus{border-color:var(--sea-deep);outline:none;background:#fff;}
+.checks{margin:24px 0 0;display:grid;gap:12px;}
+.check{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.75;cursor:pointer;}
+.check input{width:20px;height:20px;margin:4px 0 0;accent-color:#33526C;flex:none;}
+.check small{display:block;font-size:12.5px;color:var(--ink-faint);}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;align-items:center;}
+.btn-run{display:inline-flex;align-items:center;gap:10px;padding:16px 34px;border:none;border-radius:999px;background:var(--sea-deep);color:#fff;font-family:var(--sans);font-size:16px;font-weight:600;letter-spacing:.08em;cursor:pointer;box-shadow:0 10px 24px rgba(51,82,108,.34);transition:transform .2s,box-shadow .2s;}
+.btn-run:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(51,82,108,.42);}
+.btn-sample{background:none;border:1.5px solid var(--line);border-radius:999px;padding:13px 22px;font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink-soft);cursor:pointer;transition:border-color .2s,color .2s;}
+.btn-sample:hover{border-color:var(--sea-deep);color:var(--ink);}
+.err{margin:16px 0 0;font-size:14px;color:var(--warn);font-weight:600;display:none;}
+.result{display:none;background:linear-gradient(150deg,var(--mist),rgba(255,255,255,.92));border:1.5px solid var(--line);border-left:6px solid var(--sea);border-radius:22px;padding:34px 32px;margin:0;}
+.result.is-fl{border-left-color:var(--plum);}
+.result.is-ol{border-left-color:var(--peridot);}
+.result__label{font-family:var(--num);font-size:11.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;}
+.result__figure{font-family:var(--num);font-size:clamp(32px,5.6vw,46px);font-weight:700;margin:0 0 4px;font-variant-numeric:tabular-nums;line-height:1.25;}
+.result__figure .u{font-size:.42em;font-weight:600;margin-left:.3em;}
+.result__grade{font-family:var(--serif);font-weight:600;font-size:clamp(24px,4.4vw,34px);letter-spacing:.05em;margin:0 0 6px;line-height:1.45;}
+.result__sub{margin:0 0 26px;font-size:14.5px;color:var(--ink-soft);}
+.figs{width:100%;border-collapse:collapse;font-size:14.5px;background:rgba(255,255,255,.78);border-radius:14px;overflow:hidden;margin:0 0 24px;}
+.figs th,.figs td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);}
+.figs th{font-weight:600;width:56%;}
+.figs td{font-family:var(--num);font-variant-numeric:tabular-nums;text-align:right;}
+.figs tr:last-child th,.figs tr:last-child td{border-bottom:none;}
+.figs tr.tot th,.figs tr.tot td{font-weight:700;background:rgba(223,246,241,.6);}
+.bar{height:9px;border-radius:999px;background:rgba(24,38,47,.1);overflow:hidden;margin:6px 0 16px;}
+.bar i{display:block;height:100%;border-radius:999px;background:var(--c,var(--sea));transition:width .5s cubic-bezier(.2,.7,.3,1);}
+.axis__top{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;}
+.axis__name{font-weight:600;}
+.axis__val{font-family:var(--num);font-variant-numeric:tabular-nums;color:var(--ink-soft);font-size:13.5px;}
+.remarks{list-style:none;margin:0;padding:0;}
+.remarks li{position:relative;padding-left:22px;margin:9px 0;font-size:15px;line-height:1.85;}
+.remarks li::before{content:"";position:absolute;left:0;top:.7em;width:8px;height:8px;border-radius:50%;background:var(--c,var(--sea));}
+.upsell{position:relative;overflow:hidden;display:block;text-decoration:none;background:var(--card);
+  border:1.5px solid var(--line);border-left:5px solid var(--plum);border-radius:22px;
+  padding:34px 32px;margin:26px 0 0;box-shadow:var(--shadow);transition:transform .26s,box-shadow .26s;}
+.upsell::after{content:"";position:absolute;top:-46px;right:-46px;width:150px;height:150px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose),var(--plum));opacity:.9;transition:transform .38s;}
+.upsell:hover{transform:translateY(-4px);box-shadow:var(--shadow-lift);}
+.upsell:hover::after{transform:scale(1.35);}
+.upsell__badge{position:relative;display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;padding:5px 14px;border-radius:999px;background:var(--plum);color:#fff;margin:0 0 16px;}
+.upsell__name{position:relative;font-family:var(--serif);font-weight:600;font-size:22px;letter-spacing:.04em;line-height:1.6;margin:0 0 12px;}
+.upsell__desc{position:relative;font-size:15px;line-height:1.9;margin:0 0 20px;max-width:33em;}
+.upsell__go{position:relative;font-size:15px;font-weight:600;letter-spacing:.06em;color:var(--sea-deep);}
+.cmp{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--card);border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin:26px 0 0;}
+.cmp th,.cmp td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line);}
+.cmp thead th{background:var(--mist);font-weight:700;}
+.cmp tbody th{font-weight:500;color:var(--ink-soft);}
+.cmp td{text-align:center;font-weight:600;}
+.cmp .no{color:var(--ink-faint);font-weight:400;}
+.cmp tr:last-child th,.cmp tr:last-child td{border-bottom:none;}
+.about{margin:64px 0 0;}
+.about h2{font-family:var(--serif);font-weight:600;font-size:clamp(21px,3vw,26px);letter-spacing:.08em;margin:0 0 22px;padding-bottom:14px;border-bottom:1px solid var(--line);}
+.about h3{font-family:var(--serif);font-weight:600;font-size:19px;letter-spacing:.05em;margin:38px 0 12px;}
+.about h3::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bloom);margin-right:11px;vertical-align:middle;}
+.about p{margin:0 0 22px;}
+.about ul,.about ol{margin:0 0 22px;padding-left:1.4em;}
+.about li{margin:8px 0;}
+.about code{font-family:var(--num);background:var(--mist);padding:2px 8px;border-radius:6px;font-size:14.5px;}
+.disclaimer{margin:44px 0 0;border-left:4px solid var(--peridot);background:rgba(232,245,233,.7);border-radius:0 16px 16px 0;padding:24px 28px;}
+.disclaimer h3{font-family:var(--serif);font-weight:600;font-size:16.5px;letter-spacing:.08em;margin:0 0 10px;}
+.disclaimer p{margin:0 0 12px;font-size:14px;line-height:1.92;color:var(--ink-soft);}
+.disclaimer p:last-child{margin:0;}
+.foot{margin-top:90px;border-top:1px solid var(--line);padding:44px 0 56px;}
+.foot__inner{display:flex;flex-wrap:wrap;gap:26px;justify-content:space-between;align-items:center;}
+.foot__links{display:flex;flex-wrap:wrap;gap:26px;}
+.foot__links a{font-size:14px;font-weight:500;color:var(--ink-soft);text-decoration:none;}
+.copy{font-family:var(--num);font-size:12.5px;color:var(--ink-faint);margin:0;}
+@media (max-width:820px){
+  .nav a:nth-child(n+3){display:none;}
+  .head__mark{display:none;}
+  .calc,.result,.upsell{padding:26px 20px;}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;}}
+
+/* ===== 表の横スクロール ===== */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 28px;}
+.tw table{margin-bottom:0;min-width:420px;}
+
+/* ===== アバター ===== */
+.pic{display:block;border-radius:50%;background:linear-gradient(135deg,var(--dawn),var(--rose));object-fit:cover;}
+.pic--l{width:96px;height:96px;}
+.pic--s{width:66px;height:66px;}
+
+/* ===== モバイル最適化 ===== */
+@media (max-width:820px){
+  body::before{display:none;}
+  .masthead{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;}
+  .masthead__inner{height:auto;min-height:58px;padding:10px 0;flex-wrap:wrap;gap:6px 16px;}
+  .brand{font-size:17px;letter-spacing:.1em;}
+  .nav{gap:16px;flex-wrap:wrap;}
+  .nav a{font-size:12.5px;letter-spacing:.02em;padding:2px 0;border-bottom-width:2px;}
+  .nav a:nth-child(n+3){display:inline-block;}
+  .wrap,.column{padding-left:18px;padding-right:18px;}
+  h1,h2,h3,p,li,td,th,.post__title,.tool__name,.shop__name{overflow-wrap:anywhere;}
+  .tools,.shop,.channels{grid-template-columns:1fr;}
+  .toc{padding:22px 20px;}
+  .btn{padding:14px 22px;font-size:14px;}
+  .grid{grid-template-columns:1fr;}
+  .actions{gap:10px;}
+  .btn-run,.btn-sample{width:100%;justify-content:center;}
+}
+@media (max-width:400px){
+  .brand{font-size:16px;letter-spacing:.06em;}
+  .nav{gap:12px;}
+  .nav a{font-size:11.5px;}
+}
+
+/* ===== 装飾円を文字の背面へ ===== */
+.hero{isolation:isolate;}
+.hero__blob{z-index:-1;}
+.hero .wrap{position:relative;z-index:1;}
+.head__mark{z-index:-1;}
+.head{isolation:isolate;}
+
+/* ===== モバイルの装飾円 ===== */
+@media (max-width:820px){
+  .hero__blob--a{width:190px;height:190px;top:-70px;right:-70px;opacity:.55;}
+  .hero__blob--b{display:none;}
+  .hero__blob--c{width:80px;height:80px;bottom:-24px;left:-30px;opacity:.6;}
+  .hero{padding:52px 0 46px;}
+  .hero h1{font-size:clamp(25px,7.2vw,34px);line-height:1.5;max-width:none;}
+  .hero p{font-size:15px;}
+  .eyebrow{font-size:10.5px;letter-spacing:.22em;word-break:break-word;}
+}
+@media (max-width:400px){
+  .hero__blob--a{width:150px;height:150px;top:-60px;right:-60px;}
+  .hero h1{font-size:24px;letter-spacing:.02em;}
+}
+
+/* ==== 可読性の底上げ ==== */
+.hint,.row .hint,.field small,.calc__hint,.tab small,.kpi b{
+  font-size:13px;color:var(--ink-soft)}
+.band-legend,.metric .d{color:var(--ink-soft)}
+/* 読ませる文章は本文と同じ濃さ・大きさに */
+.note,.verdict-note,.check,.sub,.notes,.about p,.about li,.disclaimer p,
+.expbody,.legend,.remarks li{color:var(--ink)}
+.note{font-size:14px;line-height:1.8}
+.verdict-note,.check{font-size:14px}
+.note .tag{font-weight:700}
+footer,.foot__links a{color:var(--ink-soft)}
+th{color:var(--ink)}
+label,.row>label,.field label{color:var(--ink);font-weight:600}
+
+/* ==== 文字を太く・くっきり ==== */
+body{font-weight:500}
+th,b,strong,dt{font-weight:700}
+h1,h2,h3,h4{font-weight:700}
+input,select,textarea,button{font-weight:600}
+
+/* ======================================================================
+ * リース料金ポン！（ここから下は、このページで足した部品）
+ * ====================================================================== */
+[hidden]{display:none !important;}
+.h1sub{display:block;font-size:.5em;font-weight:600;letter-spacing:.04em;margin-top:12px;color:var(--ink-soft);line-height:1.7;}
+
+/* 使い方の切り替え（大きな2枚のタブ） */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 26px;}
+.mode{display:block;text-align:left;padding:18px 20px;border:1.5px solid var(--line);border-radius:18px;background:var(--paper);
+  font-family:var(--sans);color:var(--ink);cursor:pointer;transition:background .2s,border-color .2s,box-shadow .2s,transform .2s;}
+.mode b{display:block;font-family:var(--serif);font-size:18.5px;letter-spacing:.05em;margin-bottom:4px;}
+.mode small{display:block;font-size:13px;line-height:1.7;color:var(--ink-soft);font-weight:500;}
+@media (hover:hover){.mode:hover{border-color:var(--sea-deep);transform:translateY(-1px);}}
+.mode[aria-selected="true"]{background:var(--sea-deep);border-color:var(--sea-deep);box-shadow:0 10px 24px rgba(51,82,108,.28);}
+.mode[aria-selected="true"] b,.mode[aria-selected="true"] small{color:#fff;}
+
+/* 入力まわり */
+.calc .grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+.help{display:block;min-height:1.7em;margin-top:6px;font-family:var(--num);font-size:13px;font-weight:700;color:var(--sea-deep);text-align:right;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.chips button{font-family:var(--num);font-size:13px;font-weight:700;padding:5px 12px;border-radius:999px;border:1.5px solid var(--line);
+  background:var(--card);color:var(--ink-soft);cursor:pointer;transition:border-color .2s,background .2s;}
+@media (hover:hover){.chips button:hover{border-color:var(--sea-deep);color:var(--ink);}}
+.chips button.is-on{background:var(--mist);border-color:var(--sea);color:var(--ink);}
+.field__top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+.unit{flex:none;display:inline-flex;border:1.5px solid var(--line);border-radius:999px;overflow:hidden;margin-top:2px;}
+.unit button{font-family:var(--sans);font-size:12.5px;font-weight:700;padding:4px 12px;border:none;background:var(--card);color:var(--ink-soft);cursor:pointer;}
+.unit button[aria-pressed="true"]{background:var(--sea-deep);color:#fff;}
+.err{display:block;}
+
+/* 結果 */
+.result{display:block;margin:0 0 20px;}
+.result--rate{border-left-color:var(--sea-deep);}
+.result__name{margin:0 0 2px;font-size:14px;font-weight:700;color:var(--ink-soft);letter-spacing:.06em;}
+.result__tag{display:inline-block;margin:6px 0 10px;font-size:12.5px;font-weight:700;padding:4px 12px;border-radius:999px;
+  background:rgba(255,255,255,.85);border:1px solid var(--line);color:var(--sea-deep);}
+.kpi{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 22px;}
+.kpi__item{background:rgba(255,255,255,.82);border:1px solid rgba(24,38,47,.08);border-radius:14px;padding:14px 16px;}
+.kpi__item b{display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);}
+.kpi__item span{display:block;font-family:var(--num);font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.4;}
+.kpi__item small{display:block;font-size:11.5px;line-height:1.6;color:var(--ink-soft);}
+.stack{display:flex;height:16px;border-radius:999px;overflow:hidden;background:rgba(24,38,47,.08);margin:0 0 10px;}
+.stack__seg{display:block;height:100%;transition:width .5s cubic-bezier(.2,.7,.3,1);}
+.stack__seg--principal,.dot--principal{background:var(--sea);}
+.stack__seg--interest,.dot--interest{background:var(--bloom);}
+.stack__seg--misc,.dot--misc{background:var(--lime);}
+.stack{margin:0 0 14px;}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:9px;vertical-align:.05em;}
+
+/* 残価のバー（押すと、その残価で計算し直す） */
+.resid{background:rgba(255,255,255,.72);border:1px solid rgba(24,38,47,.08);border-radius:16px;padding:18px 18px 12px;margin:0 0 22px;}
+.resid__h{font-family:var(--serif);font-size:17.5px;font-weight:700;letter-spacing:.04em;margin:0 0 6px;}
+.resid__p{margin:0 0 14px;font-size:14px;line-height:1.85;}
+.resid__p small{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:4px;}
+.rbars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;align-items:end;}
+.rbar{display:flex;flex-direction:column;gap:4px;padding:6px 2px 5px;border:1.5px solid transparent;border-radius:12px;
+  background:none;cursor:pointer;font-family:var(--sans);transition:background .2s,border-color .2s;}
+@media (hover:hover){.rbar:hover{border-color:var(--line);background:rgba(255,255,255,.8);}}
+.rbar__val{font-family:var(--num);font-size:12px;font-weight:700;line-height:18px;height:18px;color:var(--ink-soft);text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.rbar__col{display:flex;align-items:flex-end;height:96px;padding:0 20%;}
+.rbar__col i{display:block;width:100%;border-radius:8px 8px 3px 3px;background:var(--sky);opacity:.55;transition:height .45s cubic-bezier(.2,.7,.3,1);}
+.rbar__lab{font-size:12.5px;font-weight:700;line-height:18px;height:18px;color:var(--ink-soft);text-align:center;}
+.rbar.is-on{border-color:var(--sea-deep);background:#fff;}
+.rbar.is-on .rbar__col i{background:var(--sea-deep);opacity:1;}
+.rbar.is-on .rbar__val,.rbar.is-on .rbar__lab{color:var(--ink);}
+
+/* Excel版の案内 */
+.paid{position:relative;overflow:hidden;isolation:isolate;background:var(--card);border:1.5px solid var(--line);border-left:6px solid var(--plum);
+  border-radius:22px;padding:32px 30px;margin:0 0 20px;box-shadow:var(--shadow);}
+.paid::after{content:"";position:absolute;top:-56px;right:-56px;width:170px;height:170px;border-radius:50%;z-index:-1;
+  background:linear-gradient(135deg,var(--rose),var(--plum));opacity:.85;pointer-events:none;}
+.paid__badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;padding:5px 14px;border-radius:999px;background:var(--plum);color:#fff;margin:0 0 14px;}
+.paid__h{font-family:var(--serif);font-size:23px;font-weight:700;letter-spacing:.04em;line-height:1.6;margin:0 0 10px;padding-right:90px;}
+.paid__lead{margin:0 0 20px;font-size:15px;line-height:1.95;max-width:38em;}
+.lockrows{margin:0 0 22px;border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+.lockrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:rgba(250,249,246,.9);
+  border-bottom:1px solid var(--line);font-size:14.5px;}
+.lockrow:last-child{border-bottom:none;}
+.lockrow--main{background:linear-gradient(150deg,rgba(244,195,211,.35),rgba(255,255,255,.95));font-weight:700;}
+.lockrow__v{display:inline-flex;align-items:center;gap:8px;font-family:var(--num);color:var(--ink-soft);letter-spacing:.06em;white-space:nowrap;}
+.lockrow__v svg{width:15px;height:15px;flex:none;}
+.veil{display:inline-block;width:92px;height:14px;border-radius:999px;vertical-align:middle;
+  background:linear-gradient(90deg,rgba(182,122,180,.18),rgba(182,122,180,.42),rgba(182,122,180,.18));filter:blur(1.2px);}
+.veil--s{width:70px;}
+.sheets{list-style:none;margin:0 0 22px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px 22px;}
+.sheets li{font-size:14px;line-height:1.75;}
+.sheets b{display:block;font-size:14.5px;}
+.paid__foot{display:flex;align-items:center;gap:14px 20px;flex-wrap:wrap;}
+.paid__price{margin:0;font-family:var(--num);white-space:nowrap;}
+.paid__price b{font-size:32px;line-height:1;}
+.paid__price span{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink-soft);margin-left:3px;}
+.btn-run[disabled]{background:#8C9AA6;box-shadow:none;cursor:not-allowed;transform:none;}
+.paid__note{margin:0;flex:1 1 220px;font-size:13px;line-height:1.8;color:var(--ink-soft);}
+
+/* 版の違いの表と、note版への控えめな案内 */
+.about .cmp{margin:0;}
+.about .cmp td{font-weight:500;font-size:14px;line-height:1.7;}
+.notecard{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:18px 0 0;padding:18px 22px;
+  border:1.5px solid var(--line);border-radius:16px;background:var(--card);text-decoration:none;transition:border-color .2s;}
+.notecard:hover{border-color:var(--sea-deep);}
+.notecard b{font-size:15px;}
+.notecard span{font-size:13.5px;color:var(--ink-soft);}
+.notecard em{font-style:normal;font-size:14px;font-weight:700;color:var(--sea-deep);}
+
+@media (max-width:820px){
+  .modes{gap:8px;margin-bottom:20px;}
+  .mode{padding:12px 6px;border-radius:14px;text-align:center;}
+  .mode b{font-size:13.5px;margin:0;letter-spacing:0;white-space:nowrap;}
+  .mode small{display:none;}
+  .calc .grid{grid-template-columns:1fr;}
+  .tw .figs{min-width:0;}
+  .figs th,.figs td{padding:11px 12px;}
+  .figs th{width:auto;}
+  .figs td{white-space:nowrap;}
+  .kpi{grid-template-columns:1fr;gap:8px;}
+  .kpi__item{display:grid;grid-template-columns:1fr auto;align-items:baseline;column-gap:10px;padding:10px 14px;}
+  .kpi__item span{font-size:19px;text-align:right;}
+  .kpi__item small{grid-column:1 / -1;}
+  .sheets{grid-template-columns:1fr;}
+  .paid{padding:26px 20px;}
+  .paid__h{font-size:20px;padding-right:60px;}
+  .resid{padding:14px 10px 10px;}
+  .rbars{gap:2px;}
+  .rbar__val{font-size:10.5px;}
+  .rbar__col{height:80px;padding:0 14%;}
+}
+@media (max-width:400px){.rbar__val{font-size:9.5px;}}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-BETYS4R53Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-BETYS4R53Y');
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "リース料金ポン！",
+  "url": "https://kazumono.com/lease/",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ja",
+  "description": "物件価額・期間・金利からリース料を計算し、見積の月額やリース料率から実質年率（金利）を逆算します。",
+  "publisher": {"@type": "Person", "name": "エリエール"},
+  "isAccessibleForFree": true
+}
+</script>
+</head>
+<body>
+
+<a class="skip" href="#main">本文へ移動</a>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="wrap masthead__inner">
+      <a class="brand" href="/test_credit_test/">数字の<span>ものさし</span></a>
+      <nav class="nav" aria-label="サイト内">
+        <a href="/test_credit_test/#tools">ツール</a>
+        <a href="/test_credit_test/articles/">読みもの</a>
+        <a href="/test_credit_test/#excel">Excel版</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="column">
+
+      <p class="crumbs"><a href="/test_credit_test/">ホーム</a> ／ <a href="/test_credit_test/#tools">ツール</a> ／ リース</p>
+
+      <header class="head">
+        <span class="head__mark" aria-hidden="true"></span>
+        <span class="badge">無料</span>
+        <h1>リース料金ポン！<span class="h1sub">料率や月額から、金利とリース会社の利益まで逆算</span></h1>
+        <p>物件価額・期間・金利を入れればリース料を。見積の月額やリース料率を入れれば、実質年率（金利）を。残価が設定されていた場合の金利まで、その場で分かります。</p>
+        <span class="head__safe">入力内容は送信されません。すべてブラウザの中で計算します</span>
+      </header>
+
+      <section class="calc" id="tool" aria-labelledby="formTitle">
+        <div class="modes" role="tablist" aria-label="使い方を選ぶ">
+          <button class="mode" type="button" role="tab" data-mode-tab="calc" aria-selected="true" aria-controls="tool">
+            <b>リース料を計算する</b><small>物件価額・期間・金利から月額を出す</small>
+          </button>
+          <button class="mode" type="button" role="tab" data-mode-tab="reverse" aria-selected="false" aria-controls="tool" tabindex="-1">
+            <b>金利を逆算する</b><small>見積の月額や料率から金利を出す</small>
+          </button>
+        </div>
+
+        <h2 id="formTitle">条件を入力する</h2>
+        <p class="calc__hint" id="formHint">単位は円。はじめての方は「例を入れる」を押すと、使い方がすぐ分かります。</p>
+
+        <div class="grid">
+          <div class="field">
+            <label for="price">物件価額<small>円・税抜の取得価額</small></label>
+            <input id="price" type="number" inputmode="numeric" min="0" step="1" placeholder="5000000">
+            <span class="help" id="priceHelp" aria-live="polite"></span>
+          </div>
+          <div class="field">
+            <label for="months">リース期間<small>か月</small></label>
+            <input id="months" type="number" inputmode="numeric" min="1" max="240" step="1" placeholder="60">
+            <div class="chips" role="group" aria-label="よく使う期間">
+              <button type="button" data-months="36">36</button>
+              <button type="button" data-months="48">48</button>
+              <button type="button" data-months="60">60</button>
+              <button type="button" data-months="72">72</button>
+              <button type="button" data-months="84">84</button>
+            </div>
+          </div>
+          <div class="field" data-only="calc">
+            <label for="rate">年利<small>%・リース会社の調達金利＋利益の目安</small></label>
+            <input id="rate" type="number" inputmode="decimal" min="0" step="0.01" placeholder="3.0">
+          </div>
+          <div class="field" data-only="calc">
+            <label for="misc">その他費用率<small>%／年・固定資産税、保険、管理費の目安（空欄なら0）</small></label>
+            <input id="misc" type="number" inputmode="decimal" min="0" step="0.01" placeholder="1.2">
+          </div>
+          <div class="field" data-only="reverse" hidden>
+            <div class="field__top">
+              <label for="pay"><span id="payLabel">月額リース料</span><small id="payUnit">円・税抜。見積書の月額</small></label>
+              <div class="unit" role="group" aria-label="入れ方を選ぶ">
+                <button type="button" data-unit="yen" aria-pressed="true">月額</button>
+                <button type="button" data-unit="pct" aria-pressed="false">料率</button>
+              </div>
+            </div>
+            <input id="pay" type="number" inputmode="decimal" min="0" step="1" placeholder="95000">
+            <span class="help" id="payHelp" aria-live="polite"></span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn-run" type="button" id="run">計算する</button>
+          <button class="btn-sample" type="button" id="sample">例を入れる</button>
+        </div>
+        <p class="err" id="err" role="alert" hidden></p>
+      </section>
+
+      <!-- ============ 結果：リース料を計算する ============ -->
+      <section class="result" id="resCalc" aria-live="polite" hidden>
+        <p class="result__label">monthly lease payment</p>
+        <p class="result__name">月額リース料</p>
+        <p class="result__figure" id="cMonthly">—</p>
+        <p class="result__tag" id="cTag"></p>
+        <p class="result__sub" id="cSub"></p>
+        <div class="kpi" id="cKpi"></div>
+        <div class="stack" id="cStack" aria-hidden="true"></div>
+        <div class="tw"><table class="figs" id="cFigs"></table></div>
+        <div class="resid">
+          <h3 class="resid__h">残価を設定すると、月額はこう下がります</h3>
+          <p class="resid__p">満了時に物件の価値（残価）を残すと、その分だけ毎月の支払が軽くなります。<small>バーを押すと、その残価で計算し直します。</small></p>
+          <div class="rbars" id="cBars" role="group" aria-label="残価ごとの月額リース料"></div>
+        </div>
+        <ul class="remarks" id="cRemarks"></ul>
+      </section>
+
+      <!-- ============ 結果：金利を逆算する ============ -->
+      <section class="result result--rate" id="resRev" aria-live="polite" hidden>
+        <p class="result__label">effective interest rate</p>
+        <p class="result__name">実質年率（金利）</p>
+        <p class="result__figure" id="rRate">—</p>
+        <p class="result__tag" id="rTag"></p>
+        <p class="result__sub" id="rSub"></p>
+        <div class="kpi" id="rKpi"></div>
+        <div class="resid">
+          <h3 class="resid__h">残価が設定されていた場合（クローズ残価）</h3>
+          <p class="resid__p">月額を決めるときに、満了時の物件の価値（残価）が差し引かれていて、その金額が見積に書かれていない方式です。同じ月額でも、残価が設定されていれば、金利に直した値は高くなります。<small>バーを押すと、その残価で計算し直します。</small></p>
+          <div class="rbars" id="rBars" role="group" aria-label="残価ごとの実質年率（金利）"></div>
+        </div>
+        <ul class="remarks" id="rRemarks"></ul>
+      </section>
+
+      <!-- ============ Excel版の案内（販売開始までは準備中の表示） ============ -->
+      <section class="paid" id="paid" aria-labelledby="paidH" hidden>
+        <span class="paid__badge">Excel版</span>
+        <h2 class="paid__h" id="paidH">この見積の、リース会社の利益はいくら？</h2>
+        <p class="paid__lead" id="paidLead"></p>
+        <div class="lockrows" aria-label="Excel版で分かる内訳">
+          <div class="lockrow"><span>金利（リース会社が銀行に払う分）</span><span class="lockrow__v"><i class="veil" aria-hidden="true"></i>円 <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg></span></div>
+          <div class="lockrow"><span>税金（償却資産税）</span><span class="lockrow__v"><i class="veil" aria-hidden="true"></i>円 <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg></span></div>
+          <div class="lockrow"><span>保険料</span><span class="lockrow__v"><i class="veil veil--s" aria-hidden="true"></i>円 <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg></span></div>
+          <div class="lockrow lockrow--main"><span>リース会社の利益</span><span class="lockrow__v"><i class="veil" aria-hidden="true"></i>円 <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg></span></div>
+        </div>
+        <ul class="sheets">
+          <li><b>① ダッシュボード</b>月額・金利・リース会社の利益を1枚に</li>
+          <li><b>② 原価内訳</b>物件代金・保険料・税金・金利・利益に分けて</li>
+          <li><b>③ 支払予定表</b>毎回の支払を元本と利息に分けた表</li>
+          <li><b>④ 償却資産税</b>リース会社が毎年払う税金を年度別に</li>
+          <li><b>⑤ 調達方法の比較</b>リース・現金・銀行借入を、税金まで含めて</li>
+          <li><b>⑥ 減価償却費</b>買った場合の、年ごとの経費</li>
+        </ul>
+        <div class="paid__foot">
+          <p class="paid__price"><b>1,000</b><span>円 ／ 見積1件</span></p>
+          <button class="btn-run" type="button" disabled>近日公開</button>
+          <p class="paid__note">数式の入っていない、計算結果だけのExcelです。登録は不要です。</p>
+        </div>
+      </section>
+
+      <section class="about">
+        <h2>この計算の前提</h2>
+        <p>リース料は、リース会社が立て替えた物件価額を、期間中に金利をつけて回収する仕組みです。構造としては元利均等返済の住宅ローンとほとんど同じで、違いは「満了時に残価を残せる」点にあります。</p>
+
+        <h3>使っている計算式</h3>
+        <p>毎月の期末払い（1回目の支払は開始から1か月後）・元利均等を前提に、残価を割り引いて差し引いた元本を期間で按分しています。</p>
+        <ul>
+          <li>月利 ＝ <code>年利 ÷ 12</code></li>
+          <li>回収すべき元本 ＝ <code>物件価額 − 残価 ÷ (1+月利)^期間</code></li>
+          <li>月額（元本＋金利）＝ <code>元本 × 月利 ÷ (1 − (1+月利)^−期間)</code></li>
+          <li>その他費用（月額）＝ <code>物件価額 × その他費用率 ÷ 12</code></li>
+          <li>リース料率 ＝ <code>月額リース料 ÷ 物件価額</code></li>
+          <li>実質年率（金利）＝ 月額を期間中払い、満了時に残価を返すと、物件価額とちょうど釣り合う月利 × 12</li>
+        </ul>
+        <p>リース料率は、リース会社が見積書で使う指標です。物件価額に対する月額の割合で、たとえば1.8%なら500万円の物件で月額9万円という意味になります。<strong>見積書を比べるときは、金額ではなく料率や金利で並べると条件の差が見えます。</strong></p>
+
+        <h3>その他費用率について</h3>
+        <p>固定資産税、動産総合保険料、管理手数料をまとめて年率で概算しています。実際には物件の種類と所在地で変わり、償却資産税は年ごとに評価額が下がるため定率ではありません。ここでは目安として一定率で置いています。正確に分けたい場合はExcel版が対応しています。</p>
+
+        <h3>この計算に含めていないもの</h3>
+        <ul>
+          <li>リース会社の利益の分離。無料版では、年利や実質年率（金利）の中に含まれた形で出します。</li>
+          <li>消費税の取扱い。すべて税抜前提です。</li>
+          <li>再リース料、中途解約時の規定損害金。</li>
+          <li>税務上の損金算入時期、所有権移転外リースの償却方法。</li>
+        </ul>
+
+        <h2>リース会社の利益は、どこに入っているか</h2>
+        <p>リース料の見積書を見て、「これは高いのか安いのか」が判断できないという声をよく聞きます。理由は単純で、<strong>見積書には物件価額と月額リース料しか書かれていない</strong>からです。その差額の中に何が入っているかは、書かれていません。</p>
+        <p>差額の中身は、大きく4つです。</p>
+        <div class="tw"><table>
+        <thead><tr><th>要素</th><th>中身</th><th>見積書での見え方</th></tr></thead>
+        <tbody>
+        <tr><td>資金コスト</td><td>リース会社が銀行から借りる金利</td><td>表に出ない</td></tr>
+        <tr><td>スプレッド</td><td>リース会社の利益</td><td>表に出ない</td></tr>
+        <tr><td>固定資産税・保険料</td><td>所有者として負担するもの</td><td>「その他費用」として一部表示されることがある</td></tr>
+        <tr><td>管理コスト</td><td>与信審査・事務・回収の手間</td><td>表に出ない</td></tr>
+        </tbody>
+        </table></div>
+        <p>このうち、借り手にとって交渉できる余地があるのは<strong>スプレッド</strong>です。資金コストは市場金利で決まるので動きませんが、スプレッドはリース会社の判断で決まります。つまり<strong>「いくら乗っているか」が分かれば、交渉の材料になる</strong>ということです。</p>
+        <p>上の「<a href="#reverse" data-go="reverse">金利を逆算する</a>」に、見積の月額を入れてみてください。出てくる実質年率（金利）が、そのリース取引の実質的な金利です。そこから、あなたの会社が銀行から借りるときの金利を引いた差が、おおよその税金・保険・管理コストとリース会社の利益の合計になります。</p>
+
+        <h3>逆算の手順</h3>
+        <ol>
+        <li>見積書から<strong>物件価額</strong>と<strong>月額リース料（またはリース料率）</strong>と<strong>リース期間</strong>を取る</li>
+        <li>このツールの「<a href="#reverse" data-go="reverse">金利を逆算する</a>」に入れる</li>
+        <li>出てきた<strong>実質年率（金利）</strong>を、自社の銀行借入金利と比べる</li>
+        </ol>
+        <p>Excelで同じ計算をするなら <code>=RATE(期間,-月額,物件価額)*12</code> です。500万円・60か月・月額95,000円なら、<code>=RATE(60,-95000,5000000)*12</code> で5.28%になります。</p>
+        <p>実質金利が銀行借入より3〜4%高い程度なら、事務負担や固定資産税の代行を含めて妥当な範囲です。<strong>そこから大きく離れている場合は、内訳の説明を求める根拠になります。</strong>「なぜこの金額なのか」と聞くより、「実質金利が何%になっている」と伝えたほうが話が早く進みます。</p>
+
+        <h2>リース料率で見積書を並べる</h2>
+        <p>複数社から見積を取ったとき、金額だけで比べると誤ります。物件価額も期間も微妙に違うことが多いからです。<strong>リース料率（月額 ÷ 物件価額）に直すと、条件が揃います。</strong></p>
+        <p>たとえば次の3社の見積は、金額を見ただけでは順位が分かりません。</p>
+        <div class="tw"><table>
+        <thead><tr><th></th><th>物件価額</th><th>期間</th><th>月額</th><th>リース料率</th><th>実質年率（金利）</th></tr></thead>
+        <tbody>
+        <tr><td>A社</td><td>500万円</td><td>60か月</td><td>92,000円</td><td>1.840%</td><td>3.96%</td></tr>
+        <tr><td>B社</td><td>500万円</td><td>72か月</td><td>79,000円</td><td>1.580%</td><td>4.34%</td></tr>
+        <tr><td>C社</td><td>480万円</td><td>60か月</td><td>89,500円</td><td>1.865%</td><td>4.51%</td></tr>
+        </tbody>
+        </table></div>
+        <p>月額だけを見るとB社が最も安く見えますが、期間が12か月長いだけです。<strong>総支払額はB社が568.8万円で最も多くなります。</strong>料率も、期間が違うものを横並びにすると比較になりません。</p>
+        <p>期間や物件価額が違っても同じものさしで比べられるのが、<strong>実質年率（金利）</strong>です。この3社では、月額がいちばん高いA社が3.96%で最も有利で、総支払額がいちばん少ないC社は4.51%と最も割高です。</p>
+        <p>そのうえで、期間の長さによる資金繰りの余裕は別に評価します。期間が長いほうが月々は楽になりますが、支払総額は増えます。どちらを取るかは資金繰りの問題であって、有利不利の問題ではありません。</p>
+
+        <h2>残価が設定されている見積の読み方</h2>
+        <p>見積書に残価の記載がなくても、月額を決めるときに、満了時の物件の価値（残価）があらかじめ差し引かれていることがあります。残価の金額を利用者に知らせないこの方式を、<strong>クローズ残価（クローズドエンド）</strong>といいます。</p>
+        <p>残価の分だけ月額は下がるので、見積は割安に見えます。ただし満了時には物件を返すため、金利に直すと見え方が変わります。500万円・60か月・月額95,000円の見積なら、残価なしで実質年率（金利）5.28%。<strong>同じ月額でも、残価が10%設定されていれば8.16%、20%なら10.60%です。</strong></p>
+        <p>「<a href="#reverse" data-go="reverse">金利を逆算する</a>」の結果にある残価のバーを押すと、残価ごとの金利を確かめられます。残価が設定されているかどうかは、月額だけで比べる前に確認しておきたい点です。残価の決まり方と満了時に起きることは、<a href="/test_credit_test/articles/lease-zanka/">リースの残価は誰が決め、誰が損を被るのか</a>で整理しています。</p>
+
+        <h2>残価の置き方で、月額は大きく動く</h2>
+        <p>残価とは、リース期間が終わった時点で物件に残ると見込む価値のことです。<strong>残価を高く置くほど、期間中に回収すべき元本が減るので、月額は下がります。</strong></p>
+        <p>500万円の物件を60か月・年利3%でリースする場合、残価をどう置くかで月額はこう動きます。</p>
+        <div class="tw"><table>
+        <thead><tr><th>残価</th><th>回収すべき元本</th><th>月額（概算）</th></tr></thead>
+        <tbody>
+        <tr><td>0円</td><td>500万円</td><td>約89,800円</td></tr>
+        <tr><td>50万円</td><td>約457万円</td><td>約82,100円</td></tr>
+        <tr><td>100万円</td><td>約414万円</td><td>約74,400円</td></tr>
+        </tbody>
+        </table></div>
+        <p>月額が安いという理由で残価つきを選ぶときは、<strong>満了時にその残価をどう処理するかを先に確認してください。</strong>買い取るのか、再リースするのか、返却するのか。返却する場合の原状回復の範囲も、契約書に書かれています。ここを確認せずに月額だけで決めると、満了時に想定外の支出が出ます。</p>
+
+        <h2>この計算が向いている場面、向いていない場面</h2>
+        <p><strong>向いている場面</strong></p>
+        <ul>
+        <li>複数社の見積を、同じものさしで並べたいとき</li>
+        <li>提示された月額の実質金利を知りたいとき</li>
+        <li>購入とリースのどちらにするか、資金コストの面から比べたいとき</li>
+        <li>社内稟議で「なぜこの金額が妥当か」を説明する必要があるとき</li>
+        </ul>
+        <p><strong>向いていない場面</strong></p>
+        <ul>
+        <li>会計処理そのものを決めたいとき。それはファイナンス・リースかどうかの判定が先です（<a href="/test_credit_test/lease-fo/">FO判定ツール</a>）</li>
+        <li>税務上の損金算入時期を確定させたいとき。所有権移転外ファイナンス・リースの取扱いは、契約内容によって変わります</li>
+        <li>中途解約時の規定損害金を見積もりたいとき。契約書の条項によります</li>
+        </ul>
+
+        <h2>2027年4月からの新リース会計基準</h2>
+        <p>2027年4月以降に開始する事業年度から、新しいリース会計基準が適用されます。<strong>これまでオフバランスだったオペレーティング・リースも、原則として資産と負債の両方に計上されることになります。</strong></p>
+        <p>影響を受けるのは会計処理だけではありません。負債が増えるので、<strong>自己資本比率が下がり、有利子負債も増えます。</strong>銀行の財務制限条項に抵触しないか、格付けが下がらないかを、今のうちに数えておく必要があります。</p>
+        <p>何をいつまでに数えるべきかは、<a href="/test_credit_test/articles/lease-onbalance/">新リース会計基準はいつから｜2027年4月に全部オンバランス</a>で整理しています。</p>
+
+        <h2>実務メモ｜見積を取るときに一緒に聞くこと</h2>
+        <p>金融機関で法人営業をしていた頃、リースの見積を取る会社を数多く見てきました。金額を比べるだけで終わっている会社が多く、<strong>次の4つを聞いておくかどうかで、後から出てくる差が大きい</strong>と感じています。</p>
+        <ul>
+        <li><strong>中途解約の規定損害金の計算方法。</strong>「残リース料の全額」なのか「一定の割引後」なのかで、途中でやめたときの負担が変わります</li>
+        <li><strong>固定資産税と保険料が月額に含まれているか。</strong>含まれていない見積と含まれている見積を並べると、含まれているほうが高く見えます</li>
+        <li><strong>満了時の選択肢。</strong>再リース料は年額いくらか。買い取り価格はいくらか</li>
+        <li><strong>物件の入替時の扱い。</strong>期間中に機器を更新したい場合、残債はどう処理されるか</li>
+        </ul>
+        <p>いずれも見積書には書かれていませんが、聞けば答えてもらえます。<strong>金額の交渉より、この4つを確認するほうが実際の損得に効くことが多い</strong>というのが、見てきた印象です。</p>
+
+        <h2>無料版・Excel版・note版の違い</h2>
+        <p>このページの計算は、すべて無料で何度でも使えます。目の前の見積を資料にしたいときはExcel版を、条件を変えながら何件も比べたいときはnote版を選んでください。</p>
+        <div class="tw"><table class="cmp">
+          <thead><tr><th></th><th>無料（このページ）</th><th>Excel版（1,000円）</th><th>note版（5,000円）</th></tr></thead>
+          <tbody>
+            <tr><th>分かること</th><td>リース料、実質年率（金利）、残価の影響</td><td>リース会社の利益、年ごとの税金と償却、調達方法の比較</td><td>Excel版と同じ中身を、条件を変えて何度でも</td></tr>
+            <tr><th>数式</th><td class="no">―</td><td>なし（計算結果のみ）</td><td>あり</td></tr>
+            <tr><th>使える件数</th><td>何度でも</td><td>見積1件</td><td>何件でも</td></tr>
+            <tr><th>向いている人</th><td>まず目安を知りたい</td><td>目の前の見積を、稟議や交渉に使いたい</td><td>見積を比べ続ける人、リース会社の営業・企画</td></tr>
+          </tbody>
+        </table></div>
+        <a class="notecard" href="https://note.com/pythonddd/n/n68ffdfe958ab" target="_blank" rel="noopener">
+          <span><b>note版 リース料計算書 Pro</b><br>数式入りで、利益の決め方や前提を自分で変えられます</span>
+          <em>noteで見る →</em>
+        </a>
+      </section>
+
+      <section class="disclaimer">
+        <h3>ご利用にあたって</h3>
+        <p>算出される金額は一般的な計算式による概算であり、実際のリース会社の見積額とは異なります。契約条件、物件の種類、与信状況によってリース料率は変動します。</p>
+        <p>本ツールの利用により生じたいかなる損害についても、作成者は責任を負いかねます。実際の契約判断は、見積書と契約書の内容をご確認のうえ行ってください。</p>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap foot__inner">
+      <nav class="foot__links" aria-label="フッター">
+        <a href="/test_credit_test/about/">運営者情報</a>
+        <a href="/test_credit_test/privacy/">プライバシーポリシー</a>
+        <a href="/test_credit_test/tokusho/">特定商取引法に基づく表記</a>
+        <a href="/test_credit_test/contact/">お問い合わせ</a>
+        <a href="/test_credit_test/sitemap.xml">サイトマップ</a>
+      </nav>
+      <p class="copy">© 2026 数字のものさし</p>
+    </div>
+  </footer>
+
+</div>
+
+<noscript><p style="text-align:center;padding:12px">このツールはJavaScriptで計算します。ブラウザの設定でJavaScriptを有効にしてください。</p></noscript>
+<script type="module" src="./app.js?v=1"></script>
+</body>
+</html>
