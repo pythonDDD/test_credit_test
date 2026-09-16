@@ -217,7 +217,7 @@ function init() {
  * 取り違えてテスト用のファイルを本番へ上げてしまっても、課金は外れない。
  * この二重の歯止めがあるので、事故で売上がゼロになることはない。
  * ---------------------------------------------------------------------- */
-const FREE_BUILD = true;   // ★テスト用（test_credit_test）専用
+const FREE_BUILD = true;
 const FREE_MODE = FREE_BUILD &&
   !/(^|\.)kazumono\.com$/i.test(String(location.hostname || ""));
 
@@ -999,28 +999,382 @@ const SHOTS = [
 ];
 let shotAt = 0;
 
-function paintShot() {
-  const [src, , cap] = SHOTS[shotAt];
-  const img = $("shotImg");
-  img.src = src;
-  img.alt = SHOTS[shotAt][1] + "シートの見本";
-  $("shotCap").textContent = cap;
-  document.querySelectorAll(".shot__tabs button").forEach((b, i) => {
-    b.classList.toggle("is-on", i === shotAt);
-    b.setAttribute("aria-selected", String(i === shotAt));
-  });
-}
+/* ------------------------------------------------------------------------
+ * 見本の自動切り替え
+ *
+ * タブを押せることに気づいてもらうため、①〜⑥を順番に自動で切り替える。
+ * 選ばれているタブの下線が右まで伸びると、次のシートに移る。
+ *
+ *  ・枠が画面に半分以上入ってから動き出す。初めて見に来たときは①から始まる
+ *  ・画面の外にあるとき、ブラウザの別タブを見ているときは止まる
+ *  ・見本の上にマウスを乗せているあいだは止まる（離すと続きから）
+ *  ・タブ／左右の矢印／「シート全体を見る」を押したら、自動切り替えはやめる
+ *  ・SHOT_LOOPS 周したら①に戻って止まる。右上のボタンで、いつでも止める・再開できる
+ *
+ * 見本画像は縦の長さがまちまちで、そのまま切り替えるとページ全体が上下に跳ねる
+ * （パソコンの幅で最大900pxほど）。そこで枠の縦横比を SHOT_RATIO に固定し、
+ * 枠からはみ出す分は「シート全体を見る」で開けるようにしている。
+ * SHOT_RATIO は、いちばん横長の⑥ダッシュボード（1400×1075）がちょうど収まる比率。
+ * 見本画像を差し替えて縦横比が変わったら、ここを合わせる。
+ *
+ * 見た目（CSS）もこのファイルから差し込む。index.html を触らずに済むようにするため。
+ * 自動切り替えの準備でつまずいても、タブの手動切り替えは今までどおり動く。
+ * ---------------------------------------------------------------------- */
+const SHOT_RATIO = [1400, 1075];   // 枠の［横, 縦］
+const SHOT_LOOPS = 2;              // 何周したら止めるか
+const SHOT_FADE_MS = 180;          // 切り替えのフェード（動きを減らす設定のときは使わない）
+/** 1枚を見せる時間（ミリ秒）。説明文が長いシートほど長く、5〜9秒の範囲に収める */
+const shotDwell = (i) => Math.min(9000, Math.max(5000, 2500 + SHOTS[i][2].length * 75));
+
+const shotUI = {};                 // 画面の要素（initShots / initShotAuto で入れる）
+const shotAuto = {
+  on: false,                       // 自動切り替え中か
+  holds: new Set(),                // 一時的に止めている理由（offscreen・hidden・hover・focus・loading・first）
+  elapsed: 0,                      // いまのシートを見せ始めてからの経過ミリ秒
+  loops: 0,                        // ⑥から①へ戻った回数
+  raf: 0,
+  last: 0,
+};
+const shotCache = new Map();       // 読み込んだ見本画像（src → Promise）
+let shotSwap = 0;                  // 画像の差し替えの追い越しを防ぐための番号
+
+const SHOT_ICON = {
+  pause: '<svg viewBox="0 0 12 12" aria-hidden="true"><rect x="2.5" y="1.5" width="2.5" height="9" rx=".7"/><rect x="7" y="1.5" width="2.5" height="9" rx=".7"/></svg>',
+  play: '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3.5 1.8v8.4L10.3 6z"/></svg>',
+  down: '<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1.6 3.4 5 6.8l3.4-3.4"/></svg>',
+};
 
 function initShots() {
   const tabs = document.querySelector(".shot__tabs");
-  if (!tabs) return;
+  const img = $("shotImg");
+  const cap = $("shotCap");
+  if (!tabs || !img || !cap) return;
+  shotUI.tabs = Array.from(tabs.querySelectorAll("[data-shot]"));
+  shotUI.img = img;
+  shotUI.cap = cap;
+
+  // 手で選んだら、自動切り替えはやめる（見たいシートがある、という合図なので）
+  const takeOver = () => { if (shotAuto.on) setShotAuto(false); };
   tabs.addEventListener("click", (e) => {
     const b = e.target.closest("[data-shot]");
-    if (b) { shotAt = +b.dataset.shot; paintShot(); }
+    if (b) { takeOver(); showShot(+b.dataset.shot); }
   });
-  $("shotPrev").addEventListener("click", () => { shotAt = (shotAt + SHOTS.length - 1) % SHOTS.length; paintShot(); });
-  $("shotNext").addEventListener("click", () => { shotAt = (shotAt + 1) % SHOTS.length; paintShot(); });
-  paintShot();
+  $("shotPrev").addEventListener("click", () => { takeOver(); showShot(shotAt - 1); });
+  $("shotNext").addEventListener("click", () => { takeOver(); showShot(shotAt + 1); });
+  showShot(shotAt);
+
+  // 自動切り替えは「あると親切」な機能。ここで例外を投げると init() の後ろ
+  // （決済から戻ったときの復元など）まで止まってしまうので、自動切り替えだけを
+  // あきらめて、理由はコンソールに残す。手動のタブはこの時点で動いている。
+  try {
+    initShotAuto(takeOver);
+  } catch (err) {
+    // 途中まで作った自動切り替えの部品は片づけて、手動のタブだけで動かす
+    shotAuto.on = false;
+    stopShotTick();
+    if (shotUI.root) shotUI.root.classList.remove("is-auto");
+    if (shotUI.play) shotUI.play.remove();
+    console.warn("[財務でポン] 見本の自動切り替えを止めました（タブの手動切り替えは使えます）", err);
+  }
+}
+
+function initShotAuto(takeOver) {
+  const img = shotUI.img;
+  const root = img.closest(".shot");
+  const stage = img.closest(".shot__stage");
+  const tabs = root && root.querySelector(".shot__tabs");
+  if (!root || !stage || !tabs) return;
+
+  injectShotStyle();
+
+  // 画像を、縦横比を固定した枠に入れる（シートごとの高さの違いでページが跳ねないように）
+  const frame = document.createElement("div");
+  frame.className = "shot__frame";
+  frame.id = "shotFrame";
+  stage.insertBefore(frame, img);
+  frame.appendChild(img);
+
+  // 下が枠からはみ出すシートにだけ出す「シート全体を見る」
+  const more = document.createElement("button");
+  more.type = "button";
+  more.className = "shot__more";
+  more.setAttribute("aria-controls", "shotFrame");
+  more.setAttribute("aria-expanded", "false");
+  more.innerHTML = "<span>シート全体を見る</span>" + SHOT_ICON.down;
+  stage.appendChild(more);
+
+  // 止める／再開するボタン。見た目はタブの並びの右端、キーボードではタブの次に届く
+  const play = document.createElement("button");
+  play.type = "button";
+  play.className = "shot__play";
+  paintShotPlay(play, false);
+  root.insertBefore(play, tabs.nextSibling);
+
+  Object.assign(shotUI, { root, stage, more, play });
+
+  img.addEventListener("load", () => markShotClip());
+  if (!img.complete) {
+    // 最初の1枚が届く前に、下線だけが進んでしまわないように
+    holdShot("first");
+    const done = () => releaseShot("first");
+    img.addEventListener("load", done, { once: true });
+    img.addEventListener("error", done, { once: true });
+  }
+
+  play.addEventListener("click", () => {
+    if (shotAuto.on) { setShotAuto(false); return; }
+    if (root.classList.contains("is-open")) setShotOpen(false, play);
+    shotAuto.loops = 0;
+    setShotAuto(true);
+    loadShot((shotAt + 1) % SHOTS.length);
+  });
+  more.addEventListener("click", () => {
+    takeOver();
+    setShotOpen(!root.classList.contains("is-open"), more);
+  });
+
+  // 見本の上にマウスがあるあいだは止める。タッチ操作は対象外
+  stage.addEventListener("pointerenter", (e) => { if (e.pointerType === "mouse") holdShot("hover"); });
+  stage.addEventListener("pointerleave", (e) => { if (e.pointerType === "mouse") releaseShot("hover"); });
+
+  // キーボードでタブや矢印に来たら止める。止める／再開するボタンに来たときは止めない
+  const byKeyboard = (el) => { try { return el.matches(":focus-visible"); } catch (_) { return false; } };
+  root.addEventListener("focusin", (e) => {
+    if (e.target === play) releaseShot("focus");
+    else if (byKeyboard(e.target)) holdShot("focus");
+  });
+  root.addEventListener("focusout", (e) => {
+    if (!root.contains(e.relatedTarget)) releaseShot("focus");
+  });
+
+  // ブラウザの別タブを見ているあいだは止める
+  if (document.hidden) holdShot("hidden");
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) holdShot("hidden"); else releaseShot("hidden");
+  });
+
+  // 枠が画面に半分以上入ったら動かす
+  if ("IntersectionObserver" in window) {
+    holdShot("offscreen");
+    new IntersectionObserver((entries) => {
+      const en = entries[entries.length - 1];
+      if (en.isIntersecting && en.intersectionRatio >= 0.49) {
+        releaseShot("offscreen");
+        if (shotAuto.on) loadShot((shotAt + 1) % SHOTS.length);
+      } else {
+        holdShot("offscreen");
+      }
+    }, { threshold: [0, 0.5] }).observe(stage);
+  }
+
+  shotUI.frame = frame;   // ここから先の切り替えは、フェードと先読みつきになる
+  markShotClip();
+  setShotAuto(true);
+}
+
+function injectShotStyle() {
+  if (document.getElementById("shotAutoStyle")) return;
+  const [w, h] = SHOT_RATIO;
+  const style = document.createElement("style");
+  style.id = "shotAutoStyle";
+  style.textContent = `
+.shot{position:relative;}
+.shot__tabs{padding-right:56px;}
+.shot__tabs button{position:relative;}
+.shot.is-auto .shot__tabs button.is-on::before,
+.shot.is-auto .shot__tabs button.is-on::after{content:"";position:absolute;left:12px;right:12px;bottom:4px;height:3px;border-radius:3px;}
+.shot.is-auto .shot__tabs button.is-on::before{background:rgba(51,82,108,.16);}
+.shot.is-auto .shot__tabs button.is-on::after{background:var(--sea-deep);transform:scaleX(var(--shot-p,0));transform-origin:0 50%;}
+.shot__play{position:absolute;top:11px;right:12px;z-index:3;width:32px;height:32px;padding:0;display:grid;place-items:center;
+  border:1.5px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);cursor:pointer;}
+.shot__play:hover{border-color:var(--sea-deep);}
+.shot__play svg{display:block;width:12px;height:12px;fill:currentColor;}
+.shot__frame{position:relative;overflow:hidden;box-sizing:content-box;aspect-ratio:${w}/${h};
+  border:1px solid var(--line);border-radius:8px;background:#fff;}
+.shot.is-open .shot__frame{aspect-ratio:auto;}
+.shot__stage .shot__frame img{border:0;border-radius:0;transition:opacity ${SHOT_FADE_MS}ms ease;}
+.shot__frame.is-swapping img{opacity:.3;}
+.shot__frame::after{content:"";position:absolute;left:0;right:0;bottom:0;height:88px;pointer-events:none;opacity:0;
+  background:linear-gradient(rgba(255,255,255,0),rgba(255,255,255,.96) 78%);}
+.shot.is-clipped .shot__frame::after{opacity:1;}
+.shot.is-open .shot__frame::after{opacity:0;}
+.shot__more{display:none;position:absolute;left:50%;bottom:26px;z-index:2;transform:translateX(-50%);
+  align-items:center;gap:7px;white-space:nowrap;font-family:var(--sans);font-size:13px;font-weight:700;color:var(--ink);
+  padding:8px 16px;border:1.5px solid var(--line);border-radius:999px;background:var(--card);box-shadow:var(--shadow);cursor:pointer;}
+.shot.is-clipped .shot__more{display:inline-flex;}
+.shot__more:hover{border-color:var(--sea-deep);}
+.shot__more svg{display:block;width:10px;height:10px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
+.shot.is-open .shot__more svg{transform:rotate(180deg);}
+.shot.is-open.is-clipped .shot__stage{padding-bottom:64px;}
+.shot.is-open .shot__more{bottom:16px;}
+@media (max-width:820px){
+  .shot__tabs{padding-right:48px;}
+  .shot.is-auto .shot__tabs button.is-on::before,
+  .shot.is-auto .shot__tabs button.is-on::after{left:10px;right:10px;bottom:3px;}
+  .shot__play{top:9px;right:9px;width:30px;height:30px;}
+  .shot__frame::after{height:56px;}
+  .shot__more{bottom:22px;font-size:12px;padding:6px 12px;}
+  .shot.is-open.is-clipped .shot__stage{padding-bottom:54px;}
+  .shot.is-open .shot__more{bottom:12px;}
+}`;
+  document.head.appendChild(style);
+}
+
+/** i 番目のシートを見せる。手動・自動どちらの切り替えもここを通る */
+function showShot(i) {
+  shotAt = (i + SHOTS.length) % SHOTS.length;
+  const [src, name] = SHOTS[shotAt];
+  const { img, frame } = shotUI;
+  const token = ++shotSwap;
+  shotAuto.elapsed = 0;
+  paintShotTabs();
+
+  if (!frame) {
+    // 自動切り替えの準備前（または準備に失敗したとき）は、今までどおり差し替えるだけ
+    if (img.getAttribute("src") !== src) img.src = src;
+    img.alt = name + "シートの見本";
+    return;
+  }
+  if (img.getAttribute("src") === src) {
+    frame.classList.remove("is-swapping");
+    img.alt = name + "シートの見本";
+    markShotClip();
+    releaseShot("loading");
+    return;
+  }
+  // 次の画像が届くまで古い画像を薄くして待つ。届くまで下線は進めない
+  holdShot("loading");
+  frame.classList.add("is-swapping");
+  Promise.all([loadShot(shotAt), shotWait(shotReduced() ? 0 : SHOT_FADE_MS)]).then(([im]) => {
+    if (token !== shotSwap) return;   // 待っているあいだに、別のシートが選ばれた
+    img.src = src;
+    img.alt = name + "シートの見本";
+    frame.classList.remove("is-swapping");
+    markShotClip(im.naturalWidth, im.naturalHeight);
+    shotAuto.elapsed = 0;
+    releaseShot("loading");
+    if (shotAuto.on) loadShot((shotAt + 1) % SHOTS.length);   // 次の1枚を先に読んでおく
+  });
+}
+
+function paintShotTabs() {
+  shotUI.tabs.forEach((b, k) => {
+    const on = k === shotAt;
+    b.classList.toggle("is-on", on);
+    b.setAttribute("aria-selected", String(on));
+    b.style.setProperty("--shot-p", "0");
+  });
+  shotUI.cap.textContent = SHOTS[shotAt][2];
+}
+
+function setShotProgress(p) {
+  const b = shotUI.tabs && shotUI.tabs[shotAt];
+  if (b) b.style.setProperty("--shot-p", String(Math.round(p * 1000) / 1000));
+}
+
+/** 画像が枠より縦長（下が切れている）なら「シート全体を見る」を出す */
+function markShotClip(w = shotUI.img.naturalWidth, h = shotUI.img.naturalHeight) {
+  if (!shotUI.root || !(w > 0 && h > 0)) return;   // 読み込み前は測れない。load で測り直す
+  shotUI.root.classList.toggle("is-clipped", h / w > SHOT_RATIO[1] / SHOT_RATIO[0] + 0.01);
+}
+
+/** 見本画像を読み込む。失敗しても解決する（切り替えが止まらないように） */
+function loadShot(i) {
+  const src = SHOTS[i][0];
+  if (!shotCache.has(src)) {
+    const im = new Image();
+    im.decoding = "async";
+    im.src = src;
+    const ready = typeof im.decode === "function"
+      ? im.decode()
+      : new Promise((res, rej) => { im.onload = res; im.onerror = rej; });
+    shotCache.set(src, ready.then(() => im, () => { shotCache.delete(src); return im; }));
+  }
+  return shotCache.get(src);
+}
+
+function shotWait(ms) {
+  return new Promise((res) => setTimeout(res, ms));
+}
+
+function shotReduced() {
+  return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+}
+
+function setShotAuto(on) {
+  if (!on) { shotAuto.on = false; stopShotTick(); }
+  shotUI.root.classList.toggle("is-auto", on);
+  paintShotPlay(shotUI.play, on);
+  shotAuto.elapsed = 0;
+  setShotProgress(0);
+  if (on) { shotAuto.on = true; kickShot(); }
+}
+
+/** 止める／再開するボタンの見た目。on は「いま自動で切り替わっているか」 */
+function paintShotPlay(play, on) {
+  const label = on ? "シートの自動切り替えを止める" : "シートを自動で切り替える";
+  play.innerHTML = on ? SHOT_ICON.pause : SHOT_ICON.play;
+  play.setAttribute("aria-label", label);
+  play.title = label;
+}
+
+/** 「シート全体を見る」の開け閉め。anchor は押されたボタン（閉じたときに指の下から逃がさない） */
+function setShotOpen(open, anchor) {
+  const { root, more } = shotUI;
+  const pin = anchor && anchor.getClientRects().length ? anchor : null;
+  const before = pin ? pin.getBoundingClientRect().top : 0;
+  root.classList.toggle("is-open", open);
+  more.setAttribute("aria-expanded", String(open));
+  more.querySelector("span").textContent = open ? "たたむ" : "シート全体を見る";
+  if (pin && !open) {
+    const after = pin.getBoundingClientRect().top;
+    if (Math.abs(after - before) > 1) window.scrollBy(0, after - before);
+  }
+}
+
+function holdShot(why) {
+  shotAuto.holds.add(why);
+  stopShotTick();
+}
+
+function releaseShot(why) {
+  if (shotAuto.holds.delete(why)) kickShot();
+}
+
+function stopShotTick() {
+  if (shotAuto.raf) cancelAnimationFrame(shotAuto.raf);
+  shotAuto.raf = 0;
+  shotAuto.last = 0;
+}
+
+function kickShot() {
+  if (!shotAuto.on || shotAuto.holds.size || shotAuto.raf) return;
+  shotAuto.last = 0;
+  shotAuto.raf = requestAnimationFrame(tickShot);
+}
+
+function tickShot(now) {
+  shotAuto.raf = 0;
+  if (!shotAuto.on || shotAuto.holds.size) return;
+  // 処理が重くてコマの間が空いても、一気に進まないよう1コマ100ミリ秒までに抑える
+  if (shotAuto.last) shotAuto.elapsed += Math.max(0, Math.min(now - shotAuto.last, 100));
+  shotAuto.last = now;
+  const dwell = shotDwell(shotAt);
+  setShotProgress(Math.min(shotAuto.elapsed / dwell, 1));
+  if (shotAuto.elapsed >= dwell) nextShotAuto();
+  if (shotAuto.on && !shotAuto.holds.size && !shotAuto.raf) {
+    shotAuto.raf = requestAnimationFrame(tickShot);
+  }
+}
+
+function nextShotAuto() {
+  const next = (shotAt + 1) % SHOTS.length;
+  if (next === 0 && ++shotAuto.loops >= SHOT_LOOPS) {
+    setShotAuto(false);   // 決めた周回を終えたら、①に戻して止める
+    showShot(0);
+    return;
+  }
+  showShot(next);
 }
 
 
