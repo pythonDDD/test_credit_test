@@ -8,18 +8,22 @@
  * そのあと入力を変えても、グラフとExcelは控えた見積から作る。
  * ========================================================================== */
 import { analyze, negotiationValue, defaultLife, LIFE_MIN, LIFE_MAX } from "./engine.js?v=2";
-import { donutMarkup, lineCompare, areaRemaining, barsExpense, attachTips, toPng, METHODS } from "./viz.js?v=1";
-import { payUrl, payUrlReady } from "./license.js?v=1";
-import { downloadLeaseXlsx } from "./xlsx-export.js?v=1";
+import { donutMarkup, lineCompare, areaRemaining, barsExpense, attachTips, toPng, METHODS } from "./viz.js?v=2";
+import { payUrl, payUrlReady, quoteFingerprint, verifyOrder, readReturnOrder, cleanReturnUrl } from "./license.js?v=2";
+import { downloadLeaseXlsx } from "./xlsx-export.js?v=2";
 
 /* テスト環境（test_credit_test）では true にする。本番は必ず false。
    true でも kazumono.com の上では無料にならない（取り違えて上げたときの歯止め） */
-export const FREE_BUILD = true;
+export const FREE_BUILD = false;
 const FREE_MODE = FREE_BUILD && !/(^|\.)kazumono\.com$/i.test(location.hostname);
 
 const $ = (id) => document.getElementById(id);
 const yen = (n) => Math.round(n).toLocaleString("ja-JP");
-const SNAP_KEY = "kazumono.lease.paid";
+const SNAP_KEY = "kazumono.lease.paid";        // 開いている見積の控え（注文番号と期限つき）
+const PENDING_KEY = "kazumono.lease.pending";  // 購入ボタンを押した時点の見積。Stripe から戻ったときに使う
+const ORDER_KEY = "kazumono.lease.order";      // 戻ってきたが、まだ見積と結び付けられていない注文番号
+const TEST_HOST = !/(^|\.)kazumono\.com$/i.test(location.hostname);   // 本番以外（テスト環境）
+const CONTACT = "stats.okinawa@gmail.com";
 /* 見本のグラフとシート見本に使う見積。「例を入れる」と同じ数字にすると、例を試した人に
    その見積の答えを無料で見せてしまうので、わざと別の数字にしている */
 const SAMPLE = { price: 3000000, months: 60, monthly: 57000, residual: 0, life: 5 };
@@ -442,6 +446,131 @@ function forgetSnap() {
   try { localStorage.removeItem(SNAP_KEY); } catch (_) { /* noop */ }
   P.snap = null;
 }
+function readJSON(key) {
+  try { return JSON.parse(localStorage.getItem(key) || "null"); } catch (_) { return null; }
+}
+function writeJSON(key, v) {
+  try { localStorage.setItem(key, JSON.stringify(v)); } catch (_) { /* noop */ }
+}
+function removeKey(key) {
+  try { localStorage.removeItem(key); } catch (_) { /* noop */ }
+}
+
+/* ============================================================ 決済から戻ったとき */
+/* 画面の上に出す案内。[文, 「この見積で開く」ボタンを出すか] */
+const NOTES = {
+  checking: ["お支払いを確認しています…", false],
+  askQuote: ["お支払いの記録は届いています。購入した見積の数字（物件価額・期間・月額）を下のツールに入れてから、「この見積で開く」を押してください。", true],
+  other_quote: ["購入した見積と数字が違います。購入したときと同じ物件価額・期間・月額を入れて、もう一度「この見積で開く」を押してください。", true],
+  not_paid: ["お支払いがまだ完了していないようです。完了していれば、少し待ってからページを再読み込みしてください。", false],
+  expired: ["最初に開いてから24時間が過ぎたため、購入した見積を閉じました。", false],
+  network: ["確認の通信に失敗しました。時間をおいて、ページを再読み込みしてください。", false],
+  other: [`この注文では開けませんでした。お支払い済みの場合は、領収メールを添えて ${CONTACT} までご連絡ください。`, false],
+};
+function showNote(key) {
+  const [text, withButton] = NOTES[key] || NOTES.other;
+  $("payNoteMsg").textContent = text;
+  $("payNoteBtn").hidden = !withButton;
+  $("payNote").hidden = false;
+}
+function hideNote() { $("payNote").hidden = true; }
+
+/** ページを開いたときに一度だけ呼ぶ：Stripe から戻ってきたか、控えがまだ有効かを確かめる */
+async function resumePurchase() {
+  const ret = readReturnOrder();
+  if (ret) {
+    cleanReturnUrl();
+    writeJSON(ORDER_KEY, { order: ret, at: Date.now() });
+    const pending = readJSON(PENDING_KEY);
+    if (pending && pending.fp && pending.snap) {
+      await openWith(ret, pending.fp, pending.snap);
+    } else {
+      // 別のブラウザで戻ってきた（PayPayのアプリを経由した場合など）。見積を入れ直してもらう
+      showNote("askQuote");
+      $("payNote").scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    return;
+  }
+  if (P.snap && P.snap.order) { await recheck(); return; }
+  const waiting = readJSON(ORDER_KEY);
+  if (waiting && waiting.order && Date.now() - waiting.at < 7 * 24 * 3600e3) {
+    // 前回、確認の途中で止まった（通信の失敗など）。購入ボタンを押したときの見積が残っていれば、それで確かめ直す
+    const pending = readJSON(PENDING_KEY);
+    if (pending && pending.fp && pending.snap) await openWith(waiting.order, pending.fp, pending.snap);
+    else showNote("askQuote");
+  }
+}
+
+/** 注文番号と見積で Worker に確かめ、よければ購入後の画面を開く */
+async function openWith(order, fp, base) {
+  showNote("checking");
+  let res;
+  try {
+    res = await verifyOrder(order, fp);
+  } catch (e) {
+    showNote("network");
+    track("lease_verify_failed", { reason: "network" });
+    return false;
+  }
+  if (!res || res.valid !== true) {
+    const reason = res && res.reason;
+    showNote(NOTES[reason] ? reason : "other");
+    track("lease_verify_failed", { reason: String(reason) });
+    return false;
+  }
+  const expiresAt = Date.parse(res.expiresAt) || Date.now() + 24 * 3600e3;
+  const snap = { price: base.price, months: base.months, monthly: base.monthly, residual: base.residual || 0,
+    life: base.life ?? defaultLife(base.months), order, expiresAt, at: Date.now() };
+  writeSnap(snap);
+  removeKey(PENDING_KEY);
+  removeKey(ORDER_KEY);
+  hideNote();
+  P.over = {};
+  paintAll();
+  $("paidOpen").scrollIntoView({ behavior: "smooth", block: "start" });
+  track("lease_purchase_verified");
+  return true;
+}
+
+/** 控えが残っているとき：まだ開いてよいかを Worker に確かめ直す */
+async function recheck() {
+  const s = P.snap;
+  try {
+    const res = await verifyOrder(s.order, await quoteFingerprint(s));
+    if (res.valid === true) {
+      writeSnap({ ...s, expiresAt: Date.parse(res.expiresAt) || s.expiresAt });
+      paintAll();
+    } else if (["expired", "other_quote", "inactive", "wrong_product", "wrong_link", "not_found", "bad_order", "no_fingerprint"].includes(res.reason)) {
+      forgetSnap();
+      paintAll();
+      showNote(res.reason === "expired" ? "expired" : "other");
+    }
+    // Stripe や Worker 側の一時的な不具合（stripe_error など）では、お客さまの控えは消さない
+  } catch (_) {
+    // 通信できないときは、手元の期限までそのまま開いておく
+  }
+}
+
+/** 別のブラウザで戻ってきた人が、見積を入れ直して押すボタン */
+async function onOpenWithQuote() {
+  const waiting = readJSON(ORDER_KEY);
+  if (!waiting || !waiting.order) { hideNote(); return; }
+  const q = P.quote;
+  if (!q) {
+    showNote("askQuote");
+    $("tool").scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+  const base = { price: q.price, months: q.months, monthly: q.monthly, residual: q.residual || 0, life: P.life ?? defaultLife(q.months) };
+  await openWith(waiting.order, await quoteFingerprint(base), base);
+}
+
+function leftText(t) {
+  const ms = t - Date.now();
+  if (!(ms > 0)) return "";
+  const h = Math.floor(ms / 3600e3), m = Math.floor((ms % 3600e3) / 60e3);
+  return `あと ${h}時間${String(m).padStart(2, "0")}分 開けます（最初に開いてから24時間）`;
+}
 
 /* ============================================================ はじめに */
 export function initPaid() {
@@ -459,7 +588,17 @@ export function initPaid() {
   });
   $("buy").addEventListener("click", onBuy);
   $("dl").addEventListener("click", onDownload);
-  $("relock").addEventListener("click", () => { forgetSnap(); paintAll(); $("paid").scrollIntoView({ behavior: "smooth", block: "start" }); });
+  $("relock").addEventListener("click", () => {
+    forgetSnap(); removeKey(PENDING_KEY); removeKey(ORDER_KEY); hideNote(); paintAll();
+    $("tool").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  $("payNoteBtn").addEventListener("click", onOpenWithQuote);
+  // 残り時間の表示を30秒ごとに更新し、期限が来たら閉じる
+  setInterval(() => {
+    if (!P.snap || !P.snap.expiresAt) return;
+    if (Date.now() > P.snap.expiresAt) paintAll();
+    else $("openLeft").textContent = leftText(P.snap.expiresAt);
+  }, 30000);
   $("openLife").addEventListener("change", () => {
     const v = parseInt($("openLife").value, 10);
     if (P.snap && v >= LIFE_MIN && v <= LIFE_MAX) { writeSnap({ ...P.snap, life: v }); paintOpen(); }
@@ -490,6 +629,7 @@ export function initPaid() {
     t = setTimeout(() => { const c = compact().compact; if (c !== wasCompact && P.snap) { wasCompact = c; paintOpen(); } }, 150);
   });
   paintAll();
+  resumePurchase().catch((e) => console.warn("[リース見積診断] 購入の確認でつまずきました", e));
 }
 
 /** 無料ツールで計算するたびに呼ばれる。quote は計算できないとき null */
@@ -506,6 +646,10 @@ function setLife(v, fromInput = false) {
 }
 
 function paintAll() {
+  if (P.snap && P.snap.expiresAt && Date.now() > P.snap.expiresAt) {
+    forgetSnap();
+    showNote("expired");
+  }
   $("paid").hidden = !(P.quote && !P.snap);
   $("paidOpen").hidden = !P.snap;
   if (P.quote && !P.snap) { paintAnchor(); paintBuy(); }
@@ -535,14 +679,14 @@ function paintBuy() {
     msg.textContent = "テスト環境です。支払いなしで、購入後の画面を確かめられます。";
   } else if (payUrlReady()) {
     btn.disabled = false; btn.textContent = "1,000円で購入する";
-    msg.textContent = "購入するのは、この画面の見積（物件価額・期間・月額）1件分です。";   // 24時間の案内は、下の固定の文で出す
+    msg.textContent = "購入するのは、この画面の見積（物件価額・期間・月額）1件分です。お支払いは Stripe の画面で、カード・Apple Pay・Google Pay・PayPay から選べます。";
   } else {
     btn.disabled = true; btn.textContent = "近日公開";
     msg.textContent = "ただいま販売の準備中です。";
   }
 }
 
-function onBuy() {
+async function onBuy() {
   const q = P.quote; if (!q) return;
   const snap = { price: q.price, months: q.months, monthly: q.monthly, residual: q.residual || 0,
     life: P.life ?? defaultLife(q.months), at: Date.now() };
@@ -554,10 +698,19 @@ function onBuy() {
     return;
   }
   if (payUrlReady()) {
-    // 本番の決済（工程4で Worker の確認とつなぐ）。戻ってきたら控えと注文番号を照らし合わせる
-    try { sessionStorage.setItem(SNAP_KEY + ".pending", JSON.stringify(snap)); } catch (_) { /* noop */ }
-    track("lease_buy_click");
-    location.href = payUrl();
+    // 見積のハッシュを支払いリンクに付けて、決済と見積を結び付ける。
+    // 戻ってきたとき用に、押した時点の見積を控えておく（別のタブや再読み込みでも残るよう localStorage に置く）
+    const btn = $("buy");
+    btn.disabled = true;
+    try {
+      const fp = await quoteFingerprint(snap);
+      writeJSON(PENDING_KEY, { fp, snap, at: Date.now() });
+      track("lease_buy_click");
+      location.href = payUrl(fp);
+    } catch (e) {
+      btn.disabled = false;
+      $("buyMsg").textContent = "決済の画面を開けませんでした。ページを再読み込みしてお試しください。";
+    }
   }
 }
 
@@ -586,7 +739,8 @@ function paintOpen(syncSliders = false) {
   const q = P.quote;
   const differs = q && (q.price !== s.price || q.months !== s.months || Math.round(q.monthly) !== s.monthly);
   $("openDiff").hidden = !differs;
-  $("relock").hidden = !FREE_MODE;
+  $("openLeft").textContent = s.expiresAt ? leftText(s.expiresAt) : "";
+  $("relock").hidden = !(FREE_MODE || TEST_HOST);
 
   if (syncSliders) {
     const a = r.input;
@@ -648,6 +802,7 @@ function keepTip(id, markup) {
 
 async function onDownload() {
   const btn = $("dl"); if (!P.snap) return;
+  if (P.snap.expiresAt && Date.now() > P.snap.expiresAt) { paintAll(); return; }
   const label = btn.textContent;
   btn.disabled = true; btn.textContent = "Excelを作っています…";
   try {

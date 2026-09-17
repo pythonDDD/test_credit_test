@@ -368,6 +368,10 @@ input,select,textarea,button{font-weight:600}
 .open__bar label{font-size:14px;font-weight:700;}
 .open__bar input{width:64px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--num);text-align:right;}
 .open__msg{margin:6px 0 0;font-size:13px;color:var(--sea-deep);min-height:1.6em;}
+.open__left{margin:-4px 0 10px;font-size:13px;font-weight:700;color:#8E4F8C;}
+.paynote{display:flex;align-items:center;gap:14px 20px;flex-wrap:wrap;margin:0 0 18px;padding:18px 22px;border-radius:16px;background:linear-gradient(150deg,rgba(244,195,211,.35),#fff);border:1.5px solid rgba(182,122,180,.45);}
+.paynote__msg{margin:0;flex:1 1 320px;font-size:15px;line-height:1.85;font-weight:600;}
+.paynote__btn{flex:none;}
 .panel{margin:26px 0 0;padding:22px 0 0;border-top:1px solid var(--line);}
 .panel__h{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:20px;margin:0 0 8px;}
 .panel__h span{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:999px;background:var(--sea-deep);color:#fff;font-family:var(--num);font-size:14px;}
@@ -503,6 +507,11 @@ input,select,textarea,button{font-weight:600}
         <p>物件価額・期間・金利を入れればリース料を。見積の月額やリース料率を入れれば、実質年率（金利）を。残価が設定されていた場合の金利まで、その場で分かります。</p>
         <span class="head__safe">入力内容は送信されません。すべてブラウザの中で計算します</span>
       </header>
+
+      <div class="paynote" id="payNote" role="status" aria-live="polite" hidden>
+        <p class="paynote__msg" id="payNoteMsg"></p>
+        <button class="btn-run paynote__btn" type="button" id="payNoteBtn" hidden>この見積で開く</button>
+      </div>
 
       <section class="calc" id="tool" aria-labelledby="formTitle">
         <div class="modes" role="tablist" aria-label="使い方を選ぶ">
@@ -662,11 +671,12 @@ input,select,textarea,button{font-weight:600}
         <span class="paid__badge">購入済み</span>
         <h2 class="open__h" id="openH">この見積の中身</h2>
         <p class="open__quote" id="openQuote"></p>
+        <p class="open__left" id="openLeft"></p>
         <p class="open__diff" id="openDiff" hidden>いま入力している数字とは別の、購入した見積で表示しています。</p>
         <div class="open__bar">
           <label>法定耐用年数 <input id="openLife" type="number" inputmode="numeric" min="2" max="50"> 年</label>
           <button class="btn-run" type="button" id="dl">Excelをダウンロード</button>
-          <button class="btn-sample" type="button" id="relock" hidden>もとに戻す（テスト用）</button>
+          <button class="btn-sample" type="button" id="relock" hidden>購入の控えを消す（テスト用）</button>
         </div>
         <p class="open__msg" id="dlMsg" aria-live="polite"></p>
 
@@ -865,6 +875,6 @@ input,select,textarea,button{font-weight:600}
 
 <noscript><p style="text-align:center;padding:12px">このツールはJavaScriptで計算します。ブラウザの設定でJavaScriptを有効にしてください。</p></noscript>
 <script src="../vendor/exceljs.min.js" defer></script>
-<script type="module" src="./app.js?v=2"></script>
+<script type="module" src="./app.js?v=3"></script>
 </body>
 </html>

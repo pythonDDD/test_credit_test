@@ -30,7 +30,7 @@ function notifyPaid(q) {
   if (paid) { try { paid.updatePaid(q); } catch (e) { console.warn("[リース見積診断] 有料版の表示を更新できませんでした", e); } }
 }
 function loadPaid() {
-  import("./paid.js?v=1").then((m) => {
+  import("./paid.js?v=2").then((m) => {
     m.initPaid();
     paid = m;
     m.updatePaid(lastQuote);
