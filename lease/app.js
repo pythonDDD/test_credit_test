@@ -8,7 +8,7 @@
  * 物件価額とリース期間は、2つの使い方で共通の入力欄を使う。
  * 残価は入力欄に置かず、結果の中のバーを押して選ぶ（入力を最小限にするため）。
  * ========================================================================== */
-import { forward, reverse, residualScenarios, residualPayments } from "./engine.js?v=1";
+import { forward, reverse, residualScenarios, residualPayments } from "./engine.js?v=2";
 
 const $ = (id) => document.getElementById(id);
 const yen = (n) => Math.round(n).toLocaleString("ja-JP");
@@ -22,6 +22,20 @@ const EXAMPLE = {
 };
 
 const state = { mode: "calc", residual: 0, unit: "yen" };
+
+/* 有料版（グラフ＋Excel）は後から読み込む。読み込みに失敗しても、無料の計算は止めない */
+let paid = null, lastQuote = null;
+function notifyPaid(q) {
+  lastQuote = q;
+  if (paid) { try { paid.updatePaid(q); } catch (e) { console.warn("[リース料金ポン] 有料版の表示を更新できませんでした", e); } }
+}
+function loadPaid() {
+  import("./paid.js?v=1").then((m) => {
+    m.initPaid();
+    paid = m;
+    m.updatePaid(lastQuote);
+  }).catch((e) => console.warn("[リース料金ポン] 有料版を読み込めませんでした（無料の計算はそのまま使えます）", e));
+}
 
 /* ------------------------------------------------------------ 小さな道具 */
 function num(id) {
@@ -110,16 +124,16 @@ function render({ scroll = false, showErr = true } = {}) {
 
   if (read.errors.length) {
     box.hidden = true;
-    $("paid").hidden = true;
+    notifyPaid(null);
     err.textContent = read.errors[0];
     err.hidden = !showErr;
     return false;
   }
   err.hidden = true;
   const args = { ...read.args, residual: read.args.price * state.residual };
-  if (state.mode === "calc") paintCalc(args); else paintReverse(args);
+  const monthly = state.mode === "calc" ? paintCalc(args) : (paintReverse(args), args.monthly);
   box.hidden = false;
-  paintPaid(args);
+  notifyPaid({ price: args.price, months: args.months, monthly, residual: args.residual });
   if (scroll) box.scrollIntoView({ behavior: "smooth", block: "start" });
   return true;
 }
@@ -185,6 +199,7 @@ function paintCalc(args) {
   if (args.residual > 0) rem.push("残価を設定した分だけ月額が下がっています。満了時に物件を返すのか、残価で買い取るのかは、契約書で必ず確認してください。");
   if (r.multiple >= 1.2) rem.push("支払総額が物件価額の1.2倍を超えています。期間か金利のどちらかを見直せないか、確かめる余地があります。");
   $("cRemarks").innerHTML = rem.map((t) => `<li>${t}</li>`).join("");
+  return r.monthly;
 }
 
 function paintReverse(args) {
@@ -212,21 +227,6 @@ function paintReverse(args) {
     if (args.residual > 0) rem.push(`残価 ${Math.round(state.residual * 100)}% が設定されていた場合の金利です。同じ月額でも、残価がある分だけ金利に直した値は高くなります。`);
   }
   $("rRemarks").innerHTML = rem.map((t) => `<li>${t}</li>`).join("");
-}
-
-/** 有料版の案内。金額そのものは出さず、何が分かるかだけを示す */
-function paintPaid(args) {
-  let extra = NaN;
-  if (state.mode === "calc") {
-    const r = forward(args);
-    extra = r.total - args.price;
-  } else {
-    extra = args.monthly * args.months - args.price;
-  }
-  $("paidLead").innerHTML = extra > 0
-    ? `物件価額より多く払う <b>${yen(extra)}円</b> の中には、リース会社が払う金利・税金・保険と、<b>リース会社の利益</b>が入っています。Excel版では、この中身を分けて6枚のシートにまとめます。`
-    : "リース料の中には、リース会社が払う金利・税金・保険と、<b>リース会社の利益</b>が入っています。Excel版では、この中身を分けて6枚のシートにまとめます。";
-  $("paid").hidden = false;
 }
 
 function kpi(label, value, note) {
@@ -293,6 +293,7 @@ function init() {
   }));
 
   setMode(location.hash === "#reverse" ? "reverse" : "calc");
+  loadPaid();
 }
 
 /** 月額（円）とリース料率（%）の切り替え。入っている値は換算して残す */

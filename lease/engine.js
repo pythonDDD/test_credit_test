@@ -27,6 +27,7 @@ export const DEFAULTS = Object.freeze({
   loanRate: 0.015,    // 銀行借入金利（年）
   discRate: 0.03,     // 比較に使う割引率（年）
   selfIns: 0,         // 自社で掛ける保険料（年額・購入の場合）
+  kappuRate: null,    // 割賦の金利（年）。null ならリースと同じ条件から決める
 });
 
 /* ------------------------------------------------------------ 丸め */
@@ -217,6 +218,11 @@ export function analyze(input) {
   const loanPmtExact = pmt(a.loanRate / 12, months, price);
   const loanPmt = round(loanPmtExact);
   const loanInterestByYear = yearlyLoanInterest(price, a.loanRate / 12, months, loanPmtExact, Y);
+  // 割賦：同じリース会社から、税金と保険を除いた同じ条件で分割払いにした場合の金利を既定にする
+  const kappuRate = a.kappuRate ?? kappuDefaultRate({ price, months, monthly, residual, taxTotal, ins });
+  const kappuPmtExact = pmt(kappuRate / 12, months, price);
+  const kappuPmt = round(kappuPmtExact);
+  const kappuInterestByYear = yearlyLoanInterest(price, kappuRate / 12, months, kappuPmtExact, Y);
   const cmp = [];
   for (let y = 1; y <= Y; y++) {
     const payCount = Math.min(12, Math.max(0, months - 12 * (y - 1)));
@@ -230,10 +236,14 @@ export function analyze(input) {
     const repay = round(loanPmt * payCount);
     const loanInt = payCount === 0 ? 0 : round(loanInterestByYear[y - 1]);
     const saveC = -round((depY + loanInt + taxIns) * a.corpTax);
+    const kRepay = round(kappuPmt * payCount);
+    const kInt = payCount === 0 ? 0 : round(kappuInterestByYear[y - 1]);
+    const saveD = -round((depY + kInt + taxIns) * a.corpTax);
     cmp.push({ year: y, payCount, tax: taxY, dep: depY,
       A: { pay: leasePay, save: saveA, net: leasePay + saveA },
       B: { pay: cash, taxIns, save: saveB, net: cash + taxIns + saveB },
-      C: { pay: repay, interest: loanInt, taxIns, save: saveC, net: repay + taxIns + saveC } });
+      C: { pay: repay, interest: loanInt, taxIns, save: saveC, net: repay + taxIns + saveC },
+      D: { pay: kRepay, interest: kInt, taxIns, save: saveD, net: kRepay + taxIns + saveD } });
   }
   const sum = (f) => cmp.reduce((s, r) => s + f(r), 0);
   const npv = (f) => cmp.reduce((s, r, k) => s + f(r) / Math.pow(1 + a.discRate, k + 1), 0);
@@ -247,9 +257,12 @@ export function analyze(input) {
     lessorMonthly, lessorYield: lessorMonthly * 12, lesseeRate,
     diffCash: total - price,
     schedule, tax, dep,
-    cmp, loanPmt,
-    cmpTotal: { A: sum((r) => r.A.net), B: sum((r) => r.B.net), C: sum((r) => r.C.net) },
-    cmpNpv: { A: npv((r) => r.A.net), B: npv((r) => r.B.net), C: npv((r) => r.C.net) },
+    cmp, loanPmt, kappuRate, kappuPmt,
+    cmpTotal: { A: sum((r) => r.A.net), B: sum((r) => r.B.net), C: sum((r) => r.C.net), D: sum((r) => r.D.net) },
+    cmpNpv: { A: npv((r) => r.A.net), B: npv((r) => r.B.net), C: npv((r) => r.C.net), D: npv((r) => r.D.net) },
+    cmpCum: ["A", "B", "C", "D"].reduce((o, k) => {
+      let c = 0; o[k] = cmp.map((r) => (c += r[k].net)); return o;
+    }, {}),
   };
 }
 
@@ -263,6 +276,26 @@ function yearlyLoanInterest(pv, i, n, p, years) {
     bal -= p - it;
   }
   return out;
+}
+
+/** 割賦の金利の既定値：リースの月額から、リース会社が払う税金と保険の分を除いて金利に直す */
+export function kappuDefaultRate({ price, months, monthly, residual = 0, taxTotal, ins }) {
+  const m = monthly - (taxTotal + ins) / months;
+  const r = rate(months, m, price, residual) * 12;
+  return isFinite(r) ? Math.max(r, 0) : 0;
+}
+
+/** 実質年率（金利）が delta 下がったとき、支払総額がいくら減るか（交渉の目安） */
+export function negotiationValue({ price, months, monthly, residual = 0 }, delta = 0.001) {
+  const r = rate(months, monthly, price, residual) * 12;
+  if (!isFinite(r) || r - delta <= -0.5) return NaN;
+  const m2 = pmt((r - delta) / 12, months, price, residual);
+  return (monthly - m2) * months;
+}
+
+/** 耐用年数の初期値：リース期間に近い年数（2〜50年） */
+export function defaultLife(months) {
+  return Math.min(LIFE_MAX, Math.max(LIFE_MIN, Math.round(months / 12)));
 }
 
 export const LIFE_MIN = 2, LIFE_MAX = 50;

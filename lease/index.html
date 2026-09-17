@@ -303,20 +303,6 @@ input,select,textarea,button{font-weight:600}
 .paid__badge{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;padding:5px 14px;border-radius:999px;background:var(--plum);color:#fff;margin:0 0 14px;}
 .paid__h{font-family:var(--serif);font-size:23px;font-weight:700;letter-spacing:.04em;line-height:1.6;margin:0 0 10px;padding-right:90px;}
 .paid__lead{margin:0 0 20px;font-size:15px;line-height:1.95;max-width:38em;}
-.lockrows{margin:0 0 22px;border:1px solid var(--line);border-radius:14px;overflow:hidden;}
-.lockrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;background:rgba(250,249,246,.9);
-  border-bottom:1px solid var(--line);font-size:14.5px;}
-.lockrow:last-child{border-bottom:none;}
-.lockrow--main{background:linear-gradient(150deg,rgba(244,195,211,.35),rgba(255,255,255,.95));font-weight:700;}
-.lockrow__v{display:inline-flex;align-items:center;gap:8px;font-family:var(--num);color:var(--ink-soft);letter-spacing:.06em;white-space:nowrap;}
-.lockrow__v svg{width:15px;height:15px;flex:none;}
-.veil{display:inline-block;width:92px;height:14px;border-radius:999px;vertical-align:middle;
-  background:linear-gradient(90deg,rgba(182,122,180,.18),rgba(182,122,180,.42),rgba(182,122,180,.18));filter:blur(1.2px);}
-.veil--s{width:70px;}
-.sheets{list-style:none;margin:0 0 22px;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px 22px;}
-.sheets li{font-size:14px;line-height:1.75;}
-.sheets b{display:block;font-size:14.5px;}
-.paid__foot{display:flex;align-items:center;gap:14px 20px;flex-wrap:wrap;}
 .paid__price{margin:0;font-family:var(--num);white-space:nowrap;}
 .paid__price b{font-size:32px;line-height:1;}
 .paid__price span{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink-soft);margin-left:3px;}
@@ -333,7 +319,109 @@ input,select,textarea,button{font-weight:600}
 .notecard span{font-size:13.5px;color:var(--ink-soft);}
 .notecard em{font-style:normal;font-size:14px;font-weight:700;color:var(--sea-deep);}
 
+
+/* 有料版：購入前 */
+.anchor{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 22px;}
+.anchor__item{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 14px;}
+.anchor__item b{display:block;font-size:12.5px;color:var(--ink-soft);}
+.anchor__item span{display:block;font-family:var(--num);font-size:21px;font-weight:700;line-height:1.5;font-variant-numeric:tabular-nums;}
+.anchor__item small{display:block;font-size:11.5px;line-height:1.6;color:var(--ink-soft);}
+.anchor__item--hot{background:linear-gradient(150deg,rgba(244,195,211,.38),#fff);border-color:rgba(182,122,180,.45);}
+.anchor__item--hot span{color:#8E4F8C;}
+.qgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 26px;}
+.q{position:relative;display:flex;flex-direction:column;gap:4px;text-align:left;padding:16px 16px 12px;border:1.5px solid var(--line);border-radius:16px;
+  background:var(--card);font-family:var(--sans);color:var(--ink);cursor:pointer;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;}
+.q:last-child:nth-child(odd){grid-column:1 / -1;}
+@media (hover:hover){.q:hover{border-color:var(--plum);transform:translateY(-2px);box-shadow:var(--shadow);}}
+.q__no{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:999px;background:var(--plum);color:#fff;font-size:12.5px;font-weight:700;}
+.q__h{font-family:var(--serif);font-size:17px;letter-spacing:.03em;line-height:1.6;}
+.q__p{font-size:13px;line-height:1.75;color:var(--ink-soft);font-weight:500;}
+.q__fig{display:block;margin:8px 0 4px;height:118px;overflow:hidden;filter:blur(4px) saturate(.9);opacity:.72;pointer-events:none;}
+.q__fig svg{display:block;width:100%;height:auto;}
+.q:last-child:nth-child(odd) .q__fig{height:150px;}
+.q__lock{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#8E4F8C;}
+.q__lock svg{width:14px;height:14px;flex:none;}
+.get{margin:0 0 22px;}
+.get__h{font-family:var(--serif);font-size:19px;letter-spacing:.04em;margin:0 0 10px;}
+.get__grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px;}
+.get__grid div{background:var(--mint);border-radius:14px;padding:12px 16px;}
+.get__grid b{display:block;font-size:15px;}
+.get__grid span{display:block;font-size:13.5px;line-height:1.8;}
+.buy{display:grid;grid-template-columns:1.25fr 1fr;gap:18px;align-items:center;background:var(--paper);border:1.5px solid var(--line);border-radius:18px;padding:18px 20px;}
+.buy__label{margin:0 0 6px;font-size:14px;font-weight:700;}
+.buy__label b{color:var(--sea-deep);margin-left:6px;}
+.buy__other{display:inline-flex;align-items:center;gap:8px;margin:10px 0 6px;font-size:13px;font-weight:600;}
+.buy__other input{width:84px;padding:6px 10px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--num);text-align:right;background:#fff;}
+.buy small{display:block;font-size:12px;line-height:1.75;color:var(--ink-soft);}
+.buy__cta{display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
+.buy__cta .paid__note{flex:none;}
+
+/* 有料版：購入後 */
+.open{background:var(--card);border:1.5px solid var(--line);border-left:6px solid var(--plum);border-radius:22px;padding:30px 28px;margin:0 0 20px;box-shadow:var(--shadow);}
+.open__h{font-family:var(--serif);font-size:24px;letter-spacing:.04em;margin:0 0 6px;}
+.open__quote{margin:0 0 10px;font-family:var(--num);font-size:14.5px;font-weight:700;color:var(--ink-soft);}
+.open__diff{margin:0 0 10px;padding:8px 12px;border-radius:10px;background:var(--dawn);font-size:13px;}
+.open__bar{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:8px 0 4px;}
+.open__bar label{font-size:14px;font-weight:700;}
+.open__bar input{width:64px;padding:8px 10px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--num);text-align:right;}
+.open__msg{margin:6px 0 0;font-size:13px;color:var(--sea-deep);min-height:1.6em;}
+.panel{margin:26px 0 0;padding:22px 0 0;border-top:1px solid var(--line);}
+.panel__h{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:20px;margin:0 0 8px;}
+.panel__h span{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:999px;background:var(--sea-deep);color:#fff;font-family:var(--num);font-size:14px;}
+.panel__p{margin:0 0 12px;font-size:15px;line-height:1.9;}
+.panel__note{margin:8px 0 0;font-size:13px;color:var(--ink-soft);}
+.fig{position:relative;touch-action:pan-y;}
+.fig svg{display:block;width:100%;height:auto;}
+.vtip{position:absolute;z-index:5;pointer-events:none;background:#0F1A22;color:#fff;border-radius:10px;padding:8px 12px;font-size:12.5px;line-height:1.7;max-width:300px;box-shadow:0 8px 20px rgba(0,0,0,.2);}
+.vtip b{display:block;font-size:13px;}
+.vtip span{display:block;}
+.knobs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 18px;margin:12px 0 6px;}
+.knob{display:grid;grid-template-columns:1fr auto;align-items:center;gap:2px 10px;margin:8px 0;}
+.knob label{font-size:13px;font-weight:700;}
+.knob output{font-family:var(--num);font-weight:700;font-size:14px;color:var(--sea-deep);}
+.knob input[type=range]{grid-column:1 / -1;width:100%;accent-color:#33526C;}
+.legend3{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px;}
+.legend3 button{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-size:13px;font-weight:700;padding:5px 12px;border-radius:999px;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;}
+.legend3 button::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--c);}
+.legend3 button[aria-pressed="false"]{opacity:.45;}
+.cmp2 th{width:auto;}
+.cmp2 td:first-child{text-align:left;font-family:var(--sans);font-weight:600;}
+.cmp2 tr.is-best td{background:rgba(223,246,241,.85);font-weight:700;}
+.cmp2 em{font-style:normal;font-size:11px;font-weight:700;margin-left:8px;padding:2px 8px;border-radius:999px;background:var(--sea-deep);color:#fff;white-space:nowrap;}
+.linkbtn{border:none;background:none;padding:0;font-family:var(--sans);font-size:13px;font-weight:700;color:var(--sea-deep);text-decoration:underline;cursor:pointer;}
+
+/* Excelのシート見本（財務でポン！と同じ部品） */
+.shot{border:1.5px solid var(--line);border-radius:18px;background:var(--card);box-shadow:var(--shadow);overflow:hidden;}
+.shot__tabs{display:flex;gap:2px;padding:10px 10px 0;flex-wrap:wrap;background:#EDEBE4;border-bottom:1px solid var(--line);}
+.shot__tabs button{font-family:var(--sans);font-size:12.5px;font-weight:700;color:var(--ink-soft);
+  padding:8px 12px;border:none;border-radius:10px 10px 0 0;background:transparent;cursor:pointer;}
+.shot__tabs button:hover{background:rgba(255,255,255,.6);}
+.shot__tabs button.is-on{background:var(--card);color:var(--ink);}
+.shot__stage{position:relative;background:#F5F4EF;padding:14px;}
+.shot__stage img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff;}
+.shot__nav{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:999px;
+  border:1.5px solid var(--line);background:rgba(255,255,255,.94);color:var(--ink);font-size:22px;line-height:1;cursor:pointer;}
+.shot__nav--prev{left:20px;} .shot__nav--next{right:20px;}
+.shot__nav:hover{background:#fff;}
+.shot__cap{margin:0;padding:12px 16px 16px;font-size:13.5px;line-height:1.8;color:var(--ink);font-weight:500;}
+
 @media (max-width:820px){
+  .anchor{grid-template-columns:1fr;}
+  .qgrid{grid-template-columns:1fr;}
+  .get__grid{grid-template-columns:1fr;}
+  .buy{grid-template-columns:1fr;}
+  .open{padding:24px 16px;}
+  .knobs{grid-template-columns:1fr;}
+  .tw .cmp2{min-width:0;table-layout:fixed;}
+  .cmp2 th,.cmp2 td{padding:10px 8px;font-size:13px;white-space:normal;}
+  .cmp2 th:first-child,.cmp2 td:first-child{width:38%;}
+  .cmp2 td:not(:first-child){white-space:nowrap;}
+  .tw .cmp2 td:first-child{white-space:normal;}
+  .tw .cmp2 em{display:table;max-width:100%;margin:4px 0 0;white-space:normal;line-height:1.5;border-radius:8px;}
+  .shot__tabs button{font-size:11.5px;padding:7px 9px;}
+  .shot__nav{width:32px;height:32px;}
+  .shot__nav--prev{left:10px;} .shot__nav--next{right:10px;}
   .modes{gap:8px;margin-bottom:20px;}
   .mode{padding:12px 6px;border-radius:14px;text-align:center;}
   .mode b{font-size:13.5px;margin:0;letter-spacing:0;white-space:nowrap;}
@@ -347,8 +435,7 @@ input,select,textarea,button{font-weight:600}
   .kpi__item{display:grid;grid-template-columns:1fr auto;align-items:baseline;column-gap:10px;padding:10px 14px;}
   .kpi__item span{font-size:19px;text-align:right;}
   .kpi__item small{grid-column:1 / -1;}
-  .sheets{grid-template-columns:1fr;}
-  .paid{padding:26px 20px;}
+    .paid{padding:26px 20px;}
   .paid__h{font-size:20px;padding-right:60px;}
   .resid{padding:14px 10px 10px;}
   .rbars{gap:2px;}
@@ -504,29 +591,114 @@ input,select,textarea,button{font-weight:600}
         <ul class="remarks" id="rRemarks"></ul>
       </section>
 
-      <!-- ============ Excel版の案内（販売開始までは準備中の表示） ============ -->
+      <!-- ============ 有料版：購入前の案内 ============ -->
       <section class="paid" id="paid" aria-labelledby="paidH" hidden>
-        <span class="paid__badge">Excel版</span>
-        <h2 class="paid__h" id="paidH">この見積の、リース会社の利益はいくら？</h2>
-        <p class="paid__lead" id="paidLead"></p>
-        <div class="lockrows" aria-label="Excel版で分かる内訳">
-          <div class="lockrow"><span>金利（リース会社が銀行に払う分）</span><span class="lockrow__v"><i class="veil" aria-hidden="true"></i>円 <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg></span></div>
-          <div class="lockrow"><span>税金（償却資産税）</span><span class="lockrow__v"><i class="veil" aria-hidden="true"></i>円 <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg></span></div>
-          <div class="lockrow"><span>保険料</span><span class="lockrow__v"><i class="veil veil--s" aria-hidden="true"></i>円 <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg></span></div>
-          <div class="lockrow lockrow--main"><span>リース会社の利益</span><span class="lockrow__v"><i class="veil" aria-hidden="true"></i>円 <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg></span></div>
+        <span class="paid__badge">グラフ ＋ Excel版</span>
+        <h2 class="paid__h" id="paidH">この見積には、まだ分かっていないことが5つあります</h2>
+        <p class="paid__lead">無料で分かったのは、月額と金利までです。1,000円で、この見積の中身を最後まで開けます。</p>
+
+        <div class="anchor">
+          <div class="anchor__item"><b>この見積の支払総額</b><span id="anTotal">—</span><small>これだけの金額を決める見積です</small></div>
+          <div class="anchor__item"><b>Excel版の料金</b><span>1,000円</span><small id="anShare"></small></div>
+          <div class="anchor__item anchor__item--hot"><b>金利が0.1%下がると</b><span id="anNego">—</span><small id="anNegoNote"></small></div>
         </div>
-        <ul class="sheets">
-          <li><b>① ダッシュボード</b>月額・金利・リース会社の利益を1枚に</li>
-          <li><b>② 原価内訳</b>物件代金・保険料・税金・金利・利益に分けて</li>
-          <li><b>③ 支払予定表</b>毎回の支払を元本と利息に分けた表</li>
-          <li><b>④ 償却資産税</b>リース会社が毎年払う税金を年度別に</li>
-          <li><b>⑤ 調達方法の比較</b>リース・現金・銀行借入を、税金まで含めて</li>
-          <li><b>⑥ 減価償却費</b>買った場合の、年ごとの経費</li>
-        </ul>
-        <div class="paid__foot">
-          <p class="paid__price"><b>1,000</b><span>円 ／ 見積1件</span></p>
-          <button class="btn-run" type="button" disabled>近日公開</button>
-          <p class="paid__note">数式の入っていない、計算結果だけのExcelです。登録は不要です。</p>
+
+        <div class="qgrid">
+          <button type="button" class="q" data-q="1"><span class="q__no">1</span><b class="q__h">リース会社の利益はいくら？</b><span class="q__p">資金の金利・税金・保険と、利益を1円単位で分けます。前提の金利も動かせます。</span><span class="q__fig" id="qfig1" aria-hidden="true"></span><span class="q__lock"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg>購入すると、この見積の数字で開きます</span></button>
+          <button type="button" class="q" data-q="2"><span class="q__no">2</span><b class="q__h">リースと割賦、どちらが得？</b><span class="q__p">分割払いで買う割賦と、税金の効果まで含めた年ごとの実質負担で比べます。</span><span class="q__fig" id="qfig2" aria-hidden="true"></span><span class="q__lock"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg>購入すると、この見積の数字で開きます</span></button>
+          <button type="button" class="q" data-q="3"><span class="q__no">3</span><b class="q__h">現金や銀行借入で買ったら？</b><span class="q__p">リース・割賦・銀行借入・現金の4つを、同じものさしで並べます。</span><span class="q__fig" id="qfig3" aria-hidden="true"></span><span class="q__lock"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg>購入すると、この見積の数字で開きます</span></button>
+          <button type="button" class="q" data-q="4"><span class="q__no">4</span><b class="q__h">途中で解約したら、残りはいくら？</b><span class="q__p">払い終えた回数を動かすと、その時点の残りの支払が分かります。</span><span class="q__fig" id="qfig4" aria-hidden="true"></span><span class="q__lock"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg>購入すると、この見積の数字で開きます</span></button>
+          <button type="button" class="q" data-q="5"><span class="q__no">5</span><b class="q__h">毎年いくら経費になる？</b><span class="q__p">買った場合の減価償却費と償却資産税を、年度ごとに出します。</span><span class="q__fig" id="qfig5" aria-hidden="true"></span><span class="q__lock"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg>購入すると、この見積の数字で開きます</span></button>
+        </div>
+
+        <div class="get">
+          <h3 class="get__h">1,000円で受け取れるもの</h3>
+          <div class="get__grid">
+            <div><b>動かせるグラフ</b><span>このページで、購入した見積のまま。金利や税率を動かして、何度でも比べ直せます。</span></div>
+            <div><b>Excel 7シート</b><span>数式なし・計算結果だけ。A4で印刷して、稟議にそのまま添付できます。</span></div>
+          </div>
+          <div class="shot">
+            <div class="shot__tabs" role="tablist" aria-label="Excelのシート">
+              <button type="button" data-shot="0" class="is-on" role="tab" aria-selected="true">① ダッシュボード</button>
+              <button type="button" data-shot="1" role="tab" aria-selected="false">② 原価内訳</button>
+              <button type="button" data-shot="2" role="tab" aria-selected="false">③ 支払予定表</button>
+              <button type="button" data-shot="3" role="tab" aria-selected="false">④ 償却資産税</button>
+              <button type="button" data-shot="4" role="tab" aria-selected="false">⑤ 現金・借入</button>
+              <button type="button" data-shot="5" role="tab" aria-selected="false">⑥ 割賦</button>
+              <button type="button" data-shot="6" role="tab" aria-selected="false">⑦ 減価償却費</button>
+            </div>
+            <div class="shot__stage">
+              <img id="shotImg" src="./assets/lease-1-dashboard.jpg" alt="Excelのシート見本" loading="lazy" decoding="async">
+              <button type="button" class="shot__nav shot__nav--prev" id="shotPrev" aria-label="前のシート">&#8249;</button>
+              <button type="button" class="shot__nav shot__nav--next" id="shotNext" aria-label="次のシート">&#8250;</button>
+            </div>
+            <p class="shot__cap" id="shotCap"></p>
+          </div>
+        </div>
+
+        <div class="buy" id="buyBox">
+          <div class="buy__life">
+            <p class="buy__label">法定耐用年数 <b id="lifeNow">5年</b></p>
+            <div class="chips" id="lifeChips" role="group" aria-label="法定耐用年数"><button type="button" data-life="4">4年</button><button type="button" data-life="5">5年</button><button type="button" data-life="6">6年</button><button type="button" data-life="7">7年</button><button type="button" data-life="8">8年</button><button type="button" data-life="10">10年</button></div>
+            <label class="buy__other">ほかの年数 <input id="lifeInput" type="number" inputmode="numeric" min="2" max="50" placeholder="15"> 年</label>
+            <small>償却資産税と減価償却の計算に使います。分からなければ、そのままで大丈夫です（リース期間から仮に置いています）。</small>
+          </div>
+          <div class="buy__cta">
+            <p class="paid__price"><b>1,000</b><span>円 ／ 見積1件</span></p>
+            <button class="btn-run" type="button" id="buy" disabled>近日公開</button>
+            <p class="paid__note" id="buyMsg"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 有料版：購入後 ============ -->
+      <section class="open" id="paidOpen" aria-labelledby="openH" hidden>
+        <span class="paid__badge">購入済み</span>
+        <h2 class="open__h" id="openH">この見積の中身</h2>
+        <p class="open__quote" id="openQuote"></p>
+        <p class="open__diff" id="openDiff" hidden>いま入力している数字とは別の、購入した見積で表示しています。</p>
+        <div class="open__bar">
+          <label>法定耐用年数 <input id="openLife" type="number" inputmode="numeric" min="2" max="50"> 年</label>
+          <button class="btn-run" type="button" id="dl">Excelをダウンロード</button>
+          <button class="btn-sample" type="button" id="relock" hidden>もとに戻す（テスト用）</button>
+        </div>
+        <p class="open__msg" id="dlMsg" aria-live="polite"></p>
+
+        <div class="panel">
+          <h3 class="panel__h"><span>1</span>リース会社の利益</h3>
+          <p class="panel__p" id="profitLine"></p>
+          <div class="fig" id="pDonut"></div>
+          <div class="knob"><label for="sFund">リース会社の資金調達金利（前提）</label><output id="vFund"></output><input id="sFund" type="range" min="0" max="50" step="1"></div>
+          <p class="panel__note" id="profitNote"></p>
+        </div>
+
+        <div class="panel">
+          <h3 class="panel__h"><span>2</span>4つの買い方の比較</h3>
+          <p class="panel__p">税金の効果まで含めた「実質負担」の累計です。グラフに触れると、その年までの金額が出ます。</p>
+          <div class="legend3" id="legend"></div>
+          <div class="fig" id="pCompare"></div>
+          <div class="tw"><table class="figs cmp2" id="cmpTable"></table></div>
+          <p class="panel__note" id="cmpNote"></p>
+          <div class="knobs">
+            <div class="knob"><label for="sLoan">銀行借入の金利</label><output id="vLoan"></output><input id="sLoan" type="range" min="0" max="60" step="1"></div>
+            <div class="knob"><label for="sKappu">割賦の金利</label><output id="vKappu"></output><input id="sKappu" type="range" min="0" max="100" step="1"></div>
+            <div class="knob"><label for="sTax">法人実効税率</label><output id="vTax"></output><input id="sTax" type="range" min="150" max="400" step="1"></div>
+          </div>
+          <button type="button" class="linkbtn" id="resetOver">前提を最初の値に戻す</button>
+        </div>
+
+        <div class="panel">
+          <h3 class="panel__h"><span>3</span>途中で解約したら</h3>
+          <div class="knob"><label for="sCancel">払い終えた回数</label><output id="vCancel"></output><input id="sCancel" type="range" min="0" max="60" step="1"></div>
+          <p class="panel__p" id="cancelLine"></p>
+          <div class="fig" id="pCancel"></div>
+        </div>
+
+        <div class="panel">
+          <h3 class="panel__h"><span>4</span>毎年の経費と税金（買った場合）</h3>
+          <p class="panel__p" id="expenseLine"></p>
+          <div class="fig" id="pExpense"></div>
+          <p class="panel__note">青は減価償却費、黄緑は償却資産税です。棒に触れると金額が出ます。</p>
         </div>
       </section>
 
@@ -645,12 +817,12 @@ input,select,textarea,button{font-weight:600}
         <p>いずれも見積書には書かれていませんが、聞けば答えてもらえます。<strong>金額の交渉より、この4つを確認するほうが実際の損得に効くことが多い</strong>というのが、見てきた印象です。</p>
 
         <h2>無料版・Excel版・note版の違い</h2>
-        <p>このページの計算は、すべて無料で何度でも使えます。目の前の見積を資料にしたいときはExcel版を、条件を変えながら何件も比べたいときはnote版を選んでください。</p>
+        <p>リース料と金利の計算は、すべて無料で何度でも使えます。目の前の見積の中身を知りたいときはグラフ＋Excel版を、数式を自分で動かしながら何件も試したいときはnote版を選んでください。</p>
         <div class="tw"><table class="cmp">
-          <thead><tr><th></th><th>無料（このページ）</th><th>Excel版（1,000円）</th><th>note版（5,000円）</th></tr></thead>
+          <thead><tr><th></th><th>無料（このページ）</th><th>グラフ＋Excel版（1,000円）</th><th>note版（5,000円）</th></tr></thead>
           <tbody>
-            <tr><th>分かること</th><td>リース料、実質年率（金利）、残価の影響</td><td>リース会社の利益、年ごとの税金と償却、調達方法の比較</td><td>Excel版と同じ中身を、条件を変えて何度でも</td></tr>
-            <tr><th>数式</th><td class="no">―</td><td>なし（計算結果のみ）</td><td>あり</td></tr>
+            <tr><th>分かること</th><td>リース料、実質年率（金利）、残価の影響</td><td>リース会社の利益、割賦・銀行借入・現金との比較、途中解約の残り、年ごとの経費と税金</td><td>リース会社の利益、現金・銀行借入との比較、年ごとの税金と償却（割賦との比較と、動かせるグラフはなし）</td></tr>
+            <tr><th>形</th><td>このページ</td><td>このページのグラフ＋Excel 7シート（数式なし）</td><td>数式入りのExcel</td></tr>
             <tr><th>使える件数</th><td>何度でも</td><td>見積1件</td><td>何件でも</td></tr>
             <tr><th>向いている人</th><td>まず目安を知りたい</td><td>目の前の見積を、稟議や交渉に使いたい</td><td>見積を比べ続ける人、リース会社の営業・企画</td></tr>
           </tbody>
@@ -686,6 +858,7 @@ input,select,textarea,button{font-weight:600}
 </div>
 
 <noscript><p style="text-align:center;padding:12px">このツールはJavaScriptで計算します。ブラウザの設定でJavaScriptを有効にしてください。</p></noscript>
-<script type="module" src="./app.js?v=1"></script>
+<script src="../vendor/exceljs.min.js" defer></script>
+<script type="module" src="./app.js?v=2"></script>
 </body>
 </html>
