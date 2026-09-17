@@ -5,7 +5,7 @@
 import { evaluate, emptyInput, INDUSTRIES, CAPITAL_TIERS, LISTING_OPTIONS, POLICY }
   from "./engine.js?v=31";
 import { downloadXlsx } from "./xlsx-export.js?v=31";
-import { checkLicense, payUrl, payUrlReady, companyFingerprint, forgetOrder } from "./license.js?v=31";
+import { checkLicense, payUrl, payUrlReady, companyFingerprint, forgetOrder, isStripeOrder, hasReturnOrder } from "./license.js?v=32";
 import { scanPdf, buildPeriod, validatePeriod, toEngineFields } from "./pdf-extract.js?v=31";
 import { renderViz, renderHead, attachTips, renderFigures, readingLines } from "./viz.js?v=31";
 
@@ -217,7 +217,7 @@ function init() {
  * 取り違えてテスト用のファイルを本番へ上げてしまっても、課金は外れない。
  * この二重の歯止めがあるので、事故で売上がゼロになることはない。
  * ---------------------------------------------------------------------- */
-const FREE_BUILD = true;
+const FREE_BUILD = false;
 const FREE_MODE = FREE_BUILD &&
   !/(^|\.)kazumono\.com$/i.test(String(location.hostname || ""));
 
@@ -235,6 +235,9 @@ let licensed = false;
  * そこを塞ぐのがこの控えの役目。
  * ---------------------------------------------------------------------- */
 const SNAP_KEY = "kazumono.credit-pro.paid";
+/* 購入ボタンを押したときの入力内容。同じタブで戻れば sessionStorage から、
+   PayPay のアプリなどを経由して別のタブで戻ったときは localStorage の控えから復元する */
+const DRAFT_KEY = "kazumono.credit-pro.draft";
 let paidSnap = null;
 /**
  * 貸借が合っていない期の名前。空でなければ購入させない。
@@ -343,7 +346,22 @@ function showLicenseDiag(st, order, reason, expiresAt) {
     expired: "お支払いから24時間が過ぎたため、期限切れになりました。あらためてお求めください。",
     not_found: "決済の記録が見つかりません。決済直後の場合、記録が届くまで数十秒かかります。少しお待ちください。",
     no_fingerprint: "会社名が未入力です。会社の基本情報に会社名をご入力ください。",
+    not_paid: "お支払いがまだ完了していないようです。完了していれば、少し待ってから「購入状況をもう一度確認する」を押してください。",
+    wrong_product: "この注文番号は、財務でポン！のお支払いではないようです。お支払い済みの場合は、領収メールを添えてお問い合わせください。",
+    wrong_link: "この注文番号は、財務でポン！のお支払いではないようです。お支払い済みの場合は、領収メールを添えてお問い合わせください。",
+    bad_order: "注文番号の形が正しくありません。お支払い済みの場合は、領収メールを添えてお問い合わせください。",
+    stripe_auth: "決済の確認先で問題が起きています。時間をおいて「購入状況をもう一度確認する」を押してください。",
+    stripe_error: "決済の確認先で問題が起きています。時間をおいて「購入状況をもう一度確認する」を押してください。",
+    no_key: "決済の確認先で問題が起きています。時間をおいて「購入状況をもう一度確認する」を押してください。",
   };
+  const stripeOrder = isStripeOrder(order);
+  if (stripeOrder) {
+    // Stripe では通知を待たないので、「見つからない」は届いていないのではなく、その注文が無いという意味になる
+    byReason.not_found = "この注文番号のお支払いが見つかりませんでした。お支払い済みの場合は、領収メールを添えてお問い合わせください。";
+  }
+  // この注文ではもう開けない理由（払い直しが必要、または番号そのものが違う）
+  const dead = ["other_company", "expired", "wrong_product", "wrong_link", "bad_order"].includes(reason) ||
+               (stripeOrder && reason === "not_found");
   const why =
     st === "licensed"
       ? "この会社の分を、" + (expiresAt ? expiresAt.slice(0, 16).replace("T", " ") + " まで" : "24時間") + "何度でもダウンロードできます。"
@@ -354,14 +372,13 @@ function showLicenseDiag(st, order, reason, expiresAt) {
   el.classList.toggle("tip--warn", st === "unlicensed" && reason !== null);
   el.classList.toggle("tip--ok", st === "licensed");
   // すでに支払っている人に、もう一度払わせないための出し分け
-  const paidButLocked = st === "unlicensed" && !!order && reason !== "other_company";
+  const paidButLocked = st === "unlicensed" && !!order && !dead;
   const buy = $("btnBuy"), recheck = $("btnRecheck");
   if (buy) buy.style.opacity = paidButLocked ? ".45" : "";
   if (recheck) recheck.style.fontSize = paidButLocked ? "16px" : "";
   // 使えない番号（別会社に紐づき済み／期限切れ）が残っていると、
   // 何度開いても橙色の警告が出続ける。その場合だけ消す手段を出す。
-  const stale = st === "unlicensed" && !!order &&
-                (reason === "other_company" || reason === "expired");
+  const stale = st === "unlicensed" && !!order && dead;
   const fr = $("forgetRow");
   if (fr) fr.hidden = !stale;
   const dup = $("dupWarn");
@@ -378,7 +395,7 @@ function showLicenseDiag(st, order, reason, expiresAt) {
 }
 
 /**
- * 決済直後は、Squareからの通知がこちらの確認より遅れて届くことがある。
+ * 【Square の注文（移行前）だけ】決済直後は、Squareからの通知がこちらの確認より遅れて届くことがある。
  * 1回で諦めると「払ったのに解錠されない」状態のまま終わってしまうため、
  * 注文番号を持っているのに未購入と出た場合だけ、数秒おきに数回だけ確認し直す。
  */
@@ -444,19 +461,22 @@ async function refreshLicense() {
       paidSnap = { order, fp, name: state_name(), input: JSON.parse(JSON.stringify(state)), at: Date.now() };
       saveSnap(paidSnap);
     }
+    // 解錠の控えを取ったので、別タブ用に端末へ残した下書きは役目を終える
+    try { localStorage.removeItem(DRAFT_KEY); } catch (err) { /* noop */ }
     try { render(); } catch (e) { /* 入力がまだ無いときは何もしない */ }
   } else {
     paidSnap = null;
   }
   showLicenseDiag(st, order, reason, expiresAt);
-  // 決済直後は通知の到着が遅れることがあるので、記録が無いときだけ確認し直す
-  if (st === "unlicensed" && order && reason === "not_found") { pollLicense(order); return; }
+  // Square の注文（移行前）は通知の到着が遅れることがあるので、記録が無いときだけ確認し直す。
+  // Stripe の注文は Worker が Stripe に直接たずねるため、待っても結果は変わらない
+  if (st === "unlicensed" && order && reason === "not_found" && !isStripeOrder(order)) { pollLicense(order); return; }
   showGate(st === "licensed" ? "gateOk" : st === "offline" ? "gateOffline" : "gateBuy");
   if (st === "licensed" && window.gtag) gtag("event", "license_ok", { tool: "credit-pro" });
 }
 
 /**
- * 購入へ進む。入力内容を保存してからSquareへ送る。
+ * 購入へ進む。入力内容を保存してから決済（Stripe）へ送る。
  * 決済後に戻ってきたとき、同じ内容のまま続けられるようにするため。
  */
 /**
@@ -479,7 +499,7 @@ function syncBuyState() {
   if (off && note) note.dataset.balance = "1";
 }
 
-function onBuy(e) {
+async function onBuy(e) {
   e.preventDefault();
   // 貸借が合っていないときは、ここで止める。
   if (balanceBad.length) {
@@ -490,10 +510,10 @@ function onBuy(e) {
     if (al) al.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
-  // テスト環境では、Squareへ行かずにその場で解錠する
+  // テスト環境では、決済へ行かずにその場で解錠する
   if (FREE_MODE) { freeUnlock(); return; }
   // 支払いリンクが未設定のまま押されたときは、遷移せずに理由を出す。
-  // 黙ってSquareのエラーページへ飛ばすと、原因の切り分けができなくなる。
+  // 黙って決済のエラーページへ飛ばすと、原因の切り分けができなくなる。
   // 会社名が空だと、決済しても「どの会社の分か」を確定できず解錠できない
   if (!state_name().trim()) {
     $("buyNote").textContent =
@@ -507,21 +527,32 @@ function onBuy(e) {
     // 「直したのに直らない」の大半は、ブラウザが古いlicense.jsを使っているだけなので、
     // 実際の値が見えれば一目で切り分けられる。
     $("buyNote").innerHTML =
-      "支払いリンクが未設定です。credit-pro/license.js の PAY_URL に、Squareで作成したリンクを貼ってください。<br>" +
+      "支払いリンクが未設定です。credit-pro/license.js の PAY_URL に、Stripeで作成した支払いリンクを貼ってください。<br>" +
       "いま読み込まれている値：<code>" + esc(String(payUrl())) + "</code><br>" +
       "すでに貼り替えたのにこの表示が出る場合は、ブラウザが古いファイルを使っています。" +
       "Ctrl+Shift+R（Mac は Cmd+Shift+R）で読み込み直してください。";
     return;
   }
-  try { sessionStorage.setItem("kazumono.credit-pro.draft", JSON.stringify(state)); } catch (err) { /* noop */ }
+  // 会社名のハッシュを支払いリンクに付けて、決済と会社を結び付ける（1回の決済＝1社を、決済の時点で決める）
+  const fp = await companyFingerprint(state_name());
+  try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(state)); } catch (err) { /* noop */ }
+  try { localStorage.setItem(DRAFT_KEY, JSON.stringify({ at: Date.now(), state })); } catch (err) { /* noop */ }
   if (window.gtag) gtag("event", "begin_checkout", { tool: "credit-pro", value: 500, currency: "JPY" });
-  location.href = payUrl();
+  location.href = payUrl(fp);
 }
 
 /** 決済から戻ったとき、入力内容を復元する */
 function restoreDraft() {
   try {
-    const raw = sessionStorage.getItem("kazumono.credit-pro.draft");
+    let raw = sessionStorage.getItem(DRAFT_KEY);
+    // 同じタブの控えが無く、決済から戻ってきたところなら、購入ボタンを押したときの控え（24時間以内）を使う
+    if (!raw && hasReturnOrder()) {
+      const bk = JSON.parse(localStorage.getItem(DRAFT_KEY) || "null");
+      if (bk && bk.state && Date.now() - bk.at < 24 * 3600e3) {
+        raw = JSON.stringify(bk.state);
+        try { sessionStorage.setItem(DRAFT_KEY, raw); } catch (err) { /* noop */ }
+      }
+    }
     if (!raw) return false;
     const d = JSON.parse(raw);
     if (d && typeof d === "object") { state = { ...emptyInput(), ...d }; return true; }
@@ -841,7 +872,8 @@ function initUploader() {
   // 前回の入力が残っていると、次の会社の判定に混ざって事故になる。
   const doReread = () => {
     if (!confirm("入力した内容をすべて消して、最初からやり直します。よろしいですか？")) return;
-    try { sessionStorage.removeItem("kazumono.credit-pro.draft"); } catch (err) { /* noop */ }
+    try { sessionStorage.removeItem(DRAFT_KEY); } catch (err) { /* noop */ }
+    try { localStorage.removeItem(DRAFT_KEY); } catch (err) { /* noop */ }
     location.reload();
   };
   $("btnReread").addEventListener("click", doReread);

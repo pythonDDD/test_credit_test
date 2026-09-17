@@ -1,10 +1,13 @@
 /* ============================================================================
  * license.js — 決済確認とロック解除
  *
- * 仕組み:
- *   1. Squareの支払いリンクで決済すると ?transactionId=… を付けて戻ってくる
- *   2. その注文番号を localStorage に保存する
- *   3. Worker の /verify?order=… に問い合わせ、valid:true ならロックを外す
+ * 仕組み（2026-09 に Square から Stripe へ移行）:
+ *   1. 購入ボタンで、会社名のハッシュを client_reference_id に付けて Stripe の支払いリンクへ移る。
+ *      決済の時点で「どの会社の分か」が Stripe 側に残る
+ *   2. 決済すると ?session_id=cs_live_… を付けて戻ってくる
+ *   3. その注文番号を localStorage に保存し、Worker の /verify?svc=credit-pro&order=…&fp=… に問い合わせる。
+ *      Worker は Stripe に直接たずねるので、通知の到着を待たずにその場で確かめられる
+ *   ※ 移行前に Square で買った注文（transactionId）は、24時間の期限までこれまでの確認口で確かめる
  *
  * 方針:
  *   ・画面上の判定は常に無料。課金の対象はExcelファイルの受け取りのみ
@@ -14,33 +17,38 @@
 
 const WORKER = "https://square-license.stats-okinawa.workers.dev";
 
-/* ★★ ここだけ書き換えてください ★★
-   【注意】このファイルを新しい版で上書きすると、下のPAY_URLも一緒に置き換わります。
-   ZIPを差し替えたあとは、必ずこの行が自分のリンクになっているか確認してください。
-   Squareの支払いリンクURL。Square管理画面で作成して貼り替えます。
-   作成時の設定：
-     金額 500円 ／ Frequency: One-time（Monthlyにすると定期課金になります）／
-     Redirect to a website after checkout: ON
-     リダイレクト先は「今そのページを公開しているURL」にします。
-       本番 : https://kazumono.com/credit-pro/
-   未設定（XXXXXXXXのまま）だと購入ボタンは押せず、画面にその旨を表示します。 */
-const PAY_URL = "https://square.link/u/LMuYOHhD";
+/* ★★ Stripe の支払いリンク（財務でポン！・500円）★★
+   支払い完了後の戻り先は、Stripe の管理画面（支払いリンク → 支払い完了ページ →「確認ページを表示しない」）で設定する。
+     テスト中 : https://pythonddd.github.io/test_credit_test/credit-pro/?session_id={CHECKOUT_SESSION_ID}
+     公開後   : https://kazumono.com/credit-pro/?session_id={CHECKOUT_SESSION_ID}
+   【注意】このファイルを新しい版で上書きすると、下の PAY_URL も一緒に置き換わります。 */
+const PAY_URL = "https://buy.stripe.com/9B67sMb9AgC73nH7IwaR200";
 
 /** 支払いリンクが未設定かどうか。未設定のまま黙って遷移させないための判定 */
 export function payUrlReady() {
-  return typeof PAY_URL === "string" && /^https:\/\/square\.link\/u\/[A-Za-z0-9]+$/.test(PAY_URL)
-    && !PAY_URL.includes("XXXXXXXX");
+  return typeof PAY_URL === "string" && /^https:\/\/buy\.stripe\.com\/[A-Za-z0-9_]+$/.test(PAY_URL);
 }
 
 const KEY = "kazumono.credit-pro.order";
 
+/** 決済から戻ってきたところか（URLに注文番号が付いているか）。Stripe は session_id、移行前の Square は transactionId */
+export function hasReturnOrder() {
+  const q = new URLSearchParams(location.search);
+  return !!(q.get("session_id") || q.get("transactionId") || q.get("orderId"));
+}
+
+/** Stripe の注文番号か。Square の注文と確認口を分けるために使う */
+export function isStripeOrder(order) {
+  return /^cs_(live|test)_/.test(String(order || ""));
+}
+
 /** URLに注文番号が付いていれば保存し、URLからは消す（リロードで消えないように） */
 function captureOrder() {
   const q = new URLSearchParams(location.search);
-  const oid = q.get("orderId") || q.get("transactionId");
+  const oid = q.get("session_id") || q.get("orderId") || q.get("transactionId");
   if (oid) {
     try { localStorage.setItem(KEY, oid); } catch (e) { /* プライベートモード等 */ }
-    q.delete("orderId"); q.delete("transactionId");
+    q.delete("session_id"); q.delete("orderId"); q.delete("transactionId");
     const rest = q.toString();
     history.replaceState(null, "", location.pathname + (rest ? "?" + rest : ""));
     return oid;
@@ -85,7 +93,9 @@ export async function checkLicense(fp) {
   try {
     const ctl = new AbortController();
     const timer = setTimeout(() => ctl.abort(), 8000);
-    const q = `order=${encodeURIComponent(order)}` + (fp ? `&fp=${encodeURIComponent(fp)}` : "");
+    // Stripe の注文はサービス名を付けて Stripe の確認口へ。Square の注文（移行前）は、これまでの確認口へ
+    const q = (isStripeOrder(order) ? `svc=${SERVICE_ID}&` : "") +
+      `order=${encodeURIComponent(order)}` + (fp ? `&fp=${encodeURIComponent(fp)}` : "");
     const res = await fetch(`${WORKER}/verify?${q}`, { signal: ctl.signal, cache: "no-store" });
     clearTimeout(timer);
     if (!res.ok) return { state: "offline", order, reason: null };
@@ -101,7 +111,10 @@ export async function checkLicense(fp) {
   }
 }
 
-export function payUrl() { return PAY_URL; }
+/** 購入ボタンの行き先。会社名のハッシュを付けて、決済と会社を結び付ける（引数なしならリンクそのもの） */
+export function payUrl(fp) {
+  return fp ? `${PAY_URL}?client_reference_id=${encodeURIComponent(fp)}` : PAY_URL;
+}
 
 export function forgetOrder() {
   try { localStorage.removeItem(KEY); } catch (e) { /* noop */ }
