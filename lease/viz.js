@@ -58,14 +58,16 @@ export function donutMarkup(r, o = {}) {
   const profit = r.lease.profit;
   body += text(cx, cy - 8, "リース会社の利益", { anchor: "middle", size: cp ? 13 : 12 });
   body += text(cx, cy + 16, `${yen(profit)}円`, { anchor: "middle", size: cp ? 20 : 18, bold: true, fill: profit < 0 ? "#B5623F" : COL.ink });
-  body += text(cx, cy + 36, `多く払う分の${(Math.max(profit, 0) / sum * 100).toFixed(1)}%`, { anchor: "middle", size: cp ? 12 : 11 });
+  // 残価がある見積では、支払総額より「回収する額（残価を含む）」のほうが正しい言い方になる
+  const share = (Math.max(profit, 0) / sum * 100).toFixed(1);
+  body += text(cx, cy + 36, r.input.residual > 0 ? `回収する分の${share}%` : `多く払う分の${share}%`, { anchor: "middle", size: cp ? 12 : 11 });
   parts.forEach((p, i) => {
     const x = cp ? 16 + (i % 2) * 176 : 300, y = cp ? 292 + Math.floor(i / 2) * 46 : 50 + i * 42;
     body += `<rect x="${x}" y="${y - 11}" width="14" height="14" rx="4" fill="${p.c}"/>`;
     body += text(x + 22, y, cp ? p.short : p.label, { size: cp ? 13 : 12.5, fill: COL.ink });
     body += text(x + 22, y + 19, `${yen(p.v)}円`, { size: cp ? 14 : 13, bold: true, fill: COL.ink });
   });
-  return svg(W, H, body, "物件価額より多く払う分の中身");
+  return svg(W, H, body, r.input.residual > 0 ? "物件価額を超えて回収する分の中身（残価を含む）" : "物件価額より多く払う分の中身");
 }
 
 /* ------------------------------------------------------------ 2. 4つの買い方の比較（累計の実質負担） */

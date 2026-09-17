@@ -1,5 +1,5 @@
 /* ============================================================================
- * /lease/app.js — リース料金ポン！ 画面の動き
+ * /lease/app.js — リース料の計算と逆算（リース見積診断） 画面の動き
  * 計算は engine.js。ここでは入力を受け取り、結果を描くことだけを担当する。
  *
  * 2つの使い方
@@ -27,14 +27,14 @@ const state = { mode: "calc", residual: 0, unit: "yen" };
 let paid = null, lastQuote = null;
 function notifyPaid(q) {
   lastQuote = q;
-  if (paid) { try { paid.updatePaid(q); } catch (e) { console.warn("[リース料金ポン] 有料版の表示を更新できませんでした", e); } }
+  if (paid) { try { paid.updatePaid(q); } catch (e) { console.warn("[リース見積診断] 有料版の表示を更新できませんでした", e); } }
 }
 function loadPaid() {
   import("./paid.js?v=1").then((m) => {
     m.initPaid();
     paid = m;
     m.updatePaid(lastQuote);
-  }).catch((e) => console.warn("[リース料金ポン] 有料版を読み込めませんでした（無料の計算はそのまま使えます）", e));
+  }).catch((e) => console.warn("[リース見積診断] 有料版を読み込めませんでした（無料の計算はそのまま使えます）", e));
 }
 
 /* ------------------------------------------------------------ 小さな道具 */

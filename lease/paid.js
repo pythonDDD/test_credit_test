@@ -122,7 +122,7 @@ function initShots() {
     stopShotTick();
     if (shotUI.root) shotUI.root.classList.remove("is-auto");
     if (shotUI.play) shotUI.play.remove();
-    console.warn("[財務でポン] 見本の自動切り替えを止めました（タブの手動切り替えは使えます）", err);
+    console.warn("[リース見積診断] 見本の自動切り替えを止めました（タブの手動切り替えは使えます）", err);
   }
 }
 
@@ -447,7 +447,7 @@ function forgetSnap() {
 export function initPaid() {
   P.snap = readSnap();
   renderSamples();
-  try { initShots(); } catch (e) { console.warn("[リース料金ポン] シート見本を動かせませんでした", e); }
+  try { initShots(); } catch (e) { console.warn("[リース見積診断] シート見本を動かせませんでした", e); }
 
   $("lifeChips").addEventListener("click", (e) => {
     const b = e.target.closest("[data-life]"); if (!b) return;
@@ -535,7 +535,7 @@ function paintBuy() {
     msg.textContent = "テスト環境です。支払いなしで、購入後の画面を確かめられます。";
   } else if (payUrlReady()) {
     btn.disabled = false; btn.textContent = "1,000円で購入する";
-    msg.textContent = "購入するのは、この画面の見積（物件価額・期間・月額）1件分です。";
+    msg.textContent = "購入するのは、この画面の見積（物件価額・期間・月額）1件分です。";   // 24時間の案内は、下の固定の文で出す
   } else {
     btn.disabled = true; btn.textContent = "近日公開";
     msg.textContent = "ただいま販売の準備中です。";
@@ -654,7 +654,7 @@ async function onDownload() {
     const r = result();
     const figs = [];
     for (const [key, markup] of [["donut", donutMarkup(r)], ["compare", lineCompare(r)], ["remaining", areaRemaining(r, P.cancelAt)], ["expense", barsExpense(r)]]) {
-      try { figs.push({ key, ...(await toPng(markup)) }); } catch (e) { console.warn("[リース料金ポン] グラフを画像にできませんでした", key, e); }
+      try { figs.push({ key, ...(await toPng(markup)) }); } catch (e) { console.warn("[リース見積診断] グラフを画像にできませんでした", key, e); }
     }
     await downloadLeaseXlsx(r, figs);
     track("lease_download");

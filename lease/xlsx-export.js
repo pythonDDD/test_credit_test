@@ -4,7 +4,7 @@
  * 方針
  *   ・数式を一切書き込まない（値のみ）。数式入りの note 版と役割を分けるため
  *   ・参照表（償却率・減価残存率）や、入力シートは入れない
- *   ・見た目は Web 版（リース料金ポン！）の色に揃える
+ *   ・見た目は Web 版（リース料の計算と逆算／リース見積診断）の色に揃える
  *   ・ブラウザの中で作ってダウンロードする。サーバーには何も送らない
  * ========================================================================== */
 let _ExcelJS = null;
@@ -65,7 +65,7 @@ function sheet(wb, name, title, r, widths, { landscape = false, onePage = false 
   const last = widths.length;
   ws.getRow(1).height = 8;
   ws.getRow(2).height = 30;
-  band(ws, 2, 2, last, `リース料金ポン！　${title}`, { font: font(15, true, C.white), fill: C.deep, border: false });
+  band(ws, 2, 2, last, `リース見積診断　${title}`, { font: font(15, true, C.white), fill: C.deep, border: false });
   ws.getRow(3).height = 20;
   band(ws, 3, 2, last, quoteLine(r), { font: font(9.5, false, C.sub), fill: C.deep, border: false });
   ws.getRow(4).height = 10;
@@ -91,14 +91,17 @@ const FOOT = "本ファイルは計算結果のみを収録しています（数
 
 /* ------------------------------------------------------------ ① ダッシュボード */
 function dashboard(wb, r, figs) {
-  const ws = sheet(wb, "ダッシュボード", "見積の分析", r, [2, ...Array(12).fill(10.5), 2], { onePage: true });
+  const ws = sheet(wb, "ダッシュボード", "ダッシュボード", r, [2, ...Array(12).fill(10.5), 2], { onePage: true });
+  const hasRv = r.input.residual > 0;
   const tiles = [
     ["月額リース料", r.lease.monthly, YEN, "見積の月額（税抜）"],
     ["支払総額", r.lease.total, YEN, "月額 × 支払回数"],
     ["リース料率", r.ratio, PCT3, "月額 ÷ 物件価額"],
     ["実質年率（金利）", r.lesseeRate, PCT2, "借入の金利に直した値"],
     ["リース会社の利益", r.lease.profit, YEN, "推計。前提は下の表"],
-    ["物件価額より多く払う額", r.lease.total + r.input.residual - r.input.price, YEN, "支払総額 − 物件価額"],
+    hasRv
+      ? ["物件価額を超えて回収する額", r.lease.total + r.input.residual - r.input.price, YEN, "支払総額 ＋ 残価 − 物件価額"]
+      : ["物件価額より多く払う額", r.lease.total - r.input.price, YEN, "支払総額 − 物件価額"],
     ["損益分岐の月額", r.lease.breakEven, YEN, "リース会社の利益がゼロになる月額"],
     ["リース会社の利回り", r.lessorYield, PCT2, "立て替えたお金に対する年利"],
   ];
@@ -120,7 +123,7 @@ function dashboard(wb, r, figs) {
     const id = wb.addImage({ base64: g.dataUrl.split(",")[1], extension: "png" });
     ws.addImage(id, { tl: { col, row }, ext: { width: widthPx, height: Math.round(widthPx * g.h / g.w) } });
   };
-  section(ws, 13, 2, 7, "物件価額より多く払う分の中身");
+  section(ws, 13, 2, 7, hasRv ? "物件価額を超えて回収する分の中身（残価を含む）" : "物件価額より多く払う分の中身");
   section(ws, 13, 8, 13, "4つの買い方の比較（税金の効果を含む累計）");
   place("donut", 1.1, 13.3, 420);
   place("compare", 7.1, 13.3, 450);
@@ -183,7 +186,11 @@ function costSheet(wb, r) {
   line("", "実質年率（金利）", r.lesseeRate, PCT2, "税金・保険・利益も含めて、借入の金利に直した値です。");
   line("", "リース会社の利回り", r.lessorYield, PCT2, "立て替えたお金（小計）に対する年利です。");
   line("", "損益分岐の月額", L.breakEven, YEN, "リース会社の利益がゼロになる月額（100円単位に切り上げ）です。");
-  line("", "物件価額より多く払う額", L.total + L.residual - c.price, YEN, "②〜⑥の合計と同じです。");
+  if (L.residual > 0) {
+    line("", "物件価額を超えて回収する額", L.total + L.residual - c.price, YEN, "支払総額＋残価−物件価額。②〜⑥の合計と同じです（支払総額そのものは物件価額より少なくなることがあります）。");
+  } else {
+    line("", "物件価額より多く払う額", L.total - c.price, YEN, "支払総額−物件価額。②〜⑥の合計と同じです。");
+  }
   row++;
   note(ws, row++, 2, 5, FOOT);
   ws.views = [{ showGridLines: false }];
@@ -316,7 +323,7 @@ export async function buildWorkbook(r, figs = [], opts = {}) {
   const ExcelJS = await getExcelJS();
   const wb = new ExcelJS.Workbook();
   wb.creator = "数字のものさし";
-  wb.title = "リース料金ポン！ 見積の分析";
+  wb.title = "リース見積診断";
   wb.created = new Date();
   dashboard(wb, r, figs);
   costSheet(wb, r);
@@ -337,7 +344,7 @@ export async function buildWorkbook(r, figs = [], opts = {}) {
 export async function downloadLeaseXlsx(r, figs, filename) {
   const wb = await buildWorkbook(r, figs);
   const buf = await wb.xlsx.writeBuffer();
-  const name = filename || `リース料金ポン_見積の分析_${r.input.price}円_${r.input.months}か月.xlsx`;
+  const name = filename || `リース見積診断_${r.input.price}円_${r.input.months}か月.xlsx`;
   const url = URL.createObjectURL(new Blob([buf], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
   const a = document.createElement("a");
   a.href = url; a.download = name; a.click();
