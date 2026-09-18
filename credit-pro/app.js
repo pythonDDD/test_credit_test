@@ -4,7 +4,7 @@
  * ========================================================================== */
 import { evaluate, emptyInput, INDUSTRIES, CAPITAL_TIERS, LISTING_OPTIONS, POLICY }
   from "./engine.js?v=31";
-import { downloadXlsx } from "./xlsx-export.js?v=31";
+import { downloadXlsx } from "./xlsx-export.js?v=33";
 import { checkLicense, payUrl, payUrlReady, companyFingerprint, forgetOrder, isStripeOrder, hasReturnOrder } from "./license.js?v=32";
 import { scanPdf, buildPeriod, validatePeriod, toEngineFields } from "./pdf-extract.js?v=31";
 import { renderViz, renderHead, attachTips, renderFigures, readingLines } from "./viz.js?v=31";
@@ -217,7 +217,7 @@ function init() {
  * 取り違えてテスト用のファイルを本番へ上げてしまっても、課金は外れない。
  * この二重の歯止めがあるので、事故で売上がゼロになることはない。
  * ---------------------------------------------------------------------- */
-const FREE_BUILD = false;
+const FREE_BUILD = true;
 const FREE_MODE = FREE_BUILD &&
   !/(^|\.)kazumono\.com$/i.test(String(location.hostname || ""));
 
@@ -1016,17 +1016,17 @@ function warnCompany() {
 
 /* --------------------------------------------------- Excel見本スライダー */
 const SHOTS = [
-  ["./assets/1-summary.jpg", "①判定サマリー",
+  ["./assets/1-summary.jpg?v=2", "①判定サマリー",
    "総合評点・信用程度A〜E・6軸の評点内訳・与信限度額の目安・財務ハイライト・自動所見を1枚に。決裁欄つきで、そのまま回付できます。"],
-  ["./assets/2-financial.jpg", "②財務分析",
+  ["./assets/2-financial.jpg?v=2", "②財務分析",
    "損益計算書と貸借対照表の3期比較に、主要財務指標14種と運転資金分析。画面のレーダーは6指標ですが、ここでは14指標を業種基準と並べて見られます。"],
-  ["./assets/3-repayment.jpg", "③資金償還表",
+  ["./assets/3-repayment.jpg?v=2", "③資金償還表",
    "簡易キャッシュフローの作り方から債務償還年数、3年返済充足率まで。画面では結果だけをお見せしていますが、ここでは算定の過程が数字で追えます。"],
-  ["./assets/4-scoring.jpg", "④配点内訳",
+  ["./assets/4-scoring.jpg?v=2", "④配点内訳",
    "6軸それぞれの得点と、判定に用いた値。「なぜこの点数になったのか」を稟議の場で説明できます。"],
-  ["./assets/5-input.jpg", "⑤入力データ",
+  ["./assets/5-input.jpg?v=2", "⑤入力データ",
    "判定に使った数値をそのまま記録。あとからの検証と、担当者が替わったときの引き継ぎに使えます。"],
-  ["./assets/6-dashboard.jpg", "⑥ダッシュボード",
+  ["./assets/6-dashboard.jpg?v=2", "⑥ダッシュボード",
    "画面でご覧いただいた7つの図を、A3横1枚に。印刷してそのまま配れます。"],
 ];
 let shotAt = 0;

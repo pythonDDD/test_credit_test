@@ -8,11 +8,15 @@
  * 物件価額とリース期間は、2つの使い方で共通の入力欄を使う。
  * 残価は入力欄に置かず、結果の中のバーを押して選ぶ（入力を最小限にするため）。
  * ========================================================================== */
-import { forward, reverse, residualScenarios, residualPayments } from "./engine.js?v=2";
+import { forward, reverse, residualScenarios, residualPayments } from "./engine.js?v=3";
 
 const $ = (id) => document.getElementById(id);
 const yen = (n) => Math.round(n).toLocaleString("ja-JP");
-const pct = (x, d = 2) => (x * 100).toFixed(d);
+/** %表示。ほぼ0のときに「-0.00」と出ないようにしてある */
+const pct = (x, d = 2) => {
+  const v = x * 100;
+  return (Math.abs(v) < 0.5 * Math.pow(10, -d) ? 0 : v).toFixed(d);
+};
 const STEPS = [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3];
 
 /* 「例を入れる」の数字。分かりやすさを優先して、キリのよい値にしている */
@@ -30,7 +34,7 @@ function notifyPaid(q) {
   if (paid) { try { paid.updatePaid(q); } catch (e) { console.warn("[リース見積診断] 有料版の表示を更新できませんでした", e); } }
 }
 function loadPaid() {
-  import("./paid.js?v=2").then((m) => {
+  import("./paid.js?v=6").then((m) => {
     m.initPaid();
     paid = m;
     m.updatePaid(lastQuote);
@@ -108,7 +112,7 @@ function readReverse() {
     monthly = raw;
   } else {
     if (!(raw > 0 && raw < 100)) errors.push("リース料率は0〜100%の範囲で入れてください。");
-    monthly = price > 0 ? price * raw / 100 : NaN;
+    monthly = price > 0 ? Math.round(price * raw / 100) : NaN;   // 月額は1円単位
   }
   return { errors, args: { price, months, monthly } };
 }
@@ -169,7 +173,9 @@ function paintCalc(args) {
   const extra = r.total - args.price;
   $("cKpi").innerHTML =
     kpi("実質年率（金利）", isFinite(r.effective) ? `${pct(r.effective)}%` : "—", "税や保険の費用も含めて、借入の金利に直した値") +
-    kpi(extra >= 0 ? "物件価額より多く払う額" : "物件価額より少ない支払", `${yen(Math.abs(extra))}円`, extra >= 0 ? "支払総額 − 物件価額" : "満了時に物件を返すぶん、支払が少ない") +
+    kpi(extra >= 0 ? "物件価額より多く払う額" : "物件価額より少ない支払", `${yen(Math.abs(extra))}円`, extra >= 0 ? "支払総額 − 物件価額"
+      : args.residual > 0 ? "満了時に物件を返すぶん、支払が少ない"
+      : "月額を1円単位にそろえたぶんの差です") +
     kpi("支払総額は物件価額の", `${r.multiple.toFixed(3)}倍`, "1.2倍超は見直しの目安");
 
   // 支払総額の内訳（横に積み上げたバー）

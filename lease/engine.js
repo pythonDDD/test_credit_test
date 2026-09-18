@@ -83,18 +83,24 @@ export function rate(n, p, pv, fv = 0, type = 0) {
  */
 export function forward({ price, months, annualRate, residual = 0, miscRate = 0 }) {
   const i = annualRate / 12;
-  const principal = Math.abs(i) < 1e-12 ? price - residual : price - residual * Math.pow(1 + i, -months);
   const base = pmt(i, months, price, residual);
   const misc = price * miscRate / 12;
-  const monthly = base + misc;
+
+  /* 見積書に載る月額は1円単位の数字なので、ここで先に確定させる。
+     支払総額・内訳・実質年率は、すべてこの確定した月額から導く。
+     （丸める前の値で総額を出すと「月額×回数」と合わなくなる） */
+  const monthly = round(base + misc);
   const total = monthly * months;
+  const principal = round(Math.abs(i) < 1e-12 ? price - residual : price - residual * Math.pow(1 + i, -months));
+  const miscTotal = round(misc * months);
+
   return {
     monthly,
     ratio: monthly / price,
     total,
     principal,                        // 物件価額の回収（元本）
-    interest: base * months - principal,
-    miscTotal: misc * months,         // その他費用（税・保険・管理費）
+    interest: total - principal - miscTotal,   // 残り＝金利相当額。3つ足すと必ず支払総額になる
+    miscTotal,                        // その他費用（税・保険・管理費）
     residual,
     multiple: total / price,
     effective: rate(months, monthly, price, residual) * 12,   // 実質年率（金利）
@@ -103,7 +109,8 @@ export function forward({ price, months, annualRate, residual = 0, miscRate = 0 
 
 /* ------------------------------------------------------------ 無料：月額→金利 */
 /** 見積の月額（または料率）から、実質年率（金利）を逆算する */
-export function reverse({ price, months, monthly, residual = 0 }) {
+export function reverse({ price, months, monthly: raw, residual = 0 }) {
+  const monthly = round(raw);       // 料率から入れた場合も、月額は1円単位に揃える
   const total = monthly * months;
   return {
     monthly,
@@ -202,8 +209,13 @@ export function analyze(input) {
   const schedule = [];
   let balance = principalCost, cumPaid = 0;
   for (let k = 1; k <= months; k++) {
-    const interestPart = type === 1 && k === 1 ? 0 : round(balance * lessorMonthly);
-    const principalPart = monthly - interestPart;
+    let interestPart = type === 1 && k === 1 ? 0 : round(balance * lessorMonthly);
+    let principalPart = monthly - interestPart;
+    // 毎回1円単位に丸めると最後に数円ずれる。最終回で吸収して、残高が残価ちょうどで終わるようにする。
+    if (k === months && isFinite(balance)) {
+      principalPart = balance - residual;
+      interestPart = monthly - principalPart;
+    }
     balance -= principalPart;
     cumPaid += monthly;
     schedule.push({ no: k, year: Math.ceil(k / 12), payment: monthly, principal: principalPart,

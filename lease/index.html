@@ -5,9 +5,9 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex,nofollow,noarchive">
 <title>リース料の計算と逆算｜リース会社の利益まで分かる・Excel版あり</title>
 <meta name="description" content="物件価額・リース期間・金利・残価から月額リース料とリース料率を計算。見積の月額やリース料率からは実質年率（金利）を逆算し、支払総額のうち元本・金利・その他費用の内訳を表示します。リース会社の利益はExcel（エクセル）版で分解できます。無料・登録不要。">
+<link rel="canonical" href="https://kazumono.com/lease/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="リース料の計算と逆算｜リース会社の利益まで分かる・Excel版あり">
 <meta property="og:description" content="物件価額・リース期間・金利・残価から月額リース料とリース料率を計算。見積の月額やリース料率からは実質年率（金利）を逆算し、支払総額のうち元本・金利・その他費用の内訳を表示します。リース会社の利益はExcel（エクセル）版で分解できます。無料・登録不要。">
@@ -17,9 +17,9 @@
 <meta property="og:image:height" content="630">
 <meta property="og:site_name" content="数字のものさし">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/test_credit_test/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" sizes="32x32" href="/test_credit_test/assets/favicon-32.png">
-<link rel="apple-touch-icon" href="/test_credit_test/assets/apple-touch-icon.png">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta name="theme-color" content="#33526C">
 
 
@@ -58,6 +58,7 @@ a{color:inherit;}
 .nav{display:flex;gap:26px;}
 .nav a{font-size:14px;font-weight:500;letter-spacing:.1em;text-decoration:none;color:var(--ink-soft);border-bottom:2px solid transparent;padding:6px 0;transition:color .2s,border-color .2s;}
 .nav a:hover{color:var(--ink);border-bottom-color:var(--bloom);}
+
 .crumbs{font-size:13px;color:var(--ink-soft);margin:34px 0 0;}
 .crumbs a{text-decoration:none;}
 .head{padding:22px 0 34px;position:relative;}
@@ -324,13 +325,6 @@ input,select,textarea,button{font-weight:600}
 
 
 /* 有料版：購入前 */
-.anchor{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 22px;}
-.anchor__item{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:12px 14px;}
-.anchor__item b{display:block;font-size:12.5px;color:var(--ink-soft);}
-.anchor__item span{display:block;font-family:var(--num);font-size:21px;font-weight:700;line-height:1.5;font-variant-numeric:tabular-nums;}
-.anchor__item small{display:block;font-size:11.5px;line-height:1.6;color:var(--ink-soft);}
-.anchor__item--hot{background:linear-gradient(150deg,rgba(244,195,211,.38),#fff);border-color:rgba(182,122,180,.45);}
-.anchor__item--hot span{color:#8E4F8C;}
 .qgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 0 26px;}
 .q{position:relative;display:flex;flex-direction:column;gap:4px;text-align:left;padding:16px 16px 12px;border:1.5px solid var(--line);border-radius:16px;
   background:var(--card);font-family:var(--sans);color:var(--ink);cursor:pointer;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s;}
@@ -415,7 +409,6 @@ input,select,textarea,button{font-weight:600}
 
 @media (max-width:820px){
   .h1sub{font-size:.64em;line-height:1.65;}
-  .anchor{grid-template-columns:1fr;}
   .qgrid{grid-template-columns:1fr;}
   .get__grid{grid-template-columns:1fr;}
   .buy{grid-template-columns:1fr;}
@@ -485,12 +478,14 @@ input,select,textarea,button{font-weight:600}
 
   <header class="masthead">
     <div class="wrap masthead__inner">
-      <a class="brand" href="/test_credit_test/">数字の<span>ものさし</span></a>
+      <a class="brand" href="/">数字の<span>ものさし</span></a>
       <nav class="nav" aria-label="サイト内">
-        <a href="/test_credit_test/#tools">ツール</a>
-        <a href="/test_credit_test/articles/">読みもの</a>
-        <a href="/test_credit_test/#excel">Excel版</a>
-        <a href="/test_credit_test/contact/">お問い合わせ</a>
+        <a href="/credit-pro/">財務でポン！</a>
+        <a href="/lease/" aria-current="page">リース見積診断</a>
+        <a href="/#tools">ツール</a>
+        <a href="/articles/">読みもの</a>
+        <a href="/#excel">Excel版</a>
+        <a href="/contact/">お問い合わせ</a>
       </nav>
     </div>
   </header>
@@ -498,11 +493,11 @@ input,select,textarea,button{font-weight:600}
   <main id="main">
     <div class="column">
 
-      <p class="crumbs"><a href="/test_credit_test/">ホーム</a> ／ <a href="/test_credit_test/#tools">ツール</a> ／ リース</p>
+      <p class="crumbs"><a href="/">ホーム</a> ／ <a href="/#tools">ツール</a> ／ リース</p>
 
       <header class="head">
         <span class="head__mark" aria-hidden="true"></span>
-        <p class="headtag"><span class="badge">無料</span><span class="svcname">リース見積診断</span></p>
+        <p class="headtag"><span class="svcname">リース見積診断</span></p>
         <h1>リース料の計算と逆算<span class="h1sub">見積の月額や料率から、実質金利とリース会社の利益まで</span></h1>
         <p>物件価額・期間・金利を入れればリース料を。見積の月額やリース料率を入れれば、実質年率（金利）を。残価が設定されていた場合の金利まで、その場で分かります。</p>
         <span class="head__safe">入力内容は送信されません。すべてブラウザの中で計算します</span>
@@ -609,13 +604,7 @@ input,select,textarea,button{font-weight:600}
       <section class="paid" id="paid" aria-labelledby="paidH" hidden>
         <span class="paid__badge">リース見積診断 ／ グラフ＋Excel</span>
         <h2 class="paid__h" id="paidH">この見積には、まだ分かっていないことが5つあります</h2>
-        <p class="paid__lead">無料で分かったのは、月額と金利までです。1,000円で、この見積の中身を最後まで開けます。</p>
-
-        <div class="anchor">
-          <div class="anchor__item"><b>この見積の支払総額</b><span id="anTotal">—</span><small>これだけの金額を決める見積です</small></div>
-          <div class="anchor__item"><b>Excel版の料金</b><span>1,000円</span><small id="anShare"></small></div>
-          <div class="anchor__item anchor__item--hot"><b>金利が0.1%下がると</b><span id="anNego">—</span><small id="anNegoNote"></small></div>
-        </div>
+        <p class="paid__lead">無料で分かったのは、月額と金利までです。この見積にサインすると、これから <b id="paidTotal">—</b> を払うことになります。その中身を、1,000円で最後まで開けます。</p>
 
         <div class="qgrid">
           <button type="button" class="q" data-q="1"><span class="q__no">1</span><b class="q__h">リース会社の利益はいくら？</b><span class="q__p">資金の金利・税金・保険と、利益を1円単位で分けます。前提の金利も動かせます。</span><span class="q__fig" id="qfig1" aria-hidden="true"></span><span class="q__lock"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.6" fill="#B67AB4"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="#B67AB4" stroke-width="1.6"/></svg>購入すると、この見積の数字で開きます</span></button>
@@ -787,7 +776,7 @@ input,select,textarea,button{font-weight:600}
         <h2>残価が設定されている見積の読み方</h2>
         <p>見積書に残価の記載がなくても、月額を決めるときに、満了時の物件の価値（残価）があらかじめ差し引かれていることがあります。残価の金額を利用者に知らせないこの方式を、<strong>クローズ残価（クローズドエンド）</strong>といいます。</p>
         <p>残価の分だけ月額は下がるので、見積は割安に見えます。ただし満了時には物件を返すため、金利に直すと見え方が変わります。500万円・60か月・月額95,000円の見積なら、残価なしで実質年率（金利）5.28%。<strong>同じ月額でも、残価が10%設定されていれば8.16%、20%なら10.60%です。</strong></p>
-        <p>「<a href="#reverse" data-go="reverse">金利を逆算する</a>」の結果にある残価のバーを押すと、残価ごとの金利を確かめられます。残価が設定されているかどうかは、月額だけで比べる前に確認しておきたい点です。残価の決まり方と満了時に起きることは、<a href="/test_credit_test/articles/lease-zanka/">リースの残価は誰が決め、誰が損を被るのか</a>で整理しています。</p>
+        <p>「<a href="#reverse" data-go="reverse">金利を逆算する</a>」の結果にある残価のバーを押すと、残価ごとの金利を確かめられます。残価が設定されているかどうかは、月額だけで比べる前に確認しておきたい点です。残価の決まり方と満了時に起きることは、<a href="/articles/lease-zanka/">リースの残価は誰が決め、誰が損を被るのか</a>で整理しています。</p>
 
         <h2>残価の置き方で、月額は大きく動く</h2>
         <p>残価とは、リース期間が終わった時点で物件に残ると見込む価値のことです。<strong>残価を高く置くほど、期間中に回収すべき元本が減るので、月額は下がります。</strong></p>
@@ -812,7 +801,7 @@ input,select,textarea,button{font-weight:600}
         </ul>
         <p><strong>向いていない場面</strong></p>
         <ul>
-        <li>会計処理そのものを決めたいとき。それはファイナンス・リースかどうかの判定が先です（<a href="/test_credit_test/lease-fo/">FO判定ツール</a>）</li>
+        <li>会計処理そのものを決めたいとき。それはファイナンス・リースかどうかの判定が先です（<a href="/lease-fo/">FO判定ツール</a>）</li>
         <li>税務上の損金算入時期を確定させたいとき。所有権移転外ファイナンス・リースの取扱いは、契約内容によって変わります</li>
         <li>中途解約時の規定損害金を見積もりたいとき。契約書の条項によります</li>
         </ul>
@@ -820,7 +809,7 @@ input,select,textarea,button{font-weight:600}
         <h2>2027年4月からの新リース会計基準</h2>
         <p>2027年4月以降に開始する事業年度から、新しいリース会計基準が適用されます。<strong>これまでオフバランスだったオペレーティング・リースも、原則として資産と負債の両方に計上されることになります。</strong></p>
         <p>影響を受けるのは会計処理だけではありません。負債が増えるので、<strong>自己資本比率が下がり、有利子負債も増えます。</strong>銀行の財務制限条項に抵触しないか、格付けが下がらないかを、今のうちに数えておく必要があります。</p>
-        <p>何をいつまでに数えるべきかは、<a href="/test_credit_test/articles/lease-onbalance/">新リース会計基準はいつから｜2027年4月に全部オンバランス</a>で整理しています。</p>
+        <p>何をいつまでに数えるべきかは、<a href="/articles/lease-onbalance/">新リース会計基準はいつから｜2027年4月に全部オンバランス</a>で整理しています。</p>
 
         <h2>実務メモ｜見積を取るときに一緒に聞くこと</h2>
         <p>金融機関で法人営業をしていた頃、リースの見積を取る会社を数多く見てきました。金額を比べるだけで終わっている会社が多く、<strong>次の4つを聞いておくかどうかで、後から出てくる差が大きい</strong>と感じています。</p>
@@ -861,11 +850,11 @@ input,select,textarea,button{font-weight:600}
   <footer class="foot">
     <div class="wrap foot__inner">
       <nav class="foot__links" aria-label="フッター">
-        <a href="/test_credit_test/about/">運営者情報</a>
-        <a href="/test_credit_test/privacy/">プライバシーポリシー</a>
-        <a href="/test_credit_test/tokusho/">特定商取引法に基づく表記</a>
-        <a href="/test_credit_test/contact/">お問い合わせ</a>
-        <a href="/test_credit_test/sitemap.xml">サイトマップ</a>
+        <a href="/about/">運営者情報</a>
+        <a href="/privacy/">プライバシーポリシー</a>
+        <a href="/tokusho/">特定商取引法に基づく表記</a>
+        <a href="/contact/">お問い合わせ</a>
+        <a href="/sitemap.xml">サイトマップ</a>
       </nav>
       <p class="copy">© 2026 数字のものさし</p>
     </div>
@@ -875,6 +864,6 @@ input,select,textarea,button{font-weight:600}
 
 <noscript><p style="text-align:center;padding:12px">このツールはJavaScriptで計算します。ブラウザの設定でJavaScriptを有効にしてください。</p></noscript>
 <script src="../vendor/exceljs.min.js" defer></script>
-<script type="module" src="./app.js?v=3"></script>
+<script type="module" src="./app.js?v=7"></script>
 </body>
 </html>
