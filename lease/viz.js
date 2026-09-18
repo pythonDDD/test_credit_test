@@ -33,7 +33,7 @@ const text = (x, y, s, o = {}) =>
 
 /* ------------------------------------------------------------ 1. 多く払う分の中身（ドーナツ） */
 export function donutMarkup(r, o = {}) {
-  const cp = !!o.compact;
+  const cp = !!o.compact, ex = !!o.excel;
   const parts = [
     { label: "資金の金利（リース会社が払う）", short: "資金の金利", v: r.cost.fundInterest, c: COL.bloom },
     { label: "税金（償却資産税）", short: "税金", v: r.cost.taxTotal, c: COL.lime },
@@ -42,8 +42,8 @@ export function donutMarkup(r, o = {}) {
     { label: "リース会社の利益", short: "リース会社の利益", v: r.lease.profit, c: COL.plum },
   ].filter((p) => p.v > 0);
   const sum = parts.reduce((s, p) => s + p.v, 0) || 1;
-  const W = cp ? 360 : 520, cx = cp ? 180 : 140, cy = cp ? 138 : 140, R = cp ? 118 : 112, r0 = cp ? 76 : 70;
-  const H = cp ? 290 + Math.ceil(parts.length / 2) * 46 : 280;
+  const W = cp ? 360 : 520, cx = cp ? 180 : 140, cy = cp ? 138 : ex ? 150 : 140, R = cp ? 118 : ex ? 122 : 112, r0 = cp ? 76 : ex ? 78 : 70;
+  const H = cp ? 290 + Math.ceil(parts.length / 2) * 46 : ex ? 300 : 280;
   let a0 = -Math.PI / 2, body = "";
   for (const p of parts) {
     const a1 = a0 + (p.v / sum) * Math.PI * 2;
@@ -62,7 +62,7 @@ export function donutMarkup(r, o = {}) {
   const share = (Math.max(profit, 0) / sum * 100).toFixed(1);
   body += text(cx, cy + 36, r.input.residual > 0 ? `回収する分の${share}%` : `多く払う分の${share}%`, { anchor: "middle", size: cp ? 12 : 11 });
   parts.forEach((p, i) => {
-    const x = cp ? 16 + (i % 2) * 176 : 300, y = cp ? 292 + Math.floor(i / 2) * 46 : 50 + i * 42;
+    const x = cp ? 16 + (i % 2) * 176 : 300, y = cp ? 292 + Math.floor(i / 2) * 46 : (ex ? 62 : 50) + i * (ex ? 48 : 42);
     body += `<rect x="${x}" y="${y - 11}" width="14" height="14" rx="4" fill="${p.c}"/>`;
     body += text(x + 22, y, cp ? p.short : p.label, { size: cp ? 13 : 12.5, fill: COL.ink });
     body += text(x + 22, y + 19, `${yen(p.v)}円`, { size: cp ? 14 : 13, bold: true, fill: COL.ink });
@@ -72,14 +72,15 @@ export function donutMarkup(r, o = {}) {
 
 /* ------------------------------------------------------------ 2. 4つの買い方の比較（累計の実質負担） */
 export function lineCompare(r, show = { A: true, D: true, C: true, B: true }, o = {}) {
-  const cp = !!o.compact, fs = cp ? 13 : 11;
+  const ex = !!o.excel, cp = !!o.compact, fs = cp ? 13 : ex ? 12 : 11;
   const lastYear = Math.max(1, ...r.cmp.filter((x) => x.payCount > 0 || x.dep > 0 || x.tax > 0).map((x) => x.year));
   const years = Math.min(12, lastYear);
   const keys = Object.keys(METHODS).filter((k) => show[k]);
   const vals = keys.flatMap((k) => r.cmpCum[k].slice(0, years));
   const sc = niceScale(Math.min(0, ...vals), Math.max(1, ...vals));
-  const W = cp ? 360 : 720, H = cp ? 280 : 300, L = cp ? 52 : 62, Rr = cp ? 12 : 20, T = 16, B = 38;
+  const W = cp ? 360 : ex ? 520 : 720, H = cp ? 280 : 300, L = cp ? 52 : 62, Rr = cp ? 12 : 20, T = 16, B = 38;
   const X = (i) => L + (W - L - Rr) * (years === 1 ? 0.5 : i / (years - 1));
+  const short = cp || (ex && years > 6);   // 年数が多いと「n年目」が重なるので数字だけにする
   const Y = (v) => T + (H - T - B) * (1 - (v - sc.lo) / (sc.hi - sc.lo || 1));
   let body = "";
   for (const v of sc.ticks) {
@@ -87,8 +88,8 @@ export function lineCompare(r, show = { A: true, D: true, C: true, B: true }, o 
     body += `<line x1="${L}" y1="${y}" x2="${W - Rr}" y2="${y}" stroke="${COL.grid}"/>`;
     body += text(L - 6, y + 4, man(v), { anchor: "end", size: fs });
   }
-  for (let i = 0; i < years; i++) body += text(X(i), H - 14, cp ? `${i + 1}` : `${i + 1}年目`, { anchor: "middle", size: fs });
-  if (cp) body += text(W - Rr, H - 1, "年目", { anchor: "end", size: 11 });
+  for (let i = 0; i < years; i++) body += text(X(i), H - 14, short ? `${i + 1}` : `${i + 1}年目`, { anchor: "middle", size: fs });
+  if (short) body += text(W - Rr, H - 1, "年目", { anchor: "end", size: 11 });
   for (const k of keys) {
     const pts = r.cmpCum[k].slice(0, years).map((v, i) => `${X(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ");
     body += `<polyline points="${pts}" fill="none" stroke="${METHODS[k].color}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>`;
@@ -106,9 +107,9 @@ export function lineCompare(r, show = { A: true, D: true, C: true, B: true }, o 
 
 /* ------------------------------------------------------------ 3. 途中で解約したら（残りの支払） */
 export function areaRemaining(r, k, o = {}) {
-  const cp = !!o.compact, fs = cp ? 13 : 11;
+  const ex = !!o.excel, cp = !!o.compact, fs = cp ? 13 : ex ? 12 : 11;
   const n = r.schedule.length, total = r.lease.total;
-  const W = cp ? 360 : 720, H = cp ? 240 : 260, L = cp ? 52 : 62, Rr = cp ? 12 : 20, T = 16, B = 34;
+  const W = cp ? 360 : ex ? 520 : 720, H = cp ? 240 : ex ? 300 : 260, L = cp ? 52 : 62, Rr = cp ? 12 : 20, T = 16, B = 34;
   const sc = niceScale(0, total);
   const X = (i) => L + (W - L - Rr) * (i / n);
   const Y = (v) => T + (H - T - B) * (1 - v / (sc.hi || 1));
@@ -133,13 +134,14 @@ export function areaRemaining(r, k, o = {}) {
 
 /* ------------------------------------------------------------ 4. 毎年の経費と税金（買った場合） */
 export function barsExpense(r, o = {}) {
-  const cp = !!o.compact, fs = cp ? 13 : 11;
+  const ex = !!o.excel, cp = !!o.compact, fs = cp ? 13 : ex ? 12 : 11;
   const years = Math.min(12, Math.max(r.dep.rows.length, r.tax.length));
   const rows = Array.from({ length: years }, (_, i) => ({
     y: i + 1, dep: r.dep.rows[i] ? r.dep.rows[i].amount : 0, tax: r.tax[i] ? r.tax[i].tax : 0 }));
   const sc = niceScale(0, Math.max(1, ...rows.map((x) => x.dep)));
-  const W = cp ? 360 : 720, H = cp ? 250 : 280, L = cp ? 52 : 62, Rr = cp ? 12 : 20, T = 16, B = 34;
+  const W = cp ? 360 : ex ? 520 : 720, H = cp ? 250 : ex ? 300 : 280, L = cp ? 52 : 62, Rr = cp ? 12 : 20, T = 16, B = 34;
   const bw = (W - L - Rr) / years;
+  const short = cp || (ex && years > 6);
   const Y = (v) => T + (H - T - B) * (1 - v / sc.hi);
   let body = "";
   for (const v of sc.ticks) {
@@ -151,9 +153,9 @@ export function barsExpense(r, o = {}) {
     const x0 = L + bw * i + bw * 0.16, w = bw * 0.68;
     body += `<rect x="${x0}" y="${Y(x.dep)}" width="${w * 0.62}" height="${H - B - Y(x.dep)}" rx="3" fill="${COL.sea}" data-tip="${esc(`${x.y}年目｜減価償却費 ${yen(x.dep)}円`)}"/>`;
     body += `<rect x="${x0 + w * 0.66}" y="${Y(x.tax)}" width="${w * 0.34}" height="${H - B - Y(x.tax)}" rx="3" fill="${COL.lime}" data-tip="${esc(`${x.y}年目｜償却資産税 ${yen(x.tax)}円`)}"/>`;
-    body += text(L + bw * i + bw / 2, H - 12, cp ? `${x.y}` : `${x.y}年目`, { anchor: "middle", size: fs });
+    body += text(L + bw * i + bw / 2, H - 12, short ? `${x.y}` : `${x.y}年目`, { anchor: "middle", size: fs });
   });
-  if (cp) body += text(W - Rr, H - 1, "年目", { anchor: "end", size: 11 });
+  if (short) body += text(W - Rr, H - 1, "年目", { anchor: "end", size: 11 });
   return svg(W, H, body, "買った場合の、年ごとの減価償却費と償却資産税");
 }
 

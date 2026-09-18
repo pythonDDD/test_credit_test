@@ -42,6 +42,18 @@ const fill = (argb) => ({ type: "pattern", pattern: "solid", fgColor: { argb } }
 const font = (size = 10, bold = false, color = C.ink) => ({ name: F, size, bold, color: { argb: color } });
 
 /* --------------------------------------------------------------- 部品 */
+/* 印刷設定をそろえる。A4縦・左右の余白は同じ・横幅は必ず1ページに収める。
+   one:true は「縦も1ページに収める」（内容が1枚に近いシートだけに使う） */
+function printA4(ws, { one = false, landscape = false, paper = 9 } = {}) {
+  ws.pageSetup = {
+    paperSize: paper, orientation: landscape ? "landscape" : "portrait",
+    fitToPage: true, fitToWidth: 1, fitToHeight: one ? 1 : 0,
+    horizontalCentered: true,
+    margins: { left: 0.3, right: 0.3, top: 0.4, bottom: 0.4, header: 0, footer: 0 },
+  };
+  return ws;
+}
+
 function put(ws, addr, value, o = {}) {
   const c = ws.getCell(addr);
   c.value = value === undefined ? null : value;
@@ -60,13 +72,15 @@ const AL = {
   cw: { vertical: "middle", horizontal: "center", wrapText: true },
 };
 
+/* 見出しの帯。lastCol は「右の余白列」を指すので、塗るのは表と同じ B列〜(lastCol-1) までにする。
+   余白列まで塗ると、帯だけが表より左右にはみ出して見える */
 function band(ws, row, lastCol, text, o = {}) {
-  ws.mergeCells(row, 1, row, lastCol);
-  const c = ws.getCell(row, 1);
-  c.value = "  " + text;
+  ws.mergeCells(row, 2, row, lastCol - 1);
+  const c = ws.getCell(row, 2);
+  c.value = " " + text;
   c.font = font(o.size || 11, true, C.white);
   c.alignment = AL.l;
-  for (let i = 1; i <= lastCol; i++) ws.getCell(row, i).fill = fill(o.bg || C.navy);
+  for (let i = 2; i <= lastCol - 1; i++) ws.getCell(row, i).fill = fill(o.bg || C.navy);
   ws.getRow(row).height = o.h || 24;
 }
 
@@ -103,13 +117,13 @@ function sheetSummary(wb, r) {
   const s = r.scores, cur = r.cur, bm = r.benchmark, inp = r.input;
   const LC = 9;
 
-  ws.mergeCells("A1:I1");
-  put(ws, "A1", " 与信判断検討書", { font: font(16, true, C.white), align: AL.l, border: false });
-  for (let i = 1; i <= LC; i++) ws.getCell(1, i).fill = fill(C.navyD);
+  ws.mergeCells("B1:H1");
+  put(ws, "B1", "与信判断検討書", { font: font(16, true, C.white), align: AL.l, border: false });
+  for (let i = 2; i <= LC - 1; i++) ws.getCell(1, i).fill = fill(C.navyD);
   ws.getRow(1).height = 34;
-  ws.mergeCells("A2:I2");
-  put(ws, "A2", "  CREDIT ASSESSMENT SHEET", { font: font(9, false, "FFB9C4D4"), align: AL.l, border: false });
-  for (let i = 1; i <= LC; i++) ws.getCell(2, i).fill = fill(C.navyD);
+  ws.mergeCells("B2:H2");
+  put(ws, "B2", "CREDIT ASSESSMENT SHEET", { font: font(9, false, "FFB9C4D4"), align: AL.l, border: false });
+  for (let i = 2; i <= LC - 1; i++) ws.getCell(2, i).fill = fill(C.navyD);
 
   // 会社情報
   const info = [
@@ -277,8 +291,7 @@ function sheetSummary(wb, r) {
     "本書は与信判断を支援する一次スクリーニング資料です。最終的な与信判断は貴社の決裁権者が総合的に行ってください。",
     { font: font(8.5, false, C.muted), align: AL.w, border: false });
 
-  ws.pageSetup = { paperSize: 9, orientation: "portrait", fitToPage: true, fitToWidth: 1, fitToHeight: 0,
-                   margins: { left: 0.3, right: 0.3, top: 0.4, bottom: 0.4, header: 0, footer: 0 } };
+  printA4(ws, { one: true });
   ws.views = [{ showGridLines: false, state: "frozen", ySplit: 3 }];
   return ws;
 }
@@ -288,12 +301,13 @@ function sheetSummary(wb, r) {
  * ======================================================================== */
 function sheetFinance(wb, r) {
   const ws = wb.addWorksheet("②財務分析", { views: [{ showGridLines: false }] });
+  // 右端の H 列は余白。左端の A 列（3）とそろえ、見出しの帯が表より右にはみ出さないようにする
   ws.columns = [{ width: 3 }, { width: 32 }, { width: wide(15) }, { width: wide(15) }, { width: wide(15) },
-                { width: 13 }, { width: 15 }, { width: 10 }];
+                { width: 13 }, { width: 15 }, { width: 3 }];
   const LC = 8;
-  ws.mergeCells("A1:H1");
-  put(ws, "A1", ` 財務分析（3期比較）　金額の単位：${UNIT.label}`, { font: font(14, true, C.white), align: AL.l, border: false });
-  for (let i = 1; i <= LC; i++) ws.getCell(1, i).fill = fill(C.navyD);
+  ws.mergeCells("B1:G1");
+  put(ws, "B1", `財務分析（3期比較）　金額の単位：${UNIT.label}`, { font: font(14, true, C.white), align: AL.l, border: false });
+  for (let i = 2; i <= LC - 1; i++) ws.getCell(1, i).fill = fill(C.navyD);
   ws.getRow(1).height = 30;
 
   let row = 3;
@@ -303,7 +317,7 @@ function sheetFinance(wb, r) {
     for (const [name, vals, fmt, bold] of rows) {
       put(ws, `B${row}`, name, { font: font(10, !!bold), fill: bold ? C.steelL : undefined });
       vals.forEach((v, j) => put(ws, `${"CDEFG"[j]}${row}`, v, {
-        numFmt: fmt, align: typeof v === "string" ? AL.c : AL.r,
+        numFmt: Array.isArray(fmt) ? fmt[j] : fmt, align: typeof v === "string" ? AL.c : AL.r,
         fill: C.calc, font: font(10, !!bold),
       }));
       row++;
@@ -312,32 +326,43 @@ function sheetFinance(wb, r) {
   };
 
   const P = [r.cur, r.prev, r.prev2];
-  const m = (k) => [amt(P[0][k]), amt(P[1][k]), amt(P[2][k])];
+  /* 損益計算書・貸借対照表は「今期・前期・前々期」に、前期比（額・率）の2列を足して、
+     下の財務指標の表と同じ幅（B〜G列）にそろえる。前期の決算が入っていないときは「－」 */
+  const prevExists = !!(Number(P[1].sales) || Number(P[1].totalAssets));
+  const CHG = '+#,##0;"▲"#,##0;"±0"';
+  const CHGR = '+0.0%;"▲"0.0%;"±0.0%"';
+  const FMT6 = [MONEY, MONEY, MONEY, CHG, CHGR];
+  const m = (k) => {
+    const a = amt(P[0][k]), b = amt(P[1][k]), c = amt(P[2][k]);
+    return [a, b, c,
+      prevExists ? a - b : "－",
+      prevExists && b > 0 ? a / b - 1 : "－"];
+  };
   table("1. 損益計算書", [
-    ["売上高", m("sales"), MONEY, true], ["売上原価", m("cogs"), MONEY],
-    ["売上総利益", m("grossProfit"), MONEY, true], ["販売費及び一般管理費", m("sga"), MONEY],
-    ["営業利益", m("operatingProfit"), MONEY, true], ["営業外収益", m("nonOpInc"), MONEY],
-    ["営業外費用", m("nonOpExp"), MONEY], ["経常利益", m("ordinaryProfit"), MONEY, true],
-    ["特別利益", m("extraInc"), MONEY], ["特別損失", m("extraExp"), MONEY],
-    ["税引前当期純利益", m("pretaxProfit"), MONEY], ["法人税等", m("tax"), MONEY],
-    ["当期純利益", m("netProfit"), MONEY, true], ["減価償却費", m("depreciation"), MONEY],
-  ], ["項　目", "今期（直近）", "前期", "前々期"]);
+    ["売上高", m("sales"), FMT6, true], ["売上原価", m("cogs"), FMT6],
+    ["売上総利益", m("grossProfit"), FMT6, true], ["販売費及び一般管理費", m("sga"), FMT6],
+    ["営業利益", m("operatingProfit"), FMT6, true], ["営業外収益", m("nonOpInc"), FMT6],
+    ["営業外費用", m("nonOpExp"), FMT6], ["経常利益", m("ordinaryProfit"), FMT6, true],
+    ["特別利益", m("extraInc"), FMT6], ["特別損失", m("extraExp"), FMT6],
+    ["税引前当期純利益", m("pretaxProfit"), FMT6], ["法人税等", m("tax"), FMT6],
+    ["当期純利益", m("netProfit"), FMT6, true], ["減価償却費", m("depreciation"), FMT6],
+  ], ["項　目", "今期（直近）", "前期", "前々期", "前期比（額）", "前期比（率）"]);
 
   table("2. 貸借対照表", [
-    ["現金・預金", m("cash"), MONEY], ["受取手形・売掛金", m("receivables"), MONEY],
-    ["棚卸資産", m("inventory"), MONEY], ["その他流動資産", m("otherCurrentAssets"), MONEY],
-    ["流動資産合計", m("currentAssets"), MONEY, true],
-    ["有形固定資産", m("tangible"), MONEY], ["無形固定資産・投資その他", m("otherFixedAssets"), MONEY],
-    ["固定資産合計", m("fixedAssets"), MONEY, true],
-    ["資産合計", m("totalAssets"), MONEY, true],
-    ["支払手形・買掛金", m("payables"), MONEY], ["短期借入金", m("shortDebt"), MONEY],
-    ["その他流動負債", m("otherCurrentLiab"), MONEY],
-    ["流動負債合計", m("currentLiab"), MONEY, true],
-    ["長期借入金・社債", m("longDebt"), MONEY], ["その他固定負債", m("otherFixedLiab"), MONEY],
-    ["固定負債合計", m("fixedLiab"), MONEY, true], ["負債合計", m("totalLiab"), MONEY, true],
-    ["純資産合計", m("equity"), MONEY, true],
-    ["負債・純資産合計（総資本）", m("totalCapital"), MONEY, true],
-  ], ["項　目", "今期（直近）", "前期", "前々期"]);
+    ["現金・預金", m("cash"), FMT6], ["受取手形・売掛金", m("receivables"), FMT6],
+    ["棚卸資産", m("inventory"), FMT6], ["その他流動資産", m("otherCurrentAssets"), FMT6],
+    ["流動資産合計", m("currentAssets"), FMT6, true],
+    ["有形固定資産", m("tangible"), FMT6], ["無形固定資産・投資その他", m("otherFixedAssets"), FMT6],
+    ["固定資産合計", m("fixedAssets"), FMT6, true],
+    ["資産合計", m("totalAssets"), FMT6, true],
+    ["支払手形・買掛金", m("payables"), FMT6], ["短期借入金", m("shortDebt"), FMT6],
+    ["その他流動負債", m("otherCurrentLiab"), FMT6],
+    ["流動負債合計", m("currentLiab"), FMT6, true],
+    ["長期借入金・社債", m("longDebt"), FMT6], ["その他固定負債", m("otherFixedLiab"), FMT6],
+    ["固定負債合計", m("fixedLiab"), FMT6, true], ["負債合計", m("totalLiab"), FMT6, true],
+    ["純資産合計", m("equity"), FMT6, true],
+    ["負債・純資産合計（総資本）", m("totalCapital"), FMT6, true],
+  ], ["項　目", "今期（直近）", "前期", "前々期", "前期比（額）", "前期比（率）"]);
 
   const q = r.ratios.periods, bm = r.benchmark;
   const rr = (k) => [q[0][k], q[1][k], q[2][k]];
@@ -369,14 +394,20 @@ function sheetFinance(wb, r) {
   }
   row++;
 
+  // 運転資金分析も同じ6列にそろえる。サイクル（ヶ月）の前期比は月数の差と率で出す
+  const MON = '0.0"ヶ月"';
+  const FMTM = [MON, MON, MON, '+0.0"ヶ月";"▲"0.0"ヶ月";"±0"', CHGR];
+  const withChg = (v3) => [v3[0], v3[1], v3[2],
+    prevExists ? Math.round((v3[0] - v3[1]) * 10) / 10 : "－",   // 表示と同じ0.1ヶ月単位に丸める（▲0.0ヶ月を出さない）
+    prevExists && v3[1] > 0 ? v3[0] / v3[1] - 1 : "－"];
   table("4. 運転資金分析", [
-    ["受取サイクル（棚卸資産＋売上債権）", rr("inventoryMonths").map((v, i) => v + rr("receivableMonths")[i]), '0.0"ヶ月"'],
-    ["支払サイクル（買入債務）", rr("payableMonths"), '0.0"ヶ月"'],
-    ["必要運転資金（正常運転資金）", m("workingCapital"), MONEY, true],
-    ["簡易キャッシュフロー", m("simpleCF"), MONEY, true],
-  ], ["項　目", "今期（直近）", "前期", "前々期"]);
+    ["受取サイクル（棚卸資産＋売上債権）", withChg(rr("inventoryMonths").map((v, i) => v + rr("receivableMonths")[i])), FMTM],
+    ["支払サイクル（買入債務）", withChg(rr("payableMonths")), FMTM],
+    ["必要運転資金（正常運転資金）", m("workingCapital"), FMT6, true],
+    ["簡易キャッシュフロー", m("simpleCF"), FMT6, true],
+  ], ["項　目", "今期（直近）", "前期", "前々期", "前期比（額）", "前期比（率）"]);
 
-  ws.pageSetup = { paperSize: 9, orientation: "portrait", fitToPage: true, fitToWidth: 1, fitToHeight: 0 };
+  printA4(ws);
   return ws;
 }
 
@@ -387,9 +418,9 @@ function sheetRedemption(wb, r) {
   const ws = wb.addWorksheet("③資金償還表", { views: [{ showGridLines: false }] });
   ws.columns = [{ width: 3 }, { width: 46 }, { width: wide(20) }, { width: 3 }];
   const d = r.redemption;
-  ws.mergeCells("A1:D1");
-  put(ws, "A1", ` 資金償還表（償還余力の算定）　金額の単位：${UNIT.label}`, { font: font(14, true, C.white), align: AL.l, border: false });
-  for (let i = 1; i <= 4; i++) ws.getCell(1, i).fill = fill(C.navyD);
+  ws.mergeCells("B1:C1");
+  put(ws, "B1", `資金償還表（償還余力の算定）　金額の単位：${UNIT.label}`, { font: font(14, true, C.white), align: AL.l, border: false });
+  for (let i = 2; i <= 3; i++) ws.getCell(1, i).fill = fill(C.navyD);
   ws.getRow(1).height = 30;
 
   let row = 3;
@@ -422,6 +453,7 @@ function sheetRedemption(wb, r) {
   line("有利子負債月商倍率", Number(d.gearingMonths.toFixed(2)), '0.00"倍"');
   line("手元流動性（月商倍率）", Number(d.liquidityMonths.toFixed(1)), '0.0"ヶ月"');
   line("DSCR（簡易CF ÷ 1年目約定返済額）", d.dscr > 90 ? "－" : Number(d.dscr.toFixed(2)), '0.00"倍"');
+  printA4(ws, { one: true });
   return ws;
 }
 
@@ -432,9 +464,9 @@ function sheetScore(wb, r) {
   const ws = wb.addWorksheet("④配点内訳", { views: [{ showGridLines: false }] });
   ws.columns = [{ width: 3 }, { width: 5 }, { width: 30 }, { width: wide(20) }, { width: 10 }, { width: 10 }, { width: 3 }];
   const s = r.scores, inp = r.input, cur = r.cur;
-  ws.mergeCells("A1:G1");
-  put(ws, "A1", " 配点内訳（100点満点）", { font: font(14, true, C.white), align: AL.l, border: false });
-  for (let i = 1; i <= 7; i++) ws.getCell(1, i).fill = fill(C.navyD);
+  ws.mergeCells("B1:F1");
+  put(ws, "B1", "配点内訳（100点満点）", { font: font(14, true, C.white), align: AL.l, border: false });
+  for (let i = 2; i <= 6; i++) ws.getCell(1, i).fill = fill(C.navyD);
   ws.getRow(1).height = 30;
 
   header(ws, 3, ["", "評価項目", "判定に用いた値", "得点", "満点"], 2, 24);
@@ -479,6 +511,7 @@ function sheetScore(wb, r) {
     "※ 各評価項目のしきい値・配点表は本ファイルには含まれません。配点を自社の与信方針に合わせて変更したい場合は、" +
     "計算ロジックをすべて開示したExcel版「与信判断検討書類 Pro」をご利用ください。",
     { font: font(9, false, C.muted), align: AL.w, border: false });
+  printA4(ws, { one: true });
   return ws;
 }
 
@@ -489,9 +522,9 @@ function sheetInput(wb, r) {
   const ws = wb.addWorksheet("⑤入力データ", { views: [{ showGridLines: false }] });
   ws.columns = [{ width: 3 }, { width: 36 }, { width: wide(16) }, { width: wide(16) }, { width: wide(16) }, { width: 3 }];
   const inp = r.input, P = [r.cur, r.prev, r.prev2];
-  ws.mergeCells("A1:F1");
-  put(ws, "A1", " 入力データ（記録用）", { font: font(14, true, C.white), align: AL.l, border: false });
-  for (let i = 1; i <= 6; i++) ws.getCell(1, i).fill = fill(C.navyD);
+  ws.mergeCells("B1:E1");
+  put(ws, "B1", "入力データ（記録用）", { font: font(14, true, C.white), align: AL.l, border: false });
+  for (let i = 2; i <= 5; i++) ws.getCell(1, i).fill = fill(C.navyD);
   ws.getRow(1).height = 30;
 
   let row = 3;
@@ -535,6 +568,7 @@ function sheetInput(wb, r) {
   band(ws, row++, 6, "借入金返済計画（今後3年）");
   put(ws, `B${row}`, "年間約定返済額");
   (inp.repayment || [0, 0, 0]).forEach((v, j) => put(ws, `${"CDE"[j]}${row}`, amt(v), { numFmt: MONEY, align: AL.r, fill: C.calc }));
+  printA4(ws);
   return ws;
 }
 
@@ -554,24 +588,25 @@ const BANDS = [["E", "35点以下", "FF8C3B22"], ["D", "36〜50点", "FFB5623F"]
 function sheetDashboard(wb, r, figs, lines) {
   const ws = wb.addWorksheet("⑥ダッシュボード", {
     views: [{ showGridLines: false }],
-    pageSetup: { paperSize: 8, orientation: "landscape", fitToPage: true, fitToWidth: 1, fitToHeight: 1,
+    // ①〜⑤はA4縦。このシートだけ横長なのでA4横にし、1枚に収める（用紙はすべてA4でそろえる）
+    pageSetup: { paperSize: 9, orientation: "landscape", fitToPage: true, fitToWidth: 1, fitToHeight: 1,
                  margins: { left: 0.25, right: 0.25, top: 0.25, bottom: 0.25, header: 0.12, footer: 0.12 } },
   });
-  // A3横：本文3ブロック（各8列）＋すき間。1ブロックがだいたい13cm。
+  // 本文3ブロック（各8列）＋すき間。A4横1枚に収まるよう、fitToPage で縮めて印刷する。
   ws.columns = [{ width: 2 },
     ...Array.from({ length: 8 }, () => ({ width: 8.8 })), { width: 1.5 },
     ...Array.from({ length: 8 }, () => ({ width: 8.8 })), { width: 1.5 },
     ...Array.from({ length: 8 }, () => ({ width: 8.8 })), { width: 2 }];
-  const LAST = "AB";
+  const LAST = "AA";     // 内容の右端。AB列は右の余白なので、帯はここまでにする
   const s = r.scores;
 
   // --- タイトル ---
-  ws.mergeCells(`A1:${LAST}1`);
-  put(ws, "A1", "与信判断検討書", { font: { name: F, size: 18, bold: true, color: { argb: C.white } },
+  ws.mergeCells(`B1:${LAST}1`);
+  put(ws, "B1", "与信判断検討書", { font: { name: F, size: 18, bold: true, color: { argb: C.white } },
     fill: C.navyD, align: { vertical: "middle", horizontal: "left", indent: 1 }, border: false });
   ws.getRow(1).height = 28;
-  ws.mergeCells(`A2:${LAST}2`);
-  put(ws, "A2", `　⑥ ダッシュボード　│　${r.input.name || ""}　／　${(r.input.industry || "").trim()}　／　単位：${UNIT.label}`,
+  ws.mergeCells(`B2:${LAST}2`);
+  put(ws, "B2", `⑥ ダッシュボード　│　${r.input.name || ""}　／　${(r.input.industry || "").trim()}　／　単位：${UNIT.label}`,
     { font: { name: F, size: 10, color: { argb: "FFB9C6D2" } }, fill: C.navyD,
       align: { vertical: "middle", horizontal: "left", indent: 1 }, border: false });
   ws.getRow(2).height = 17;
@@ -658,7 +693,7 @@ function sheetDashboard(wb, r, figs, lines) {
     { font: { name: F, size: 8.5, color: { argb: C.muted } },
       align: { horizontal: "left", indent: 1 }, border: false });
   ws.getRow(row).height = 16;
-  ws.pageSetup.printArea = `A1:${LAST}${row + 1}`;
+  ws.pageSetup.printArea = `A1:AB${row + 1}`;   // 印刷範囲は左右の余白列を含めて、余白を対称にする
   return ws;
 }
 

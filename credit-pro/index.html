@@ -60,6 +60,7 @@ a{color:inherit;}
 .nav a{font-size:14px;font-weight:500;letter-spacing:.1em;text-decoration:none;color:var(--ink-soft);border-bottom:2px solid transparent;padding:6px 0;transition:color .2s,border-color .2s;}
 .nav a:hover{color:var(--ink);border-bottom-color:var(--bloom);}
 
+
 .crumbs{font-size:13px;color:var(--ink-soft);letter-spacing:.06em;margin:34px 0 0;}
 .crumbs a{text-decoration:none;}
 .head{padding:22px 0 38px;position:relative;}
@@ -626,6 +627,8 @@ body.has-freebar .masthead{top:46px;}
     <div class="wrap masthead__inner">
       <a class="brand" href="/">数字の<span>ものさし</span></a>
       <nav class="nav" aria-label="サイト内">
+        <a href="/credit-pro/" aria-current="page">財務でポン！</a>
+        <a href="/lease/">リース見積診断</a>
         <a href="/#tools">ツール</a>
         <a href="/articles/">読みもの</a>
         <a href="/#excel">Excel版</a>
@@ -841,7 +844,7 @@ body.has-freebar .masthead{top:46px;}
             <tbody>
               <tr><th>お渡しするもの</th><td>画面の判定結果と7つの図（①〜⑦）／この判定結果のExcelファイル（6シート・ダッシュボード付き・1社分）</td></tr>
               <tr><th>価格</th><td><b>500円（税込）</b>　1社分につき</td></tr>
-            <tr><th>ご利用の範囲</th><td><b>1回のお支払いにつき1社分</b>です。お支払い後<b>24時間</b>は、
+            <tr><th>ご利用の範囲</th><td><b>1回のお支払いにつき1社分</b>です。お支払いのあと、この画面で<b>最初に開いた時点から24時間</b>は、
                 この1社の判定結果・7つの図・Excelを何度でも取り直せます。<br>
                 お支払いのあとで別の会社の決算書を読み込んでも、<b>画面に出る判定結果とダウンロードされるExcelは、お支払い時の会社のまま</b>です。
                 読み込んだ数字は画面に残りますが、その判定結果はご覧いただけません。<br>
@@ -896,7 +899,7 @@ body.has-freebar .masthead{top:46px;}
         </div>
 
         <p class="note-s" style="margin-top:16px;"><b>このダウンロードは、お支払い時に判定した1社分です。</b>
-            24時間のあいだは、この画面を閉じても同じ会社の分を取り直せます。別の会社の決算書を読み込んだあとでも、
+            最初に開いてから24時間のあいだは、この画面を閉じても同じ会社の分を取り直せます。別の会社の決算書を読み込んだあとでも、
             出てくるファイルはお支払い時の会社のままです。</p>
             <p class="note-s" style="margin-top:12px;">このファイルは、1社分の判定結果を記録したものです。計算式は含まれません。
             配点やしきい値をご自身の与信方針に合わせて書き換えながら、何社でも繰り返しお使いになりたい方には、
@@ -1007,7 +1010,7 @@ body.has-freebar .masthead{top:46px;}
 </div>
 
 <script src="../vendor/exceljs.min.js" defer></script>
-<script type="module" src="./app.js?v=32"></script>
+<script type="module" src="./app.js?v=33"></script>
 
 </body>
 </html>
